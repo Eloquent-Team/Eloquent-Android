@@ -48,7 +48,6 @@ class RecorderViewModel: ViewModel() {
             start()
             _recordingPaused.value = false
             isRecording = true
-            //Toast.makeText(activity, "Recording started!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -60,14 +59,12 @@ class RecorderViewModel: ViewModel() {
             }
             isRecording = false
             mediaRecorder = null
-            //Toast.makeText(activity, "Recording stopped!", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun pauseRecording() {
         if (isRecording) {
             if (!_recordingPaused.value!!) {
-                //Toast.makeText(activity, "Recording paused!", Toast.LENGTH_SHORT).show()
                 mediaRecorder?.pause()
                 _recordingPaused.value = true
             } else {
@@ -76,15 +73,13 @@ class RecorderViewModel: ViewModel() {
         }
     }
 
-    fun resumeRecording() {
-        //Toast.makeText(activity,"Recording resumed!", Toast.LENGTH_SHORT).show()
+    private fun resumeRecording() {
         mediaRecorder?.resume()
         _recordingPaused.value = false
     }
 
     fun playRecording() {
-        var mediaPlayer = MediaPlayer()
-        //Toast.makeText(activity,"Recording is playing!", Toast.LENGTH_SHORT).show()
+        val mediaPlayer = MediaPlayer()
         mediaPlayer.setDataSource(outputFile)
         mediaPlayer.prepare()
         mediaPlayer.start()

@@ -27,15 +27,6 @@ class RecorderFragment : Fragment() {
             viewModel.outputFile = activity?.getExternalFilesDir(null)?.absolutePath + "/recording_$timestamp"
         })
 
-        viewModel.recordingPaused.observe(viewLifecycleOwner, Observer { recordingPaused ->
-            if (recordingPaused) {
-                binding.pauseRecording.setImageResource(R.drawable.ic_refresh)
-            } else {
-                binding.pauseRecording.setImageResource(R.drawable.ic_pause)
-            }
-
-        })
-
         return binding.root
     }
 }
