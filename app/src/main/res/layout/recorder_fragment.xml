@@ -57,8 +57,8 @@
             android:layout_marginBottom="200dp"
             android:background="@drawable/custom_border"
             android:padding="8dp"
-            android:src="@drawable/ic_stop"
             android:onClick="@{() -> recorderViewModel.stopRecording()}"
+            android:src="@drawable/ic_stop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
