@@ -16,13 +16,33 @@ class RecorderFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
+        /**
+         * Sets a binding object between RecorderFragment and recorder_fragment for better
+         * performance
+         */
         val binding = RecorderFragmentBinding.inflate(layoutInflater)
 
+        /**
+         * Gets the viewModel object from RecorderViewModel to interact with its
+         * Live Data
+         */
         viewModel = ViewModelProvider(this).get(RecorderViewModel::class.java)
 
+        /**
+         * Binds the viewModel to the layout representation of the viewModel
+         */
         binding.recorderViewModel = viewModel
+
+        /**
+         * Sets the RecorderFragment as the lifecycleOwner
+         */
         binding.lifecycleOwner = this
 
+        /**
+         * Observing the timestamp Live Data object to set the outputFile Live Data object when
+         * startRecording is called
+         */
         viewModel.timeStamp.observe(viewLifecycleOwner, Observer { timestamp ->
             viewModel.outputFile = activity?.getExternalFilesDir(null)?.absolutePath + "/recording_$timestamp"
         })

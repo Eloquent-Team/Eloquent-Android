@@ -13,33 +13,60 @@ import java.time.format.DateTimeFormatter
 
 class RecorderViewModel: ViewModel() {
 
-    private var mediaRecorder: MediaRecorder? = null
-
+    /**
+     * Parameter
+     */
     var outputFile = ""
+    private var mediaRecorder: MediaRecorder? = null
+    var isRecording: Boolean = false
 
+
+    /**
+     * Live Data
+     */
     private val _timestamp = MutableLiveData<String>()
     val timeStamp: LiveData<String> get() = _timestamp
-
-    private var isRecording: Boolean = false
 
     private val _recordingPaused = MutableLiveData<Boolean>()
     val recordingPaused: LiveData<Boolean> get() = _recordingPaused
 
-    init {
-        _timestamp.value = ""
-        _recordingPaused.value = false
-    }
-
-    fun startRecording() {
-        Log.i("RecorderFragment", "fun startRecording called")
-        _timestamp.value = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss").withZone(ZoneOffset.UTC).format(
-            Instant.now())
-        mediaRecorder = MediaRecorder().apply {
+    /**
+     * Configures a MediaRecorder object with predefined attributes
+     *
+     * @return Configured MediaRecorder with:
+     *  AudioSource.MIC /
+     *  OutputFormat.MPEG_4 /
+     *  AudioEncoder.AAC
+     */
+    private fun getConfiguredMediaRecorder(): MediaRecorder {
+        return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
             setOutputFile(outputFile)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        }
+    }
 
+    /**
+     * Returns the current timestamp in the given pattern as a String
+     *
+     * @param pattern
+     * @example yyyy-MM-DD or HH-mm-ss
+     * @return Formatted String in given pattern
+     */
+    private fun getCurrentTimestamp(pattern: String = ""): String {
+        return DateTimeFormatter.ofPattern(pattern).withZone(ZoneOffset.UTC).format(Instant.now())
+    }
+
+    /**
+     * Starts the MediaRecorder object and sets the "isRecording" value to true and the
+     * "recordingPaused" value to false
+     *
+     * @throws IOException
+     */
+    fun startRecording() {
+        _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
+        mediaRecorder = getConfiguredMediaRecorder().apply {
             try {
                 prepare()
             } catch (e: IOException) {
@@ -51,6 +78,10 @@ class RecorderViewModel: ViewModel() {
         }
     }
 
+    /**
+     * If "isRecording" is true, the MediaRecorder stops the current recording
+     * and releases itself, else nothing will happen
+     */
     fun stopRecording() {
         if (isRecording) {
             mediaRecorder?.apply {
@@ -62,6 +93,10 @@ class RecorderViewModel: ViewModel() {
         }
     }
 
+    /**
+     * If "isRecording" is true, the MediaRecorder pauses the current recording
+     * and sets "recordingPaused" to true, else it will call the function resumeRecording()
+     */
     fun pauseRecording() {
         if (isRecording) {
             if (!_recordingPaused.value!!) {
@@ -73,18 +108,30 @@ class RecorderViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Resumes the paused recording and set "recordingPaused" to false
+     */
     private fun resumeRecording() {
         mediaRecorder?.resume()
         _recordingPaused.value = false
     }
 
+    /**
+     * Plays the saved file with a new created MediaPlayer object.
+     * Then it prepares the object and starts the player.
+     */
     fun playRecording() {
-        val mediaPlayer = MediaPlayer()
-        mediaPlayer.setDataSource(outputFile)
-        mediaPlayer.prepare()
-        mediaPlayer.start()
+        MediaPlayer().apply {
+            setDataSource(outputFile)
+            prepare()
+            start()
+        }
     }
 
+    /**
+     * Override for onCleared lifecycle hook to release th MediaRecorder object
+     * if the app gets into the background and sets it to null
+     */
     override fun onCleared() {
         super.onCleared()
         mediaRecorder?.release()
