@@ -2,9 +2,12 @@ package berlin.eloquent.eloquentandroid.recorder
 
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.os.CountDownTimer
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import java.io.IOException
 import java.time.Instant
@@ -18,6 +21,8 @@ class RecorderViewModel: ViewModel() {
      */
     var outputFile = ""
     private var mediaRecorder: MediaRecorder? = null
+    private lateinit var timer: CountDownTimer
+    private var timePassed = 0L
 
     /**
      * Live Data
@@ -32,13 +37,18 @@ class RecorderViewModel: ViewModel() {
     val recordingPaused: LiveData<Boolean> get() = _recordingPaused
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
-    val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
+
+    private val _currentTimeCode = MutableLiveData<Long>()
+
+    val timeCodeText: LiveData<String> = Transformations.map(_currentTimeCode) { time ->
+        DateUtils.formatElapsedTime(time)
+    }
 
     init {
         _isRecording.value = false
         _recordingPaused.value = false
         _isPlayingRecording.value = false
-        outputFile = ""
+        _currentTimeCode.value = 0L
     }
 
     /**
@@ -49,7 +59,7 @@ class RecorderViewModel: ViewModel() {
      *  OutputFormat.MPEG_4 /
      *  AudioEncoder.AAC
      */
-     fun getConfiguredMediaRecorder(): MediaRecorder {
+     private fun getConfiguredMediaRecorder(): MediaRecorder {
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -72,6 +82,7 @@ class RecorderViewModel: ViewModel() {
     /**
      * Starts the MediaRecorder object and sets the "isRecording" value to true and the
      * "recordingPaused" value to false
+     * Starts a new Timer starting at zero which stops when the recording gets paused
      *
      * @throws IOException
      */
@@ -87,6 +98,18 @@ class RecorderViewModel: ViewModel() {
                 start()
                 _recordingPaused.value = false
                 _isRecording.value = true
+
+                timer = object: CountDownTimer(Long.MAX_VALUE, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        if (_recordingPaused.value!!) {
+                            cancel()
+                        } else {
+                            _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
+                            timePassed = millisUntilFinished
+                        }
+                    }
+                    override fun onFinish() {}
+                }.start()
             }
         }
     }
@@ -101,6 +124,7 @@ class RecorderViewModel: ViewModel() {
                 stop()
                 release()
             }
+            timer.cancel()
             _isRecording.value = false
             mediaRecorder = null
         }
@@ -123,10 +147,23 @@ class RecorderViewModel: ViewModel() {
 
     /**
      * Resumes the paused recording and set "recordingPaused" to false
+     * Starts a new timer and starts with the already passed time and stops when
+     * the recording gets paused
      */
     private fun resumeRecording() {
         mediaRecorder?.resume()
         _recordingPaused.value = false
+        timer =  object: CountDownTimer(timePassed, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (_recordingPaused.value!!) {
+                    cancel()
+                } else {
+                    _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
+                    timePassed = millisUntilFinished
+                }
+            }
+            override fun onFinish() {}
+        }.start()
     }
 
     /**

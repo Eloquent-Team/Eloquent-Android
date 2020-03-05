@@ -14,6 +14,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/timeCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="100dp"
+            android:text="@{recorderViewModel.timeCodeText}"
+            android:textAlignment="center"
+            android:textColor="#1c1c1c"
+            android:textSize="30sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="00:00" />
+
+
         <ImageButton
             android:id="@+id/startRecording"
             android:layout_width="wrap_content"

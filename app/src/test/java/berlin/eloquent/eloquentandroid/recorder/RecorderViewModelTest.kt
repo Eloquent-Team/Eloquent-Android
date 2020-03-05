@@ -1,11 +1,9 @@
 package berlin.eloquent.eloquentandroid.recorder
 
-import android.media.MediaRecorder
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -72,5 +70,4 @@ class RecorderViewModelTest {
         val recordingPaused = recorderViewModel.recordingPaused.getOrAwaitValue()
         assertThat(recordingPaused, `is`(false))
     }
-
 }
