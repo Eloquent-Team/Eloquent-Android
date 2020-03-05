@@ -18,17 +18,28 @@ class RecorderViewModel: ViewModel() {
      */
     var outputFile = ""
     private var mediaRecorder: MediaRecorder? = null
-    var isRecording: Boolean = false
-
 
     /**
      * Live Data
      */
+    private val _isRecording = MutableLiveData<Boolean>()
+    val isRecording: LiveData<Boolean> get() = _isRecording
+
     private val _timestamp = MutableLiveData<String>()
     val timeStamp: LiveData<String> get() = _timestamp
 
     private val _recordingPaused = MutableLiveData<Boolean>()
     val recordingPaused: LiveData<Boolean> get() = _recordingPaused
+
+    private val _isPlayingRecording = MutableLiveData<Boolean>()
+    val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
+
+    init {
+        _isRecording.value = false
+        _recordingPaused.value = false
+        _isPlayingRecording.value = false
+        outputFile = ""
+    }
 
     /**
      * Configures a MediaRecorder object with predefined attributes
@@ -38,7 +49,7 @@ class RecorderViewModel: ViewModel() {
      *  OutputFormat.MPEG_4 /
      *  AudioEncoder.AAC
      */
-    private fun getConfiguredMediaRecorder(): MediaRecorder {
+     fun getConfiguredMediaRecorder(): MediaRecorder {
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -65,16 +76,18 @@ class RecorderViewModel: ViewModel() {
      * @throws IOException
      */
     fun startRecording() {
-        _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
-        mediaRecorder = getConfiguredMediaRecorder().apply {
-            try {
-                prepare()
-            } catch (e: IOException) {
-                Log.e("RecorderFragment", "prepare() failed")
+        if (!_isRecording.value!!) {
+            _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
+            mediaRecorder = getConfiguredMediaRecorder().apply {
+                try {
+                    prepare()
+                } catch (e: IOException) {
+                    Log.e("RecorderFragment", "prepare() failed")
+                }
+                start()
+                _recordingPaused.value = false
+                _isRecording.value = true
             }
-            start()
-            _recordingPaused.value = false
-            isRecording = true
         }
     }
 
@@ -83,12 +96,12 @@ class RecorderViewModel: ViewModel() {
      * and releases itself, else nothing will happen
      */
     fun stopRecording() {
-        if (isRecording) {
+        if (_isRecording.value!!) {
             mediaRecorder?.apply {
                 stop()
                 release()
             }
-            isRecording = false
+            _isRecording.value = false
             mediaRecorder = null
         }
     }
@@ -98,7 +111,7 @@ class RecorderViewModel: ViewModel() {
      * and sets "recordingPaused" to true, else it will call the function resumeRecording()
      */
     fun pauseRecording() {
-        if (isRecording) {
+        if (_isRecording.value!!) {
             if (!_recordingPaused.value!!) {
                 mediaRecorder?.pause()
                 _recordingPaused.value = true
@@ -117,14 +130,24 @@ class RecorderViewModel: ViewModel() {
     }
 
     /**
-     * Plays the saved file with a new created MediaPlayer object.
-     * Then it prepares the object and starts the player.
+     * Plays the saved file with a new created MediaPlayer object when "isRecording" is false
+     * and it's not playing already a file. If every state is like it should
+     * it prepares the object and starts the player.
+     * When the audio file is finished it sets the "isPlayingRecording" back to false
      */
     fun playRecording() {
-        MediaPlayer().apply {
-            setDataSource(outputFile)
-            prepare()
-            start()
+        if (!_isRecording.value!!) {
+            if (!_isPlayingRecording.value!!) {
+                val mediaPlayer = MediaPlayer().apply {
+                    setDataSource(outputFile)
+                    prepare()
+                    start()
+                }
+                _isPlayingRecording.value = true
+                mediaPlayer.setOnCompletionListener {
+                    _isPlayingRecording.value = false
+                }
+            }
         }
     }
 
