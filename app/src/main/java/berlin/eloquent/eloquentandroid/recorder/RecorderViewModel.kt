@@ -80,6 +80,27 @@ class RecorderViewModel: ViewModel() {
     }
 
     /**
+     * Returns a new CountDownTimer object with the given time as a Long.
+     * This timer object counts up instead of down to realize a timecode in the recorder screen.
+     *
+     * @param time
+     * @return CountDownTimer
+     */
+    private fun getTimerObject(time: Long): CountDownTimer {
+        return object : CountDownTimer(time, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (_recordingPaused.value!!) {
+                    cancel()
+                } else {
+                    _currentTimeCode.value = (time - millisUntilFinished) / 1000
+                    timePassed = millisUntilFinished
+                }
+            }
+            override fun onFinish() {}
+        }
+    }
+
+    /**
      * Starts the MediaRecorder object and sets the "isRecording" value to true and the
      * "recordingPaused" value to false
      * Starts a new Timer starting at zero which stops when the recording gets paused
@@ -96,21 +117,11 @@ class RecorderViewModel: ViewModel() {
                     Log.e("RecorderFragment", "prepare() failed")
                 }
                 start()
-                _recordingPaused.value = false
-                _isRecording.value = true
 
-                timer = object: CountDownTimer(Long.MAX_VALUE, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        if (_recordingPaused.value!!) {
-                            cancel()
-                        } else {
-                            _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
-                            timePassed = millisUntilFinished
-                        }
-                    }
-                    override fun onFinish() {}
-                }.start()
             }
+            _recordingPaused.value = false
+            _isRecording.value = true
+            timer = getTimerObject(Long.MAX_VALUE).start()
         }
     }
 
@@ -153,17 +164,7 @@ class RecorderViewModel: ViewModel() {
     private fun resumeRecording() {
         mediaRecorder?.resume()
         _recordingPaused.value = false
-        timer =  object: CountDownTimer(timePassed, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                if (_recordingPaused.value!!) {
-                    cancel()
-                } else {
-                    _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
-                    timePassed = millisUntilFinished
-                }
-            }
-            override fun onFinish() {}
-        }.start()
+        timer = getTimerObject(timePassed).start()
     }
 
     /**
