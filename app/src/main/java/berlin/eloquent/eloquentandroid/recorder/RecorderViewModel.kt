@@ -5,6 +5,7 @@ import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -176,14 +177,16 @@ class RecorderViewModel: ViewModel() {
     fun playRecording() {
         if (!_isRecording.value!!) {
             if (!_isPlayingRecording.value!!) {
-                val mediaPlayer = MediaPlayer().apply {
-                    setDataSource(outputFile)
-                    prepare()
-                    start()
-                }
-                _isPlayingRecording.value = true
-                mediaPlayer.setOnCompletionListener {
-                    _isPlayingRecording.value = false
+                if (!outputFile.isEmpty()) {
+                    val mediaPlayer = MediaPlayer().apply {
+                        setDataSource(outputFile)
+                        prepare()
+                        start()
+                    }
+                    _isPlayingRecording.value = true
+                    mediaPlayer.setOnCompletionListener {
+                        _isPlayingRecording.value = false
+                    }
                 }
             }
         }
