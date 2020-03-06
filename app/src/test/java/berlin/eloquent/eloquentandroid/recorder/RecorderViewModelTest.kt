@@ -24,7 +24,6 @@ class RecorderViewModelTest {
 
         // Then
         val isRecording = recorderViewModel.isRecording.getOrAwaitValue()
-        //assertThat(value, (not(nullValue())))
         assertThat(isRecording, `is`(true))
     }
 
@@ -70,4 +69,8 @@ class RecorderViewModelTest {
         val recordingPaused = recorderViewModel.recordingPaused.getOrAwaitValue()
         assertThat(recordingPaused, `is`(false))
     }
+
+    @Test
+
+
 }
