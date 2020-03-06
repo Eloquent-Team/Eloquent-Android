@@ -71,6 +71,16 @@ class RecorderViewModelTest {
     }
 
     @Test
+    fun startRecording_timePassed_returnsZero() {
+        // Given
+        val recorderViewModel = RecorderViewModel()
 
+        // When
+        recorderViewModel.startRecording()
+
+        // Then
+        val currentTimeCodeText = recorderViewModel.timeCodeText.getOrAwaitValue()
+        assertThat(currentTimeCodeText, `is`("00:00"))
+    }
 
 }

@@ -91,7 +91,6 @@ class RecorderViewModel: ViewModel() {
             override fun onTick(millisUntilFinished: Long) {
                 if (_recordingPaused.value!!) {
                     cancel()
-
                 } else {
                     _currentTimeCode.value = (time - millisUntilFinished) / 1000
                     timePassed = millisUntilFinished
