@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -60,8 +61,8 @@ class RecorderViewModelTest {
         recorderViewModel.pauseRecording()
 
         // Then
-        val recordingPaused = recorderViewModel.isPaused.getOrAwaitValue()
-        assertThat(recordingPaused, `is`(true))
+        val isPaused = recorderViewModel.isPaused.getOrAwaitValue()
+        assertThat(isPaused, `is`(true))
     }
 
     /**
@@ -75,7 +76,22 @@ class RecorderViewModelTest {
         recorderViewModel.pauseRecording()
 
         // Then
-        val recordingPaused = recorderViewModel.isPaused.getOrAwaitValue()
-        assertThat(recordingPaused, `is`(false))
+        val isPaused = recorderViewModel.isPaused.getOrAwaitValue()
+        assertThat(isPaused, `is`(false))
+    }
+
+    /**
+     * When 'playRecording()' is called, 'isPLayingRecording' should be true and when it's finished: false
+     */
+    @Test
+    fun playRecording_withoutRecording_isPlayingRecording_false_outputFile_empty() {
+        // When
+        recorderViewModel.playRecording()
+
+        // Then
+        val isPlayingRecording = recorderViewModel.isPlayingRecording.getOrAwaitValue()
+        val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
+        assertThat(isPlayingRecording, `is`(false))
+        assertThat(outputFile, `is`(""))
     }
 }
