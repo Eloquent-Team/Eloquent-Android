@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.RecorderFragmentBinding
 
 class RecorderFragment : Fragment() {
@@ -43,8 +42,8 @@ class RecorderFragment : Fragment() {
          * Observing the timestamp Live Data object to set the outputFile Live Data object when
          * startRecording is called
          */
-        viewModel.timeStamp.observe(viewLifecycleOwner, Observer { timestamp ->
-            viewModel.outputFile.value = activity?.getExternalFilesDir(null)?.absolutePath + "/recording_$timestamp"
+        viewModel.timeStamp.observe(viewLifecycleOwner, Observer {
+            viewModel.setOutputFile(activity?.getExternalFilesDir(null)!!.absolutePath)
         })
 
         return binding.root

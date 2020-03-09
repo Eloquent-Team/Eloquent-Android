@@ -35,7 +35,7 @@ class RecorderViewModel: ViewModel() {
     private val _timestamp = MutableLiveData<String>()
     val timeStamp: LiveData<String> get() = _timestamp
 
-    val outputFile = MutableLiveData<String>()
+    val _outputFile = MutableLiveData<String>()
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
     val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
@@ -51,7 +51,7 @@ class RecorderViewModel: ViewModel() {
         _isPaused.value = false
         _isPlayingRecording.value = false
         _currentTimeCode.value = 0L
-        outputFile.value = ""
+        _outputFile.value = ""
     }
 
     /**
@@ -66,7 +66,7 @@ class RecorderViewModel: ViewModel() {
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setOutputFile(outputFile.value)
+            setOutputFile(_outputFile.value)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         }
     }
@@ -80,6 +80,10 @@ class RecorderViewModel: ViewModel() {
      */
     private fun getCurrentTimestamp(pattern: String = ""): String {
         return DateTimeFormatter.ofPattern(pattern).withZone(ZoneOffset.UTC).format(Instant.now())
+    }
+
+    fun setOutputFile(externalDirPath: String) {
+        _outputFile.value = "$externalDirPath/recording_${_timestamp.value}"
     }
 
     /**
@@ -178,10 +182,10 @@ class RecorderViewModel: ViewModel() {
     fun playRecording() {
         if (!_isRecording.value!!) {
             if (!_isPlayingRecording.value!!) {
-                println(outputFile.value)
-                if (outputFile.value!!.isNotBlank()) {
+                println(_outputFile.value)
+                if (_outputFile.value!!.isNotBlank()) {
                     val mediaPlayer = MediaPlayer().apply {
-                        setDataSource(outputFile.value)
+                        setDataSource(_outputFile.value)
                         prepare()
                         start()
                     }
