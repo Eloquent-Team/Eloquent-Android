@@ -17,9 +17,8 @@ import java.time.format.DateTimeFormatter
 class RecorderViewModel: ViewModel() {
 
     /**
-     * Parameter
+     * Attributes
      */
-    var outputFile = ""
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
@@ -30,11 +29,13 @@ class RecorderViewModel: ViewModel() {
     private val _isRecording = MutableLiveData<Boolean>()
     val isRecording: LiveData<Boolean> get() = _isRecording
 
+    private val _isPaused = MutableLiveData<Boolean>()
+    val isPaused: LiveData<Boolean> get() = _isPaused
+
     private val _timestamp = MutableLiveData<String>()
     val timeStamp: LiveData<String> get() = _timestamp
 
-    private val _recordingPaused = MutableLiveData<Boolean>()
-    val recordingPaused: LiveData<Boolean> get() = _recordingPaused
+    val outputFile = MutableLiveData<String>()
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
 
@@ -46,7 +47,7 @@ class RecorderViewModel: ViewModel() {
 
     init {
         _isRecording.value = false
-        _recordingPaused.value = false
+        _isPaused.value = false
         _isPlayingRecording.value = false
         _currentTimeCode.value = 0L
     }
@@ -63,7 +64,7 @@ class RecorderViewModel: ViewModel() {
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setOutputFile(outputFile)
+            setOutputFile(outputFile.value)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         }
     }
@@ -96,12 +97,12 @@ class RecorderViewModel: ViewModel() {
                     Log.e("RecorderFragment", "prepare() failed")
                 }
                 start()
-                _recordingPaused.value = false
+                _isPaused.value = false
                 _isRecording.value = true
 
                 timer = object: CountDownTimer(Long.MAX_VALUE, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        if (_recordingPaused.value!!) {
+                        if (_isPaused.value!!) {
                             cancel()
                         } else {
                             _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
@@ -136,9 +137,9 @@ class RecorderViewModel: ViewModel() {
      */
     fun pauseRecording() {
         if (_isRecording.value!!) {
-            if (!_recordingPaused.value!!) {
+            if (!_isPaused.value!!) {
                 mediaRecorder?.pause()
-                _recordingPaused.value = true
+                _isPaused.value = true
             } else {
                 resumeRecording()
             }
@@ -152,10 +153,10 @@ class RecorderViewModel: ViewModel() {
      */
     private fun resumeRecording() {
         mediaRecorder?.resume()
-        _recordingPaused.value = false
+        _isPaused.value = false
         timer =  object: CountDownTimer(timePassed, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                if (_recordingPaused.value!!) {
+                if (_isPaused.value!!) {
                     cancel()
                 } else {
                     _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
@@ -175,9 +176,9 @@ class RecorderViewModel: ViewModel() {
     fun playRecording() {
         if (!_isRecording.value!!) {
             if (!_isPlayingRecording.value!!) {
-                if (!outputFile.isEmpty()) {
+                if (!outputFile.value!!.isEmpty()) {
                     val mediaPlayer = MediaPlayer().apply {
-                        setDataSource(outputFile)
+                        setDataSource(outputFile.value)
                         prepare()
                         start()
                     }

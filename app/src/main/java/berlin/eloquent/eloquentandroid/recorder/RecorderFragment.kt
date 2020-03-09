@@ -44,7 +44,7 @@ class RecorderFragment : Fragment() {
          * startRecording is called
          */
         viewModel.timeStamp.observe(viewLifecycleOwner, Observer { timestamp ->
-            viewModel.outputFile = activity?.getExternalFilesDir(null)?.absolutePath + "/recording_$timestamp"
+            viewModel.outputFile.value = activity?.getExternalFilesDir(null)?.absolutePath + "/recording_$timestamp"
         })
 
         return binding.root

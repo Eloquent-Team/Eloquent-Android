@@ -59,7 +59,7 @@
             android:layout_marginBottom="200dp"
             android:background="@drawable/custom_border"
             android:padding="8dp"
-            android:src="@{recorderViewModel.recordingPaused ? @drawable/ic_refresh :@drawable/ic_pause}"
+            android:src="@{recorderViewModel.isPaused ? @drawable/ic_refresh :@drawable/ic_pause}"
             tools:src="@drawable/ic_pause"
             android:onClick="@{() -> recorderViewModel.pauseRecording()}"
             app:layout_constraintBottom_toBottomOf="parent"
