@@ -28,6 +28,9 @@ local.properties
 .idea/caches
 .idea/navEditor.xml
 .idea/assetWizardSettings.xml
+.idea/codeStyles/
+.idea/gradle.xml
+.idea/runConfigurations.xml
 *.iml
 
 # OS-specific files
