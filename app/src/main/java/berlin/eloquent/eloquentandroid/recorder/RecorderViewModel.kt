@@ -38,6 +38,7 @@ class RecorderViewModel: ViewModel() {
     val outputFile = MutableLiveData<String>()
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
+    val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
 
     private val _currentTimeCode = MutableLiveData<Long>()
 
@@ -50,6 +51,7 @@ class RecorderViewModel: ViewModel() {
         _isPaused.value = false
         _isPlayingRecording.value = false
         _currentTimeCode.value = 0L
+        outputFile.value = ""
     }
 
     /**
@@ -176,7 +178,8 @@ class RecorderViewModel: ViewModel() {
     fun playRecording() {
         if (!_isRecording.value!!) {
             if (!_isPlayingRecording.value!!) {
-                if (!outputFile.value!!.isEmpty()) {
+                println(outputFile.value)
+                if (outputFile.value!!.isNotBlank()) {
                     val mediaPlayer = MediaPlayer().apply {
                         setDataSource(outputFile.value)
                         prepare()
