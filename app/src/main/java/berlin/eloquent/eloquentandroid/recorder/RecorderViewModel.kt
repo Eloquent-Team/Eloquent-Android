@@ -1,20 +1,18 @@
 package berlin.eloquent.eloquentandroid.recorder
 
+import android.app.Application
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class RecorderViewModel: ViewModel() {
+class RecorderViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * Attributes
@@ -26,16 +24,12 @@ class RecorderViewModel: ViewModel() {
     /**
      * Live Data
      */
-    private val _isRecording = MutableLiveData<Boolean>()
-    val isRecording: LiveData<Boolean> get() = _isRecording
-
-    private val _isPaused = MutableLiveData<Boolean>()
-    val isPaused: LiveData<Boolean> get() = _isPaused
+    private  val _recordingState = MutableLiveData<RecordingState>()
+    val recordingState: LiveData<RecordingState> get() = _recordingState
 
     private val _timestamp = MutableLiveData<String>()
-    val timeStamp: LiveData<String> get() = _timestamp
 
-    val _outputFile = MutableLiveData<String>()
+    private val _outputFile = MutableLiveData<String>()
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
     val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
@@ -47,8 +41,7 @@ class RecorderViewModel: ViewModel() {
     }
 
     init {
-        _isRecording.value = false
-        _isPaused.value = false
+        _recordingState.value = RecordingState.STOPPED
         _isPlayingRecording.value = false
         _currentTimeCode.value = 0L
         _outputFile.value = ""
@@ -63,6 +56,7 @@ class RecorderViewModel: ViewModel() {
      *  AudioEncoder.AAC
      */
      private fun getConfiguredMediaRecorder(): MediaRecorder {
+        _outputFile.value = getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -82,10 +76,6 @@ class RecorderViewModel: ViewModel() {
         return DateTimeFormatter.ofPattern(pattern).withZone(ZoneOffset.UTC).format(Instant.now())
     }
 
-    fun setOutputFile(externalDirPath: String) {
-        _outputFile.value = "$externalDirPath/recording_${_timestamp.value}"
-    }
-
     /**
      * Starts the MediaRecorder object and sets the "isRecording" value to true and the
      * "recordingPaused" value to false
@@ -94,7 +84,7 @@ class RecorderViewModel: ViewModel() {
      * @throws IOException
      */
     fun startRecording() {
-        if (!_isRecording.value!!) {
+        if (_recordingState.value == RecordingState.STOPPED) {
             _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
             mediaRecorder = getConfiguredMediaRecorder().apply {
                 try {
@@ -103,18 +93,18 @@ class RecorderViewModel: ViewModel() {
                     Log.e("RecorderFragment", "prepare() failed")
                 }
                 start()
-                _isPaused.value = false
-                _isRecording.value = true
+                _recordingState.value = RecordingState.RECORDING
 
-                timer = object: CountDownTimer(Long.MAX_VALUE, 1000) {
+                timer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        if (_isPaused.value!!) {
+                        if (_recordingState.value == RecordingState.PAUSED) {
                             cancel()
                         } else {
                             _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
                             timePassed = millisUntilFinished
                         }
                     }
+
                     override fun onFinish() {}
                 }.start()
             }
@@ -126,13 +116,13 @@ class RecorderViewModel: ViewModel() {
      * and releases itself, else nothing will happen
      */
     fun stopRecording() {
-        if (_isRecording.value!!) {
+        if (_recordingState.value != RecordingState.STOPPED) {
             mediaRecorder?.apply {
                 stop()
                 release()
             }
             timer.cancel()
-            _isRecording.value = false
+            _recordingState.value = RecordingState.STOPPED
             mediaRecorder = null
         }
     }
@@ -142,13 +132,11 @@ class RecorderViewModel: ViewModel() {
      * and sets "recordingPaused" to true, else it will call the function resumeRecording()
      */
     fun pauseRecording() {
-        if (_isRecording.value!!) {
-            if (!_isPaused.value!!) {
-                mediaRecorder?.pause()
-                _isPaused.value = true
-            } else {
-                resumeRecording()
-            }
+        if (_recordingState.value == RecordingState.RECORDING) {
+            mediaRecorder?.pause()
+            _recordingState.value = RecordingState.PAUSED
+        } else if (_recordingState.value == RecordingState.PAUSED) {
+            resumeRecording()
         }
     }
 
@@ -159,10 +147,10 @@ class RecorderViewModel: ViewModel() {
      */
     private fun resumeRecording() {
         mediaRecorder?.resume()
-        _isPaused.value = false
+        _recordingState.value = RecordingState.RECORDING
         timer =  object: CountDownTimer(timePassed, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                if (_isPaused.value!!) {
+                if (_recordingState.value == RecordingState.PAUSED) {
                     cancel()
                 } else {
                     _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
@@ -180,19 +168,16 @@ class RecorderViewModel: ViewModel() {
      * When the audio file is finished it sets the "isPlayingRecording" back to false
      */
     fun playRecording() {
-        if (!_isRecording.value!!) {
-            if (!_isPlayingRecording.value!!) {
-                println(_outputFile.value)
-                if (_outputFile.value!!.isNotBlank()) {
-                    val mediaPlayer = MediaPlayer().apply {
-                        setDataSource(_outputFile.value)
-                        prepare()
-                        start()
-                    }
-                    _isPlayingRecording.value = true
-                    mediaPlayer.setOnCompletionListener {
-                        _isPlayingRecording.value = false
-                    }
+        if (_recordingState.value == RecordingState.STOPPED) {
+            if (_outputFile.value!!.isNotBlank()) {
+                val mediaPlayer = MediaPlayer().apply {
+                    setDataSource(_outputFile.value)
+                    prepare()
+                    start()
+                }
+                _isPlayingRecording.value = true
+                mediaPlayer.setOnCompletionListener {
+                    _isPlayingRecording.value = false
                 }
             }
         }
