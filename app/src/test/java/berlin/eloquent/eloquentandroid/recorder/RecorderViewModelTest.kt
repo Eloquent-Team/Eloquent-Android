@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -90,7 +89,7 @@ class RecorderViewModelTest {
 
         // Then
         val isPlayingRecording = recorderViewModel.isPlayingRecording.getOrAwaitValue()
-        val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
+        val outputFile = recorderViewModel._outputFile.getOrAwaitValue()
         assertThat(isPlayingRecording, `is`(false))
         assertThat(outputFile, `is`(""))
     }

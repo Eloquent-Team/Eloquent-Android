@@ -1,20 +1,18 @@
 package berlin.eloquent.eloquentandroid.recorder
 
+import android.app.Application
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class RecorderViewModel: ViewModel() {
+class RecorderViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * Attributes
@@ -35,7 +33,7 @@ class RecorderViewModel: ViewModel() {
     private val _timestamp = MutableLiveData<String>()
     val timeStamp: LiveData<String> get() = _timestamp
 
-    val outputFile = MutableLiveData<String>()
+    private val _outputFile = MutableLiveData<String>()
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
     val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
@@ -51,7 +49,7 @@ class RecorderViewModel: ViewModel() {
         _isPaused.value = false
         _isPlayingRecording.value = false
         _currentTimeCode.value = 0L
-        outputFile.value = ""
+        _outputFile.value = ""
     }
 
     /**
@@ -63,10 +61,11 @@ class RecorderViewModel: ViewModel() {
      *  AudioEncoder.AAC
      */
      private fun getConfiguredMediaRecorder(): MediaRecorder {
+        _outputFile.value = getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setOutputFile(outputFile.value)
+            setOutputFile(_outputFile.value)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         }
     }
@@ -178,10 +177,10 @@ class RecorderViewModel: ViewModel() {
     fun playRecording() {
         if (!_isRecording.value!!) {
             if (!_isPlayingRecording.value!!) {
-                println(outputFile.value)
-                if (outputFile.value!!.isNotBlank()) {
+                println(_outputFile.value)
+                if (_outputFile.value!!.isNotBlank()) {
                     val mediaPlayer = MediaPlayer().apply {
-                        setDataSource(outputFile.value)
+                        setDataSource(_outputFile.value)
                         prepare()
                         start()
                     }
