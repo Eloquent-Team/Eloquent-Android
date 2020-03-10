@@ -97,7 +97,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
 
                 timer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        if (recordingState == RecordingState.PAUSED) {
+                        if (_recordingState.value == RecordingState.PAUSED) {
                             cancel()
                         } else {
                             _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
