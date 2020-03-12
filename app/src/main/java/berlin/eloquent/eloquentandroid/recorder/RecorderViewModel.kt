@@ -30,6 +30,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     private val _timestamp = MutableLiveData<String>()
 
     private val _outputFile = MutableLiveData<String>()
+    val outputFile: LiveData<String> get() = _outputFile
 
     private val _isPlayingRecording = MutableLiveData<Boolean>()
     val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
