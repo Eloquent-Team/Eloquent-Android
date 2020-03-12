@@ -1,9 +1,11 @@
 package berlin.eloquent.eloquentandroid.recorder
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,82 +17,82 @@ class RecorderViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    // Given
     private lateinit var recorderViewModel: RecorderViewModel
 
     @Before
     fun setupViewModel() {
-        recorderViewModel = RecorderViewModel()
+        recorderViewModel = RecorderViewModel(ApplicationProvider.getApplicationContext())
     }
 
-    /**
-     * When 'startRecording()' is called, 'isRecording' should be true
-     */
     @Test
-    fun startRecording_isRecording_true() {
+    fun `when startRecording() is called, the RecordingState should be RECORDING`() {
         // When
         recorderViewModel.startRecording()
 
         // Then
-        val isRecording = recorderViewModel.isRecording.getOrAwaitValue()
-        assertThat(isRecording, `is`(true))
+        val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
+        assertThat(recordingState, `is`(RecordingState.RECORDING))
     }
 
-    /**
-     * When 'stopRecording()' is called, 'isRecording' should be false
-     */
     @Test
-    fun stopRecording_isRecording_false() {
-        // When
+    fun `when stopRecording() is called, the RecordingState should be STOPPED`() {
+        // Given
         recorderViewModel.startRecording()
+
+        // When
         recorderViewModel.stopRecording()
 
         // Then
-        val isRecording = recorderViewModel.isRecording.getOrAwaitValue()
-        assertThat(isRecording, `is`(false))
+        val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
+        assertThat(recordingState, `is`(RecordingState.STOPPED))
     }
 
-    /**
-     * When 'pauseRecording()' is called, 'isPaused' should be true
-     */
     @Test
-    fun pauseRecording_isPaused_true() {
-        // When
+    fun `when pauseRecording() is called first, the RecordingState should be PAUSED`() {
+        // Given
         recorderViewModel.startRecording()
+
+        // When
         recorderViewModel.pauseRecording()
 
         // Then
-        val isPaused = recorderViewModel.isPaused.getOrAwaitValue()
-        assertThat(isPaused, `is`(true))
+        val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
+        assertThat(recordingState, `is`(RecordingState.PAUSED))
     }
 
-    /**
-     * When 'resumeRecording()' is called, 'isPaused' should be false
-     */
     @Test
-    fun resumeRecording_isPaused_false() {
-        // When
+    fun `when pauseRecording() is called the second time, the RecordingState should be RECORDING`() {
+        // Given
         recorderViewModel.startRecording()
         recorderViewModel.pauseRecording()
+
+        // When
         recorderViewModel.pauseRecording()
 
         // Then
-        val isPaused = recorderViewModel.isPaused.getOrAwaitValue()
-        assertThat(isPaused, `is`(false))
+        val isPaused = recorderViewModel.recordingState.getOrAwaitValue()
+        assertThat(isPaused, `is`(RecordingState.RECORDING))
     }
 
-    /**
-     * When 'playRecording()' is called, 'isPLayingRecording' should be true and when it's finished: false
-     */
     @Test
-    fun playRecording_withoutRecording_isPlayingRecording_false_outputFile_empty() {
+    fun `when playRecording() is called, isPlayingRecording schozld be true`() {
         // When
         recorderViewModel.playRecording()
 
         // Then
         val isPlayingRecording = recorderViewModel.isPlayingRecording.getOrAwaitValue()
-        val outputFile = recorderViewModel._outputFile.getOrAwaitValue()
+        val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
         assertThat(isPlayingRecording, `is`(false))
-        assertThat(outputFile, `is`(""))
     }
+
+    @Test
+    fun `when getConfiguredMediaRecorder() is called, the outputFile should be set`() {
+        // When
+        recorderViewModel.startRecording()
+
+        // Then
+        val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
+        assertThat(outputFile, not(""))
+    }
+
 }
