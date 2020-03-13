@@ -7,6 +7,8 @@ import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.navigation.Navigation
+import berlin.eloquent.eloquentandroid.R
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
@@ -160,28 +162,6 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
             }
             override fun onFinish() {}
         }.start()
-    }
-
-    /**
-     * Plays the saved file with a new created MediaPlayer object when "isRecording" is false
-     * and it's not playing already a file. If every state is like it should
-     * it prepares the object and starts the player.
-     * When the audio file is finished it sets the "isPlayingRecording" back to false
-     */
-    fun playRecording() {
-        if (_recordingState.value == RecordingState.STOPPED) {
-            if (_outputFile.value!!.isNotBlank()) {
-                val mediaPlayer = MediaPlayer().apply {
-                    setDataSource(_outputFile.value)
-                    prepare()
-                    start()
-                }
-                _isPlayingRecording.value = true
-                mediaPlayer.setOnCompletionListener {
-                    _isPlayingRecording.value = false
-                }
-            }
-        }
     }
 
     /**

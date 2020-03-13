@@ -17,9 +17,9 @@
         <TextView
             android:id="@+id/timeCode"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="100dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="100dp"
             android:text="@{recorderViewModel.timeCodeText}"
             android:textAlignment="center"
@@ -39,7 +39,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="32dp"
-            android:layout_marginBottom="200dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
             android:onClick="@{() -> recorderViewModel.startRecording()}"
             android:padding="8dp"
@@ -56,14 +56,14 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="250dp"
             android:layout_marginEnd="250dp"
-            android:layout_marginBottom="200dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
-            android:padding="8dp"
-            tools:src="@drawable/ic_pause"
             android:onClick="@{() -> recorderViewModel.pauseRecording()}"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/ic_pause" />
 
         <ImageButton
             android:id="@+id/stopRecording"
@@ -72,31 +72,12 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="200dp"
-            android:background="@drawable/custom_border"
-            android:padding="8dp"
-            android:onClick="@{() -> recorderViewModel.stopRecording()}"
-            android:src="@drawable/ic_stop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageButton
-            android:id="@+id/playRecording"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="200dp"
-            android:layout_marginEnd="200dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
             android:padding="8dp"
-            android:src="@drawable/ic_play_arrow"
-            android:onClick="@{() -> recorderViewModel.playRecording()}"
+            android:src="@drawable/ic_stop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

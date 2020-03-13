@@ -1,12 +1,15 @@
 package berlin.eloquent.eloquentandroid.recorder
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.RecorderFragmentBinding
 
@@ -49,6 +52,14 @@ class RecorderFragment : Fragment() {
                 binding.pauseRecording.setImageResource(R.drawable.ic_pause)
             }
         })
+
+        binding.stopRecording.setOnClickListener {
+            Log.i("RecorderFragment", "listener")
+            viewModel.stopRecording()
+            val outputFile = viewModel.outputFile.value!!
+            val action = RecorderFragmentDirections.nextAction(outputFile)
+            findNavController().navigate(action)
+        }
 
         return binding.root
     }
