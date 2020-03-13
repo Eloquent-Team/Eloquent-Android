@@ -70,18 +70,17 @@ class RecorderViewModelTest {
         recorderViewModel.pauseRecording()
 
         // Then
-        val isPaused = recorderViewModel.recordingState.getOrAwaitValue()
-        assertThat(isPaused, `is`(RecordingState.RECORDING))
+        val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
+        assertThat(recordingState, `is`(RecordingState.RECORDING))
     }
 
     @Test
-    fun `when playRecording() is called, isPlayingRecording schozld be true`() {
+    fun `when playRecording() is called, isPlayingRecording schould be true`() {
         // When
         recorderViewModel.playRecording()
 
         // Then
         val isPlayingRecording = recorderViewModel.isPlayingRecording.getOrAwaitValue()
-        val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
         assertThat(isPlayingRecording, `is`(false))
     }
 
