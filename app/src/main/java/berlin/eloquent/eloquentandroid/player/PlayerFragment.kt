@@ -39,7 +39,7 @@ class PlayerFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val safeArgs: PlayerFragmentArgs by navArgs()
-        val outputFile = safeArgs.outputFile
+        viewModel.setOutputFile(safeArgs.outputFile)
 
 
         return binding.root

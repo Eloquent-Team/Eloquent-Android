@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.recorder.RecordingState
 
 class PlayerViewModel : ViewModel() {
@@ -14,6 +15,9 @@ class PlayerViewModel : ViewModel() {
     private val _isPlayingRecording = MutableLiveData<Boolean>()
     val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
 
+    init {
+        _isPlayingRecording.value = false
+    }
 
     fun setOutputFile(outputFile: String) {
         _outputFile.value = outputFile
@@ -26,17 +30,20 @@ class PlayerViewModel : ViewModel() {
      * When the audio file is finished it sets the "isPlayingRecording" back to false
      */
     fun playRecording() {
-        if (_outputFile.value!!.isNotBlank()) {
-            val mediaPlayer = MediaPlayer().apply {
-                setDataSource(_outputFile.value)
-                prepare()
-                start()
-            }
-            _isPlayingRecording.value = true
-            mediaPlayer.setOnCompletionListener {
-                _isPlayingRecording.value = false
+        if (!_isPlayingRecording.value!!) {
+            if (_outputFile.value!!.isNotBlank()) {
+                val mediaPlayer = MediaPlayer().apply {
+                    setDataSource(_outputFile.value)
+                    prepare()
+                    start()
+                }
+                _isPlayingRecording.value = true
+                mediaPlayer.setOnCompletionListener {
+                    _isPlayingRecording.value = false
+                }
             }
         }
+
     }
 
 }

@@ -54,10 +54,8 @@ class RecorderFragment : Fragment() {
         })
 
         binding.stopRecording.setOnClickListener {
-            Log.i("RecorderFragment", "listener")
             viewModel.stopRecording()
-            val outputFile = viewModel.outputFile.value!!
-            val action = RecorderFragmentDirections.nextAction(outputFile)
+            val action = RecorderFragmentDirections.nextAction(viewModel.outputFile.value!!)
             findNavController().navigate(action)
         }
 
