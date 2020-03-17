@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.databinding.AccountFragmentBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class AccountFragment : Fragment() {
 
@@ -14,6 +16,7 @@ class AccountFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Account"
 
         /**
          * Sets a binding object between RecorderFragment and recorder_fragment for better
