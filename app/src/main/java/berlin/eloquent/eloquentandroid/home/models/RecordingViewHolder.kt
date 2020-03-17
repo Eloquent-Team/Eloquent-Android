@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import berlin.eloquent.eloquentandroid.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.layout_home_list_item.view.*
+import kotlinx.android.synthetic.main.home_list_item_layout.view.*
 
 class RecordingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val title = itemView.recording_title

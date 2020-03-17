@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
 import berlin.eloquent.eloquentandroid.home.models.SpacingDecoration
-import kotlinx.android.synthetic.main.activity_main.*
 
 class HomeFragment : Fragment() {
 
@@ -49,9 +48,9 @@ class HomeFragment : Fragment() {
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
-            val topSpacingDecorator = SpacingDecoration(15, 20, 15, 20)
+            val topSpacingDecorator = SpacingDecoration(25, 40, 25, 40)
             addItemDecoration(topSpacingDecorator)
-            adapter = viewModel.blogAdapter.value
+            adapter = viewModel.recordingAdapter.value
         }
 
         viewModel.addDataSet()

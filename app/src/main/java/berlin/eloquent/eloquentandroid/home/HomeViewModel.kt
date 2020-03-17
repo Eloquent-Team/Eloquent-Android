@@ -8,15 +8,15 @@ import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter
 
 class HomeViewModel : ViewModel() {
 
-    private val _blogAdapter = MutableLiveData<RecordingRecyclerAdapter>()
-    val blogAdapter: LiveData<RecordingRecyclerAdapter> get() = _blogAdapter
+    private val _recordingAdapter = MutableLiveData<RecordingRecyclerAdapter>()
+    val recordingAdapter: LiveData<RecordingRecyclerAdapter> get() = _recordingAdapter
 
     init {
-        _blogAdapter.value = RecordingRecyclerAdapter()
+        _recordingAdapter.value = RecordingRecyclerAdapter()
     }
 
     fun addDataSet(){
-        _blogAdapter.value?.submitList(DataSource.createDataSet())
+        _recordingAdapter.value?.submitList(DataSource.createDataSet())
     }
 
 }
