@@ -2,6 +2,8 @@ package berlin.eloquent.eloquentandroid.home
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -45,6 +47,14 @@ class HomeFragment : Fragment() {
          * Sets the RecorderFragment as the lifecycleOwner
          */
         binding.lifecycleOwner = this
+
+        val spinner: Spinner = binding.sortBySpinner
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(this.context, R.array.sort_by_options_array , android.R.layout.simple_spinner_item)
+            .also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
