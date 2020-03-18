@@ -26,34 +26,23 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = "Home"
         setHasOptionsMenu(true)
 
-        /**
-         * Sets a binding object between RecorderFragment and recorder_fragment for better
-         * performance
-         */
+        // Sets a binding object between RecorderFragment and recorder_fragment for better performance
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
-        /**
-         * Gets the viewModel object from RecorderViewModel to interact with its
-         * Live Data
-         */
+        // Gets the viewModel object from RecorderViewModel to interact with it Live Data
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        /**
-         * Binds the viewModel to the layout representation of the viewModel
-         */
+        // Binds the viewModel to the layout representation of the viewModel
         binding.homeViewModel = viewModel
 
-        /**
-         * Sets the RecorderFragment as the lifecycleOwner
-         */
+        // Sets the RecorderFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
-        val spinner: Spinner = binding.sortBySpinner
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        //
         ArrayAdapter.createFromResource(this.context, R.array.sort_by_options_array , android.R.layout.simple_spinner_item)
             .also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.sortBySpinner.adapter = adapter
         }
 
         binding.recyclerView.apply {
