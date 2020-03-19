@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Eloquent</string>
+    <string name="home_nav_title">Home</string>
+    <string name="recorder_nav_title">Recorder</string>
+    <string name="account_nav_title">Account</string>
+    <string-array name="sort_by_options_array">
+        <item>Alphabetical</item>
+        <item>Date</item>
+        <item>Length</item>
+    </string-array>
 </resources>

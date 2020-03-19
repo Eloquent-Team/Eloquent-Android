@@ -3,6 +3,7 @@ package berlin.eloquent.eloquentandroid.recorder
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
@@ -72,16 +73,6 @@ class RecorderViewModelTest {
         // Then
         val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
         assertThat(recordingState, `is`(RecordingState.RECORDING))
-    }
-
-    @Test
-    fun `when playRecording() is called, isPlayingRecording schould be true`() {
-        // When
-        recorderViewModel.playRecording()
-
-        // Then
-        val isPlayingRecording = recorderViewModel.isPlayingRecording.getOrAwaitValue()
-        assertThat(isPlayingRecording, `is`(false))
     }
 
     @Test
