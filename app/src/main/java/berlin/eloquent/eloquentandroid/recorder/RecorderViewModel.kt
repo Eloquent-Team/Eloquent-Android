@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.*
+import berlin.eloquent.eloquentandroid.models.Recording
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
@@ -27,10 +28,10 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     private val _outputFile = MutableLiveData<String>()
     val outputFile: LiveData<String> get() = _outputFile
 
-    private val _isPlayingRecording = MutableLiveData<Boolean>()
-    val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
-
     private val _currentTimeCode = MutableLiveData<Long>()
+
+    private val _recording = MutableLiveData<Recording>()
+    val recording: LiveData<Recording> get() = _recording
 
     val timeCodeText: LiveData<String> = Transformations.map(_currentTimeCode) { time ->
         DateUtils.formatElapsedTime(time)
@@ -38,7 +39,6 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
 
     init {
         _recordingState.value = RecordingState.STOPPED
-        _isPlayingRecording.value = false
         _currentTimeCode.value = 0L
         _outputFile.value = ""
     }
@@ -75,17 +75,18 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
      * Returns a CountDownTimer which counts up to display the timecode in the recorder screen.
      * It counts up at the given time.
      *
-     * @param time Long.MAX_VALUE when starting from zero or passed time value for restarting from there.
+     * @param startTime Long.MAX_VALUE when starting from zero or passed time value for restarting from there.
      * @return CountDownTimer with given time.
      */
-    private fun getCountUpTimer(time: Long) : CountDownTimer {
-        return object: CountDownTimer(time, 1000) {
+    private fun getCountUpTimer(startTime: Long) : CountDownTimer {
+        return object: CountDownTimer(startTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (_recordingState.value == RecordingState.PAUSED) {
                     cancel()
                     Log.i("RecorderViewModel", "timer canceled")
                 } else {
                     _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
+                    Log.i("RecorderViewModel", "${_currentTimeCode.value!!}")
                     timePassed = millisUntilFinished
                     Log.i("RecorderViewModel", "Timepassed $timePassed")
                 }
@@ -127,6 +128,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
                 release()
             }
             timer.cancel()
+            _recording.value = Recording(_outputFile.value!!, getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss"), _currentTimeCode.value!!, listOf(), _outputFile.value!!)
             _recordingState.value = RecordingState.STOPPED
             mediaRecorder = null
         }

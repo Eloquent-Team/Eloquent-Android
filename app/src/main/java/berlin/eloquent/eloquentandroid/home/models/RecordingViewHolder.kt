@@ -1,7 +1,9 @@
 package berlin.eloquent.eloquentandroid.home.models
 
+import android.text.format.DateUtils
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import berlin.eloquent.eloquentandroid.models.Recording
 import kotlinx.android.synthetic.main.home_list_item_layout.view.*
 
 class RecordingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -12,6 +14,6 @@ class RecordingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(recording: Recording) {
         title.text = recording.title
         date.text = recording.date
-        length.text = recording.length
+        length.text = DateUtils.formatElapsedTime(recording.length)
     }
 }

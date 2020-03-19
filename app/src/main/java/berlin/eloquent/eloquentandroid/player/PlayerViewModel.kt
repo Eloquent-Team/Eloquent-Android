@@ -5,8 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.navArgs
-import berlin.eloquent.eloquentandroid.recorder.RecordingState
+import berlin.eloquent.eloquentandroid.models.Recording
 import java.io.IOException
 
 class PlayerViewModel : ViewModel() {
@@ -15,21 +14,24 @@ class PlayerViewModel : ViewModel() {
     private lateinit var mediaPlayer: MediaPlayer
 
     // Live Data
-    private val _outputFile = MutableLiveData<String>()
-    val outputFile: LiveData<String> get() = _outputFile
-
     private val _playingState = MutableLiveData<PlayingState>()
     val playingState: LiveData<PlayingState> get() = _playingState
 
+    private val _recording = MutableLiveData<Recording>()
+    val recording: LiveData<Recording> get() = _recording
+
     init {
-        _outputFile.value = ""
         _playingState.value = PlayingState.STOPPED
     }
 
-    fun setupMediaPlayer(outputFile: String) {
-        _outputFile.value = outputFile
+    fun setRecording(recording: Recording) {
+        _recording.value = recording
+        setupMediaRecorder(_recording.value!!.fileUrl)
+    }
+
+    fun setupMediaRecorder(fileUrl: String) {
         mediaPlayer = MediaPlayer()
-        mediaPlayer.setDataSource(_outputFile.value)
+        mediaPlayer.setDataSource(fileUrl)
     }
 
     fun analyzeRecording() {
@@ -45,7 +47,7 @@ class PlayerViewModel : ViewModel() {
     }
 
     private fun startPlayback(mediaPlayer: MediaPlayer) {
-        if (_outputFile.value!!.isNotBlank()) {
+        if (_recording.value!!.fileUrl.isNotBlank()) {
             mediaPlayer.apply {
                 try {
                     prepare()

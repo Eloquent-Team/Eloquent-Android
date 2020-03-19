@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
-import berlin.eloquent.eloquentandroid.recorder.RecordingState
 
 class PlayerFragment : Fragment() {
 
@@ -34,7 +33,7 @@ class PlayerFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val safeArgs: PlayerFragmentArgs by navArgs()
-        viewModel.setupMediaPlayer(safeArgs.outputFile)
+        viewModel.setRecording(safeArgs.recording)
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             if (it == PlayingState.PLAYING) {

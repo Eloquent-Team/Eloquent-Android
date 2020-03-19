@@ -30,9 +30,8 @@
         android:label="PlayerFragment"
         tools:layout="@layout/player_fragment">
         <argument
-            android:name="outputFile"
-            app:argType="string"
-            android:defaultValue="1"/>
+            android:name="recording"
+            app:argType="berlin.eloquent.eloquentandroid.models.Recording" />
         <action
             android:id="@+id/action_playerFragment_to_feedbackFragment"
             app:destination="@id/feedback_dest" />
