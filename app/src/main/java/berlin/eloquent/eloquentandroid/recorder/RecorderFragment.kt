@@ -37,7 +37,7 @@ class RecorderFragment : Fragment() {
                     binding.pauseResumeRecording.setImageResource(R.drawable.ic_refresh)
                 }
                 RecordingState.STOPPED -> {
-                    val action = RecorderFragmentDirections.nextAction(viewModel.recording.value!!)
+                    val action = RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment(viewModel.recording.value!!)
                     findNavController().navigate(action)
                 }
             }

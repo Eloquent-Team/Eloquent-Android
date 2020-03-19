@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.databinding.FeedbackFragmentBinding
+import berlin.eloquent.eloquentandroid.player.PlayerFragmentArgs
 
 class FeedbackFragment : Fragment() {
 
@@ -22,6 +24,9 @@ class FeedbackFragment : Fragment() {
         binding.feedbackViewModel = viewModel
 
         binding.lifecycleOwner = this
+
+        val safeArgs: PlayerFragmentArgs by navArgs()
+        viewModel.setRecording(safeArgs.recording)
 
         return binding.root
     }

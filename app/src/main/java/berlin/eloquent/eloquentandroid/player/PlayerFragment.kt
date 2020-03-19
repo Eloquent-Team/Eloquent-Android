@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
@@ -14,7 +15,7 @@ class PlayerFragment : Fragment() {
 
     private lateinit var viewModel: PlayerViewModel
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) { // Inflate the menu items for use in the action bar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_player_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -36,12 +37,20 @@ class PlayerFragment : Fragment() {
         viewModel.setRecording(safeArgs.recording)
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
-            if (it == PlayingState.PLAYING) {
-                binding.controlPlayback.setImageResource(R.drawable.ic_pause)
-            } else {
-                binding.controlPlayback.setImageResource(R.drawable.ic_play_arrow)
-            }
+            binding.controlPlayback.setImageResource(
+                if (it == PlayingState.PLAYING) {
+                    R.drawable.ic_pause
+                } else {
+                    R.drawable.ic_play_arrow
+                }
+            )
         })
+
+        binding.analyzeRecording.setOnClickListener {
+            viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
+            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment(viewModel.recording.value!!)
+            findNavController().navigate(action)
+        }
 
         return binding.root
     }
