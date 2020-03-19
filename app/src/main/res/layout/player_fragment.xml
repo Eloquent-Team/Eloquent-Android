@@ -17,7 +17,7 @@
 
 
         <ImageButton
-            android:id="@+id/playRecording"
+            android:id="@+id/controlPlayback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -27,7 +27,7 @@
             android:layout_marginEnd="100dp"
             android:layout_marginBottom="50dp"
             android:background="@drawable/custom_border"
-            android:onClick="@{() -> playerViewModel.playRecording()}"
+            android:onClick="@{() -> playerViewModel.controlPlayback()}"
             android:padding="8dp"
             android:src="@drawable/ic_play_arrow"
             app:layout_constraintBottom_toTopOf="@+id/analyzeRecording"
@@ -46,7 +46,7 @@
             android:layout_marginEnd="100dp"
             android:layout_marginBottom="50dp"
             android:background="@drawable/custom_border"
-            android:onClick="@{() -> playerViewModel.playRecording()}"
+            android:onClick="@{() -> playerViewModel.analyzeRecording()}"
             android:padding="8dp"
             android:src="@drawable/ic_av_timer"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,7 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColor="@color/colorText"
-            app:layout_constraintBottom_toTopOf="@+id/playRecording"
+            app:layout_constraintBottom_toTopOf="@+id/controlPlayback"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

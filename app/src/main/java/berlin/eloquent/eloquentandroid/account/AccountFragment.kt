@@ -17,18 +17,12 @@ class AccountFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Account"
 
-        // Sets a binding object between AccountFragment and account_fragment
-        // for better performance
         val binding = AccountFragmentBinding.inflate(layoutInflater)
 
-        // Gets the viewModel object from AccountViewModel to interact with its
-        // Live Data
         viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
-        // Binds the viewModel to the layout representation of the viewModel
         binding.accountViewModel = viewModel
 
-        // Sets the AccountFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
         return binding.root

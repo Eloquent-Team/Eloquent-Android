@@ -26,18 +26,12 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = "Home"
         setHasOptionsMenu(true)
 
-        // Sets a binding object between HomeFragment and home_fragment
-        // for better performance
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
-        // Gets the viewModel object from HomeViewModel to interact with its
-        // Live Data
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        // Binds the viewModel to the layout representation of the viewModel
         binding.homeViewModel = viewModel
 
-        // Sets the HomeFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
         ArrayAdapter.createFromResource(this.context, R.array.sort_by_options_array , android.R.layout.simple_spinner_item)

@@ -1,14 +1,11 @@
 package berlin.eloquent.eloquentandroid.recorder
 
 import android.app.Application
-import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.navigation.Navigation
-import berlin.eloquent.eloquentandroid.R
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
@@ -16,16 +13,12 @@ import java.time.format.DateTimeFormatter
 
 class RecorderViewModel(application: Application) : AndroidViewModel(application) {
 
-    /**
-     * Attributes
-     */
+    // Attributes
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
 
-    /**
-     * Live Data
-     */
+    // Live Data
     private  val _recordingState = MutableLiveData<RecordingState>()
     val recordingState: LiveData<RecordingState> get() = _recordingState
 
@@ -85,7 +78,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
      * @param time Long.MAX_VALUE when starting from zero or passed time value for restarting from there.
      * @return CountDownTimer with given time.
      */
-    private fun getTimer(time: Long) : CountDownTimer {
+    private fun getCountUpTimer(time: Long) : CountDownTimer {
         return object: CountDownTimer(time, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (_recordingState.value == RecordingState.PAUSED) {
@@ -118,7 +111,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
                 }
                 start()
                 _recordingState.value = RecordingState.RECORDING
-                timer = getTimer(Long.MAX_VALUE).start()
+                timer = getCountUpTimer(Long.MAX_VALUE).start()
             }
         }
     }
@@ -159,7 +152,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     private fun resumeRecording() {
         mediaRecorder?.resume()
         _recordingState.value = RecordingState.RECORDING
-        timer = getTimer(timePassed).start()
+        timer = getCountUpTimer(timePassed).start()
     }
 
     /**

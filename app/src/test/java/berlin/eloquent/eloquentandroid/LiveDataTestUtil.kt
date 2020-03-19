@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.recorder
+package berlin.eloquent.eloquentandroid
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData

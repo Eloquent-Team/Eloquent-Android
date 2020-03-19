@@ -11,49 +11,69 @@ import java.io.IOException
 
 class PlayerViewModel : ViewModel() {
 
+    // Attributes
+    private lateinit var mediaPlayer: MediaPlayer
+
+    // Live Data
     private val _outputFile = MutableLiveData<String>()
     val outputFile: LiveData<String> get() = _outputFile
 
-    private val _isPlayingRecording = MutableLiveData<Boolean>()
-    val isPlayingRecording: LiveData<Boolean> get() = _isPlayingRecording
+    private val _playingState = MutableLiveData<PlayingState>()
+    val playingState: LiveData<PlayingState> get() = _playingState
 
     init {
-        _isPlayingRecording.value = false
+        _outputFile.value = ""
+        _playingState.value = PlayingState.STOPPED
     }
 
-    /**
-     * Sets the outputFile in the viewModel.
-     *
-     * @param outputFile recording from the recorder screen
-     */
-    fun setOutputFile(outputFile: String) {
+    fun setupMediaPlayer(outputFile: String) {
         _outputFile.value = outputFile
+        mediaPlayer = MediaPlayer()
+        mediaPlayer.setDataSource(_outputFile.value)
     }
 
-    /**
-     * Plays the saved file with a new created MediaPlayer object when isPlayingRecording is false.
-     * It prepares the object and starts the player.
-     * When the audio file is finished it sets the "isPlayingRecording" back to false.
-     */
-    fun playRecording() {
-        if (!_isPlayingRecording.value!!) {
-            if (_outputFile.value!!.isNotBlank()) {
-                val mediaPlayer = MediaPlayer().apply {
-                    setDataSource(_outputFile.value)
-                    try {
-                        prepare()
-                    } catch (e: IOException) {
-                        Log.e("PlayerFragment", "prepare() failed")
-                    }
-                    start()
-                }
-                _isPlayingRecording.value = true
-                mediaPlayer.setOnCompletionListener {
-                    _isPlayingRecording.value = false
-                }
-            }
-        }
+    fun analyzeRecording() {
+        Log.i("PlayerViewModel", "Analyzing...")
+    }
 
+    fun controlPlayback() {
+        when (_playingState.value) {
+            PlayingState.STOPPED -> startPlayback(mediaPlayer)
+            PlayingState.PLAYING -> pausePlayback(mediaPlayer)
+            PlayingState.PAUSED -> resumePlayback(mediaPlayer)
+        }
+    }
+
+    private fun startPlayback(mediaPlayer: MediaPlayer) {
+        if (_outputFile.value!!.isNotBlank()) {
+            mediaPlayer.apply {
+                try {
+                    prepare()
+                } catch (e: IOException) {
+                    Log.e("PlayerFragment", "prepare() failed")
+                }
+                start()
+            }
+            _playingState.value = PlayingState.PLAYING
+            stopPlayback(mediaPlayer)
+        }
+    }
+
+    private fun pausePlayback(mediaPlayer: MediaPlayer) {
+            mediaPlayer.pause()
+            _playingState.value = PlayingState.PAUSED
+    }
+
+    private fun resumePlayback(mediaPlayer: MediaPlayer) {
+            mediaPlayer.start()
+            _playingState.value = PlayingState.PLAYING
+    }
+
+    private fun stopPlayback(mediaPlayer: MediaPlayer) {
+        mediaPlayer.setOnCompletionListener {
+            it.stop()
+            _playingState.value = PlayingState.STOPPED
+        }
     }
 
 }

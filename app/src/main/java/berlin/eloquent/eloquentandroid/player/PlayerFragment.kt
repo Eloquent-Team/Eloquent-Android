@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
+import berlin.eloquent.eloquentandroid.recorder.RecordingState
 
 class PlayerFragment : Fragment() {
 
@@ -23,23 +25,24 @@ class PlayerFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = "Player"
         setHasOptionsMenu(true)
 
-        // Sets a binding object between PlayerFragment and player_fragment
-        // for better performance
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
 
-        // Gets the viewModel object from PlayerViewModel to interact with its
-        // Live Data
         viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
 
-        // Binds the viewModel to the layout representation of the viewModel
         binding.playerViewModel = viewModel
 
-        // Sets the PlayerFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
         val safeArgs: PlayerFragmentArgs by navArgs()
-        viewModel.setOutputFile(safeArgs.outputFile)
+        viewModel.setupMediaPlayer(safeArgs.outputFile)
 
+        viewModel.playingState.observe(viewLifecycleOwner, Observer {
+            if (it == PlayingState.PLAYING) {
+                binding.controlPlayback.setImageResource(R.drawable.ic_pause)
+            } else {
+                binding.controlPlayback.setImageResource(R.drawable.ic_play_arrow)
+            }
+        })
 
         return binding.root
     }
