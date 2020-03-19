@@ -1,9 +1,11 @@
 package berlin.eloquent.eloquentandroid.player
 
 import android.media.MediaPlayer
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.models.Recording
 import java.io.IOException
@@ -20,25 +22,34 @@ class PlayerViewModel : ViewModel() {
     private val _recording = MutableLiveData<Recording>()
     val recording: LiveData<Recording> get() = _recording
 
+    private val _timeCode = MutableLiveData<Long>()
+
+    val timeCodeText: LiveData<String> = Transformations.map(_timeCode) { time ->
+        DateUtils.formatElapsedTime(time)
+    }
+
     init {
         _playingState.value = PlayingState.STOPPED
     }
 
     fun setRecording(recording: Recording) {
         _recording.value = recording
-        setupMediaRecorder(_recording.value!!.fileUrl)
+        _timeCode.value = recording.length
     }
 
-    fun setupMediaRecorder(fileUrl: String) {
+    fun analyzeRecording(newTitle: String, newTags: String) {
+        Log.i("PlayerViewModel", "Analyzing...")
+        _recording.value!!.title = newTitle
+        _recording.value!!.tags = newTags.split(" ")
+    }
+
+    private fun setupMediaRecorder(fileUrl: String) {
         mediaPlayer = MediaPlayer()
         mediaPlayer.setDataSource(fileUrl)
     }
 
-    fun analyzeRecording() {
-        Log.i("PlayerViewModel", "Analyzing...")
-    }
-
     fun controlPlayback() {
+        setupMediaRecorder(_recording.value!!.fileUrl)
         when (_playingState.value) {
             PlayingState.STOPPED -> startPlayback(mediaPlayer)
             PlayingState.PLAYING -> pausePlayback(mediaPlayer)

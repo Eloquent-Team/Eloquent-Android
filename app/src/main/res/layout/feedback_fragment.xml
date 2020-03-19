@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="feedbackViewModel"
             type="berlin.eloquent.eloquentandroid.feedback.FeedbackViewModel" />
@@ -11,19 +12,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="173dp"
-            android:layout_marginTop="349dp"
-            android:layout_marginEnd="174dp"
-            android:layout_marginBottom="350dp"
+            android:layout_marginTop="100dp"
             android:text="Feedback"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/timeCodeSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

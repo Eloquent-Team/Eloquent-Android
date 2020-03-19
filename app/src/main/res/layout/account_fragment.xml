@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="accountViewModel"
             type="berlin.eloquent.eloquentandroid.account.AccountViewModel" />
@@ -18,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
             android:text="Account"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/timeCodeSize"
