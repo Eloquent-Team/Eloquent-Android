@@ -20,7 +20,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     private var timePassed = 0L
 
     // Live Data
-    private  val _recordingState = MutableLiveData<RecordingState>()
+    private val _recordingState = MutableLiveData<RecordingState>()
     val recordingState: LiveData<RecordingState> get() = _recordingState
 
     private val _timestamp = MutableLiveData<String>()
@@ -38,7 +38,8 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     init {
-        _recordingState.value = RecordingState.STOPPED
+        _recording.value = Recording()
+        _recordingState.value = RecordingState.NOT_STARTED
         _currentTimeCode.value = 0L
         _outputFile.value = ""
     }
@@ -51,8 +52,9 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
      *  OutputFormat.MPEG_4 /
      *  AudioEncoder.AAC
      */
-     private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value = getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
+    private fun getConfiguredMediaRecorder(): MediaRecorder {
+        _outputFile.value =
+            getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -78,8 +80,8 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
      * @param startTime Long.MAX_VALUE when starting from zero or passed time value for restarting from there.
      * @return CountDownTimer with given time.
      */
-    private fun getCountUpTimer(startTime: Long) : CountDownTimer {
-        return object: CountDownTimer(startTime, 1000) {
+    private fun getCountUpTimer(startTime: Long): CountDownTimer {
+        return object : CountDownTimer(startTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (_recordingState.value == RecordingState.PAUSED) {
                     cancel()
@@ -91,76 +93,69 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
                     Log.i("RecorderViewModel", "Timepassed $timePassed")
                 }
             }
+
             override fun onFinish() {}
         }
     }
 
-    /**
-     * Starts the MediaRecorder if the RecordingState is not STOPPED and sets the RecordingState
-     * to RECORDING.
-     *
-     * @throws IOException
-     */
-    fun startRecording() {
-        if (_recordingState.value == RecordingState.STOPPED) {
-            _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
-            mediaRecorder = getConfiguredMediaRecorder().apply {
-                try {
-                    prepare()
-                } catch (e: IOException) {
-                    Log.e("RecorderFragment", "prepare() failed")
-                }
-                start()
-                _recordingState.value = RecordingState.RECORDING
-                timer = getCountUpTimer(Long.MAX_VALUE).start()
+    fun controlStartStopRecording() {
+        when (_recordingState.value) {
+            RecordingState.NOT_STARTED -> startRecording()
+            else -> stopRecording()
+        }
+    }
+
+    private fun startRecording() {
+        _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
+        mediaRecorder = getConfiguredMediaRecorder().apply {
+            try {
+                prepare()
+            } catch (e: IOException) {
+                Log.e("RecorderFragment", "prepare() failed")
             }
+            start()
+            timer = getCountUpTimer(Long.MAX_VALUE).start()
+            _recordingState.value = RecordingState.RECORDING
         }
     }
 
-    /**
-     * If the RecordingState is not STOPPED, the MediaRecorder stops the current recording
-     * and releases itself.
-     */
-    fun stopRecording() {
-        if (_recordingState.value != RecordingState.STOPPED) {
-            mediaRecorder?.apply {
-                stop()
-                release()
-            }
-            timer.cancel()
-            _recording.value = Recording(_outputFile.value!!, getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss"), _currentTimeCode.value!!, listOf(), _outputFile.value!!)
-            _recordingState.value = RecordingState.STOPPED
-            mediaRecorder = null
+    private fun stopRecording() {
+        mediaRecorder?.apply {
+            stop()
+            release()
+        }
+        timer.cancel()
+        _recording.value = Recording(
+            _outputFile.value!!,
+            getCurrentTimestamp("yyyy-MM-dd HH-mm-ss"),
+            _currentTimeCode.value!!,
+            listOf(),
+            _outputFile.value!!
+        )
+        mediaRecorder = null
+        _recordingState.value = RecordingState.STOPPED
+
+    }
+
+    fun controlPauseResumeRecording() {
+        when (_recordingState.value) {
+            RecordingState.RECORDING -> pauseRecording()
+            RecordingState.PAUSED -> resumeRecording()
+            else -> Log.i("RecorderViewModel", "")
         }
     }
 
-    /**
-     * If the RecordingState is RECORDING, the MediaRecorder pauses the current recording
-     * and sets RecordingState to PAUSED, else it will call the function resumeRecording().
-     */
-    fun pauseRecording() {
-        if (_recordingState.value == RecordingState.RECORDING) {
-            mediaRecorder?.pause()
-            _recordingState.value = RecordingState.PAUSED
-        } else if (_recordingState.value == RecordingState.PAUSED) {
-            resumeRecording()
-        }
+    private fun pauseRecording() {
+        mediaRecorder?.pause()
+        _recordingState.value = RecordingState.PAUSED
     }
 
-    /**
-     * Resumes the paused recording and sets the RecordingState to RECORDING.
-     * Starts a new timer and starts with the already passed time.
-     */
     private fun resumeRecording() {
         mediaRecorder?.resume()
-        _recordingState.value = RecordingState.RECORDING
         timer = getCountUpTimer(timePassed).start()
+        _recordingState.value = RecordingState.RECORDING
     }
 
-    /**
-     * Override for onCleared lifecycle hook to release th MediaRecorder object
-     * if the app gets into the background and sets it to null.
-     */
     override fun onCleared() {
         super.onCleared()
         mediaRecorder?.release()

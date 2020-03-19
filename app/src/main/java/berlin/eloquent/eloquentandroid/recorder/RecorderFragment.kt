@@ -28,18 +28,20 @@ class RecorderFragment : Fragment() {
 
 
         viewModel.recordingState.observe(viewLifecycleOwner, Observer {
-            if (it == RecordingState.PAUSED) {
-                binding.pauseRecording.setImageResource(R.drawable.ic_refresh)
-            } else {
-                binding.pauseRecording.setImageResource(R.drawable.ic_pause)
+            when (it) {
+                RecordingState.RECORDING -> {
+                    binding.pauseResumeRecording.setImageResource(R.drawable.ic_pause)
+                    binding.startStopRecording.setImageResource(R.drawable.ic_stop)
+                }
+                RecordingState.PAUSED -> {
+                    binding.pauseResumeRecording.setImageResource(R.drawable.ic_refresh)
+                }
+                RecordingState.STOPPED -> {
+                    val action = RecorderFragmentDirections.nextAction(viewModel.recording.value!!)
+                    findNavController().navigate(action)
+                }
             }
         })
-
-        binding.stopRecording.setOnClickListener {
-            viewModel.stopRecording()
-            val action = RecorderFragmentDirections.nextAction(viewModel.recording.value!!)
-            findNavController().navigate(action)
-        }
 
         return binding.root
     }
