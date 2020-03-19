@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.databinding.AccountFragmentBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 class AccountFragment : Fragment() {
 
@@ -18,26 +17,18 @@ class AccountFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Account"
 
-        /**
-         * Sets a binding object between RecorderFragment and recorder_fragment for better
-         * performance
-         */
+        // Sets a binding object between AccountFragment and account_fragment
+        // for better performance
         val binding = AccountFragmentBinding.inflate(layoutInflater)
 
-        /**
-         * Gets the viewModel object from RecorderViewModel to interact with its
-         * Live Data
-         */
+        // Gets the viewModel object from AccountViewModel to interact with its
+        // Live Data
         viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
-        /**
-         * Binds the viewModel to the layout representation of the viewModel
-         */
+        // Binds the viewModel to the layout representation of the viewModel
         binding.accountViewModel = viewModel
 
-        /**
-         * Sets the RecorderFragment as the lifecycleOwner
-         */
+        // Sets the AccountFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
         return binding.root

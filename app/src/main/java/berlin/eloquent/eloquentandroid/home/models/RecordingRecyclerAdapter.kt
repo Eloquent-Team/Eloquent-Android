@@ -9,8 +9,8 @@ class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     private var items: List<Recording> = ArrayList()
 
-    fun submitList(blogList: List<Recording>) {
-        items = blogList
+    fun submitList(recordingList: List<Recording>) {
+        items = recordingList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

@@ -51,7 +51,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Configures a MediaRecorder object with predefined attributes
+     * Configures a MediaRecorder object with predefined attributes.
      *
      * @return Configured MediaRecorder with:
      *  AudioSource.MIC /
@@ -69,10 +69,9 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Returns the current timestamp in the given pattern as a String
+     * Returns the current timestamp in the given pattern as a String.
      *
-     * @param pattern
-     * @example yyyy-MM-DD or HH-mm-ss
+     * @param pattern like yyyy-MM-DD or HH-mm-ss
      * @return Formatted String in given pattern
      */
     private fun getCurrentTimestamp(pattern: String = ""): String {
@@ -80,11 +79,11 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Returns a CountDownTimer which counts up to display the timecode in the recorder screen
-     * It counts up at the given time
+     * Returns a CountDownTimer which counts up to display the timecode in the recorder screen.
+     * It counts up at the given time.
      *
-     * @param time
-     * @return CountDownTimer with given time
+     * @param time Long.MAX_VALUE when starting from zero or passed time value for restarting from there.
+     * @return CountDownTimer with given time.
      */
     private fun getTimer(time: Long) : CountDownTimer {
         return object: CountDownTimer(time, 1000) {
@@ -103,9 +102,8 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Starts the MediaRecorder object and sets the "isRecording" value to true and the
-     * "recordingPaused" value to false
-     * Starts a new Timer starting at zero which stops when the recording gets paused
+     * Starts the MediaRecorder if the RecordingState is not STOPPED and sets the RecordingState
+     * to RECORDING.
      *
      * @throws IOException
      */
@@ -126,8 +124,8 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * If "isRecording" is true, the MediaRecorder stops the current recording
-     * and releases itself, else nothing will happen
+     * If the RecordingState is not STOPPED, the MediaRecorder stops the current recording
+     * and releases itself.
      */
     fun stopRecording() {
         if (_recordingState.value != RecordingState.STOPPED) {
@@ -142,8 +140,8 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * If "isRecording" is true, the MediaRecorder pauses the current recording
-     * and sets "recordingPaused" to true, else it will call the function resumeRecording()
+     * If the RecordingState is RECORDING, the MediaRecorder pauses the current recording
+     * and sets RecordingState to PAUSED, else it will call the function resumeRecording().
      */
     fun pauseRecording() {
         if (_recordingState.value == RecordingState.RECORDING) {
@@ -155,9 +153,8 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Resumes the paused recording and set "recordingPaused" to false
-     * Starts a new timer and starts with the already passed time and stops when
-     * the recording gets paused
+     * Resumes the paused recording and sets the RecordingState to RECORDING.
+     * Starts a new timer and starts with the already passed time.
      */
     private fun resumeRecording() {
         mediaRecorder?.resume()
@@ -167,7 +164,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
 
     /**
      * Override for onCleared lifecycle hook to release th MediaRecorder object
-     * if the app gets into the background and sets it to null
+     * if the app gets into the background and sets it to null.
      */
     override fun onCleared() {
         super.onCleared()

@@ -2,6 +2,7 @@ package berlin.eloquent.eloquentandroid.player
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -19,28 +20,21 @@ class PlayerFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Player"
         setHasOptionsMenu(true)
 
-        /**
-         * Sets a binding object between RecorderFragment and recorder_fragment for better
-         * performance
-         */
+        // Sets a binding object between PlayerFragment and player_fragment
+        // for better performance
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
 
-        /**
-         * Gets the viewModel object from RecorderViewModel to interact with its
-         * Live Data
-         */
+        // Gets the viewModel object from PlayerViewModel to interact with its
+        // Live Data
         viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
 
-        /**
-         * Binds the viewModel to the layout representation of the viewModel
-         */
+        // Binds the viewModel to the layout representation of the viewModel
         binding.playerViewModel = viewModel
 
-        /**
-         * Sets the RecorderFragment as the lifecycleOwner
-         */
+        // Sets the PlayerFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
         val safeArgs: PlayerFragmentArgs by navArgs()

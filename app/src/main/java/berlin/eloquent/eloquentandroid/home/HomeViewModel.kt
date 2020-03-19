@@ -15,6 +15,9 @@ class HomeViewModel : ViewModel() {
         _recordingAdapter.value = RecordingRecyclerAdapter()
     }
 
+    /**
+     * Adds the dummy set to the RecyclerView
+     */
     fun addDataSet(){
         _recordingAdapter.value?.submitList(DataSource.createDataSet())
     }

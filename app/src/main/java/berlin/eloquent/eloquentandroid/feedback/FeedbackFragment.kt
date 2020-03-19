@@ -15,26 +15,18 @@ class FeedbackFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        /**
-         * Sets a binding object between RecorderFragment and recorder_fragment for better
-         * performance
-         */
+        // Sets a binding object between FeedbackFragment and recorder_fragment
+        // for better performance
         val binding = FeedbackFragmentBinding.inflate(layoutInflater)
 
-        /**
-         * Gets the viewModel object from RecorderViewModel to interact with its
-         * Live Data
-         */
+        // Gets the viewModel object from FeedbackViewModel to interact with its
+        // Live Data
         viewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
 
-        /**
-         * Binds the viewModel to the layout representation of the viewModel
-         */
+        // Binds the viewModel to the layout representation of the viewModel
         binding.feedbackViewModel = viewModel
 
-        /**
-         * Sets the RecorderFragment as the lifecycleOwner
-         */
+        // Sets the FeedbackFragment as the lifecycleOwner
         binding.lifecycleOwner = this
 
         return binding.root
