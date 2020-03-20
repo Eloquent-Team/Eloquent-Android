@@ -83,6 +83,6 @@ class RecorderViewModelTest {
         // Then
         val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
         assertThat(outputFile, not(""))
-    }
+    }*/
 
 }
