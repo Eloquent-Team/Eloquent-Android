@@ -25,10 +25,10 @@ class RecorderViewModelTest {
         recorderViewModel = RecorderViewModel(ApplicationProvider.getApplicationContext())
     }
 
-    /*@Test
-    fun `when startRecording() is called, the RecordingState should be RECORDING`() {
+    @Test
+    fun `when controlStartStopRecording() is called and the RecordingState is NOT_STARTED, the RecordingState should be RECORDING`() {
         // When
-        recorderViewModel.startRecording()
+        recorderViewModel.controlStartStopRecording()
 
         // Then
         val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
@@ -36,12 +36,12 @@ class RecorderViewModelTest {
     }
 
     @Test
-    fun `when stopRecording() is called, the RecordingState should be STOPPED`() {
+    fun `when controlStartStopRecording() is called and the RecordingState is not NOT_STARTED, the RecordingState should be STOPPED`() {
         // Given
-        recorderViewModel.startRecording()
+        recorderViewModel.controlStartStopRecording()
 
         // When
-        recorderViewModel.stopRecording()
+        recorderViewModel.controlStartStopRecording()
 
         // Then
         val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
@@ -49,12 +49,12 @@ class RecorderViewModelTest {
     }
 
     @Test
-    fun `when pauseRecording() is called first, the RecordingState should be PAUSED`() {
+    fun `when controlPauseResumeRecording() is called and the RecordingState is RECORDING, the RecordingState should be PAUSED`() {
         // Given
-        recorderViewModel.startRecording()
+        recorderViewModel.controlStartStopRecording()
 
         // When
-        recorderViewModel.pauseRecording()
+        recorderViewModel.controlPauseResumeRecording()
 
         // Then
         val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
@@ -62,13 +62,13 @@ class RecorderViewModelTest {
     }
 
     @Test
-    fun `when pauseRecording() is called the second time, the RecordingState should be RECORDING`() {
+    fun `when controlPauseResumeRecording() is called and the RecordingState is PAUSED, the RecordingState should be RECORDING`() {
         // Given
-        recorderViewModel.startRecording()
-        recorderViewModel.pauseRecording()
+        recorderViewModel.controlStartStopRecording()
+        recorderViewModel.controlPauseResumeRecording()
 
         // When
-        recorderViewModel.pauseRecording()
+        recorderViewModel.controlPauseResumeRecording()
 
         // Then
         val recordingState = recorderViewModel.recordingState.getOrAwaitValue()
@@ -78,7 +78,7 @@ class RecorderViewModelTest {
     @Test
     fun `when getConfiguredMediaRecorder() is called, the outputFile should be set`() {
         // When
-        recorderViewModel.startRecording()
+        recorderViewModel.controlStartStopRecording()
 
         // Then
         val outputFile = recorderViewModel.outputFile.getOrAwaitValue()
