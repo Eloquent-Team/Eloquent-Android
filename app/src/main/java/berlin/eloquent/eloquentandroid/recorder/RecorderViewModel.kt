@@ -53,8 +53,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
      *  AudioEncoder.AAC
      */
     private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value =
-            getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
+        _outputFile.value = getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
