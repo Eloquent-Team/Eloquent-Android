@@ -4,11 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import berlin.eloquent.eloquentandroid.models.Recording
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.not
-import org.junit.Assert.assertThat
-import org.junit.Test
+import org.hamcrest.text.MatchesPattern
 
+import org.junit.Test
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -27,29 +27,18 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when setOutputFile() is called, outPutFile must not be empty`() {
-        // When
+    fun `when setRecording() is called, timeCodeText should be in correct pattern`() {
+        // Given
         val recording = Recording()
-        recording.fileUrl = "recording_2020-03-20"
+        recording.length = 1234L
+
+        // When
         playerViewModel.setRecording(recording)
 
-        val outputFile = playerViewModel.recording.getOrAwaitValue()
-        assertThat(outputFile.fileUrl, not(""))
-    }
-
-    @Test
-    fun `when startPlayback() is called, the PlayingState should be PLAYING`() {
-        // When
-        playerViewModel.controlPlayback()
-
         // Then
-        val playingState = playerViewModel.playingState.getOrAwaitValue()
-        assertThat(playingState, `is`(PlayingState.PLAYING))
-    }
-
-    @Test
-    fun `when pausePlayback() is called, the PlayingState should be PAUSED`() {
-
+        val timCodeText = playerViewModel.timeCodeText.getOrAwaitValue()
+        val pattern = MatchesPattern.matchesPattern("\\d{2}:\\d{2}") // Buggy, the timeCodeText can be longer than that pattern
+        assertThat(timCodeText, pattern)
     }
 
 }
