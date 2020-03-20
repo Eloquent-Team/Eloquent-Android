@@ -30,7 +30,7 @@ class PlayerViewModelTest {
     fun `when setRecording() is called, timeCodeText should be in correct pattern`() {
         // Given
         val recording = Recording()
-        recording.length = 1234L
+        recording.length = 376L
 
         // When
         playerViewModel.setRecording(recording)

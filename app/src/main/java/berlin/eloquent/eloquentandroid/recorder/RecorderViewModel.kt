@@ -38,7 +38,6 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
     }
 
     init {
-        _recording.value = Recording()
         _recordingState.value = RecordingState.NOT_STARTED
         _currentTimeCode.value = 0L
         _outputFile.value = ""
@@ -140,7 +139,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
         when (_recordingState.value) {
             RecordingState.RECORDING -> pauseRecording()
             RecordingState.PAUSED -> resumeRecording()
-            else -> Log.i("RecorderViewModel", "")
+            else -> Log.i("RecorderViewModel", "not right action")
         }
     }
 

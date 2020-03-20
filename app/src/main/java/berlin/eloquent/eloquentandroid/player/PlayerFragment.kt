@@ -38,11 +38,7 @@ class PlayerFragment : Fragment() {
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             binding.controlPlayback.setImageResource(
-                if (it == PlayingState.PLAYING) {
-                    R.drawable.ic_pause
-                } else {
-                    R.drawable.ic_play_arrow
-                }
+                if (it == PlayingState.PLAYING) R.drawable.ic_pause else R.drawable.ic_play_arrow
             )
         })
 
