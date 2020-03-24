@@ -128,7 +128,6 @@ class RecorderViewModel(val database: RecordingDao, application: Application) : 
         }
         timer.cancel()
         mediaRecorder = null
-        Log.i("Test", "teststststs")
         viewModelScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {

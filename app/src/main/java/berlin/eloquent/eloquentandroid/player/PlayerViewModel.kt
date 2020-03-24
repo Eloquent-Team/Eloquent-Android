@@ -48,7 +48,6 @@ class PlayerViewModel(val database: RecordingDao, application: Application) : An
     }
 
     fun analyzeRecording(newTitle: String, newTags: String) {
-        Log.i("PlayerViewModel", "Analyzing...")
         viewModelScope.launch {
             _recording.value!!.title = newTitle
             _recording.value!!.tags = newTags

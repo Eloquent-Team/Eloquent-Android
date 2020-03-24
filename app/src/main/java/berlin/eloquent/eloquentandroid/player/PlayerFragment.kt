@@ -43,7 +43,6 @@ class PlayerFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val safeArgs: PlayerFragmentArgs by navArgs()
         viewModel.setRecording()
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
@@ -54,7 +53,7 @@ class PlayerFragment : Fragment() {
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
-            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment(viewModel.recording.value!!.recordingId)
+            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
             findNavController().navigate(action)
         }
 

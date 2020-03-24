@@ -1,11 +1,13 @@
 package berlin.eloquent.eloquentandroid.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import berlin.eloquent.eloquentandroid.R
@@ -13,6 +15,7 @@ import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
 import berlin.eloquent.eloquentandroid.feedback.FeedbackViewModel
 import berlin.eloquent.eloquentandroid.feedback.FeedbackViewModelFactory
+import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter
 import berlin.eloquent.eloquentandroid.home.models.SpacingDecoration
 
 class HomeFragment : Fragment() {
@@ -49,14 +52,17 @@ class HomeFragment : Fragment() {
                 binding.sortBySpinner.adapter = adapter
         }
 
+        val recordingRecyclerAdapter = RecordingRecyclerAdapter()
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             val topSpacingDecorator = SpacingDecoration(25, 40, 25, 40)
             addItemDecoration(topSpacingDecorator)
-            adapter = viewModel.recordingAdapter.value
+            adapter = recordingRecyclerAdapter
         }
 
-        viewModel.addDataSet()
+        viewModel.allRecordings.observe(viewLifecycleOwner, Observer {
+            recordingRecyclerAdapter.submitList(ArrayList(it))
+        })
 
         return binding.root
     }

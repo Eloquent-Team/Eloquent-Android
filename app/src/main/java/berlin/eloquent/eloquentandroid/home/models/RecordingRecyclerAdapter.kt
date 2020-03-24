@@ -12,6 +12,7 @@ class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     fun submitList(recordingList: List<Recording>) {
         items = recordingList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

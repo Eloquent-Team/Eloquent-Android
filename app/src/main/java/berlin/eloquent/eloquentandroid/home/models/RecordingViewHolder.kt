@@ -16,4 +16,5 @@ class RecordingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         date.text = recording.date
         length.text = DateUtils.formatElapsedTime(recording.length)
     }
+
 }

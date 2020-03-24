@@ -29,9 +29,6 @@
         android:name="berlin.eloquent.eloquentandroid.player.PlayerFragment"
         android:label="PlayerFragment"
         tools:layout="@layout/player_fragment">
-        <argument
-            android:name="recordingId"
-            app:argType="long" />
         <action
             android:id="@+id/action_playerFragment_to_feedbackFragment"
             app:destination="@id/feedback_dest" />
@@ -41,9 +38,6 @@
         android:name="berlin.eloquent.eloquentandroid.feedback.FeedbackFragment"
         android:label="FeedbackFragment"
         tools:layout="@layout/feedback_fragment">
-        <argument
-            android:name="recordingId"
-            app:argType="long" />
     </fragment>
 
 </navigation>
