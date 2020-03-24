@@ -8,115 +8,129 @@ class DataSource {
             val list = ArrayList<Recording>()
             list.add(
                 Recording(
+                    0L,
                     "Congress for Development",
                     "2020-03-12",
                     31L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "GitHub Test Speech",
                     "2020-03-11",
                     134L,
-                    listOf()
+                    ""
                 )
             )
 
             list.add(
                 Recording(
+                    0L,
                     "Automated Software Testing Assessment",
                     "2020-02-10",
                     1405L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "Help me, this is no joke",
                     "2020-02-09",
                     1209374L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "Help me",
                     "2020-02-09",
                     1293856L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "OMG",
                     "2020-02-09",
                     1382L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "No waayy",
                     "2020-02-09",
                     945L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "How about no?",
                     "2020-02-09",
                     2382L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "Crona is killing my vibe",
                     "2020-02-09",
                     13L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "Germany wants shutdown",
                     "2020-02-09",
                     483L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
-                    "Why, Where, Who?",
-                    "2020-02-09",
-                    61L,
-                    listOf()
-                )
-            )
-            list.add(
-                Recording(
+                    0L,
                     "This way ->",
                     "2020-02-09",
                     42L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
+                    "Why, Where, Who?",
+                    "2020-02-09",
+                    61L,
+                    ""
+                )
+            )
+            list.add(
+                Recording(
+                    0L,
                     "Let's gooo",
                     "2020-02-09",
                     69L,
-                    listOf()
+                    ""
                 )
             )
             list.add(
                 Recording(
+                    0L,
                     "First tryyy First tryyy First tryyy First tryyy First tryyy First tryyy First tryyy",
                     "2020-02-09",
                     123456L,
-                    listOf()
+                    ""
                 )
             )
             return list

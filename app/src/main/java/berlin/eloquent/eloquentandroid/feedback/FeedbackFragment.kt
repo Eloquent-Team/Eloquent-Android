@@ -26,7 +26,7 @@ class FeedbackFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val safeArgs: PlayerFragmentArgs by navArgs()
-        viewModel.setRecording(safeArgs.recording)
+        viewModel.setRecording(safeArgs.recordingId)
 
         return binding.root
     }

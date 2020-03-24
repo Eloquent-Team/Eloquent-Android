@@ -12,9 +12,9 @@ class FeedbackViewModel : ViewModel() {
     private val _recording = MutableLiveData<Recording>()
     val recording: LiveData<Recording> get() = _recording
 
-    fun setRecording(recording: Recording) {
-        _recording.value = recording
-        Log.i("FeedbackViewModel", "${_recording.value!!}")
+    fun setRecording(recordingId: Long) {
+        //_recording.value = recording
+        //Log.i("FeedbackViewModel", "${_recording.value!!}")
     }
 
 }

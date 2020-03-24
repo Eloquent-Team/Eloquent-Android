@@ -19,8 +19,14 @@ data class Recording(
     var length: Long = 0L,
 
     @ColumnInfo(name = "tags")
-    var tags: List<String> = listOf(),
+    var tags: String = "",
 
     @ColumnInfo(name = "file_url")
     var fileUrl: String = ""
-)
+) {
+
+    override fun toString(): String {
+        return "Recording(recordingId=$recordingId, title='$title', date='$date', length=$length, tags='$tags', fileUrl='$fileUrl')"
+    }
+
+}

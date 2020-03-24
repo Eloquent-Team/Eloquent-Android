@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        ArrayAdapter.createFromResource(this.context, R.array.sort_by_options_array , android.R.layout.simple_spinner_item)
+        ArrayAdapter.createFromResource(this.context!!, R.array.sort_by_options_array , android.R.layout.simple_spinner_item)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.sortBySpinner.adapter = adapter

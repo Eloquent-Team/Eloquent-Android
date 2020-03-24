@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import berlin.eloquent.eloquentandroid.R
+import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.databinding.RecorderFragmentBinding
 
 class RecorderFragment : Fragment() {
@@ -20,12 +21,17 @@ class RecorderFragment : Fragment() {
 
         val binding = RecorderFragmentBinding.inflate(layoutInflater)
 
-        viewModel = ViewModelProvider(this).get(RecorderViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = EloquentDatabase.getInstance(application).recordingDao
+
+        val viewModelFactory = RecorderViewModelFactory(dataSource, application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RecorderViewModel::class.java)
 
         binding.recorderViewModel = viewModel
 
         binding.lifecycleOwner = this
-
 
         viewModel.recordingState.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -37,7 +43,7 @@ class RecorderFragment : Fragment() {
                     binding.pauseResumeRecording.setImageResource(R.drawable.ic_refresh)
                 }
                 RecordingState.STOPPED -> {
-                    val action = RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment(viewModel.recording.value!!)
+                    val action = RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment(viewModel.recording.value!!.recordingId)
                     findNavController().navigate(action)
                 }
             }
