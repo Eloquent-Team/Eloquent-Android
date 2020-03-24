@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 
 class FeedbackViewModel : ViewModel() {
 

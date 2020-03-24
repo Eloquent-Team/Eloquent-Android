@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 import java.io.IOException
 
 class PlayerViewModel : ViewModel() {

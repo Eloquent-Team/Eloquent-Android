@@ -3,9 +3,8 @@ package berlin.eloquent.eloquentandroid.player
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import berlin.eloquent.eloquentandroid.getOrAwaitValue
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
 import org.hamcrest.text.MatchesPattern
 
 import org.junit.Test

@@ -6,7 +6,7 @@ import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.*
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset

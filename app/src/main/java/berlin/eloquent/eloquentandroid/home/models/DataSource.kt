@@ -1,6 +1,6 @@
 package berlin.eloquent.eloquentandroid.home.models
 
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 
 class DataSource {
     companion object {

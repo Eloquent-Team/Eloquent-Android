@@ -3,7 +3,7 @@ package berlin.eloquent.eloquentandroid.home.models
 import android.text.format.DateUtils
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 import kotlinx.android.synthetic.main.home_list_item_layout.view.*
 
 class RecordingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
