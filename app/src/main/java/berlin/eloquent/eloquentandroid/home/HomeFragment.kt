@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import berlin.eloquent.eloquentandroid.R
+import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
+import berlin.eloquent.eloquentandroid.feedback.FeedbackViewModel
+import berlin.eloquent.eloquentandroid.feedback.FeedbackViewModelFactory
 import berlin.eloquent.eloquentandroid.home.models.SpacingDecoration
 
 class HomeFragment : Fragment() {
@@ -28,7 +31,13 @@ class HomeFragment : Fragment() {
 
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = EloquentDatabase.getInstance(application).recordingDao
+
+        val viewModelFactory = HomeViewModelFactory(dataSource, application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         binding.homeViewModel = viewModel
 

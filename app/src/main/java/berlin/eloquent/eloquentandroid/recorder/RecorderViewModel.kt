@@ -128,7 +128,7 @@ class RecorderViewModel(val database: RecordingDao, application: Application) : 
         }
         timer.cancel()
         mediaRecorder = null
-
+        Log.i("Test", "teststststs")
         viewModelScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {
@@ -138,7 +138,6 @@ class RecorderViewModel(val database: RecordingDao, application: Application) : 
                 fileUrl = _outputFile.value!!
             }
             insert(_recording.value!!)
-            get()
         }
         _recordingState.value = RecordingState.STOPPED
     }
@@ -146,13 +145,6 @@ class RecorderViewModel(val database: RecordingDao, application: Application) : 
     private suspend fun insert(recording: Recording) {
         withContext(Dispatchers.IO) {
             database.insert(recording)
-        }
-    }
-
-    private suspend fun get() {
-        withContext(Dispatchers.IO) {
-            val recording = database.getNewestRecording()
-            Log.i("RecorderViewModel", recording!!.toString())
         }
     }
 

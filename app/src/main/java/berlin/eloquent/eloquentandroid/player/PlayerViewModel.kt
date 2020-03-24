@@ -34,19 +34,16 @@ class PlayerViewModel(val database: RecordingDao, application: Application) : An
         _playingState.value = PlayingState.STOPPED
     }
 
-    fun setRecording(recordingId: Long) {
-        Log.i("Test", "setRecording called")
+    fun setRecording() {
         viewModelScope.launch {
-            val currentRecording = getRecording(recordingId)
-            Log.i("Test", currentRecording.toString())
-            _recording.value = currentRecording
-            _timeCode.value = currentRecording!!.length
+            _recording.value = getNewestRecording()
+            _timeCode.value = _recording.value!!.length
         }
     }
 
-    private suspend fun getRecording(recordingId: Long): Recording? {
+    private suspend fun getNewestRecording(): Recording? {
         return withContext(Dispatchers.IO) {
-            database.get(recordingId)
+            database.getNewestRecording()
         }
     }
 

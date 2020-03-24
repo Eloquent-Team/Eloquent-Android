@@ -43,9 +43,8 @@ class PlayerFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        Log.i("Test", "Helloooooaoaoökaejsnbf cliaweghuvblauwe")
         val safeArgs: PlayerFragmentArgs by navArgs()
-        viewModel.setRecording(safeArgs.recordingId)
+        viewModel.setRecording()
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             binding.controlPlayback.setImageResource(
