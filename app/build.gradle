@@ -1,9 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
@@ -36,8 +34,8 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    useLibrary 'android.test.runner'
 
+    useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
 }
@@ -53,6 +51,17 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
     implementation 'com.android.support:design:28.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+
+    def lifecycle_version = "2.2.0"
+    // For ViewModelScope
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // For LifecycleScope
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    // For liveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     testImplementation 'junit:junit:4.12'
     testImplementation "androidx.test.ext:junit-ktx:1.1.1"
@@ -68,4 +77,8 @@ dependencies {
     def glide_version = "4.8.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    def dagger_version = "2.25.4"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }

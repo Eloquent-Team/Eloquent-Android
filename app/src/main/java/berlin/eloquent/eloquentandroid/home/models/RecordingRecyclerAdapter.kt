@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import berlin.eloquent.eloquentandroid.R
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
 
 class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -12,6 +12,7 @@ class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     fun submitList(recordingList: List<Recording>) {
         items = recordingList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

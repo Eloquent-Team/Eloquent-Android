@@ -1,5 +1,6 @@
 package berlin.eloquent.eloquentandroid.player
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -7,13 +8,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
+import javax.inject.Inject
 
 class PlayerFragment : Fragment() {
 
-    private lateinit var viewModel: PlayerViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModel: PlayerViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_player_menu, menu)
@@ -27,14 +37,13 @@ class PlayerFragment : Fragment() {
 
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
 
-        viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(PlayerViewModel::class.java)
 
         binding.playerViewModel = viewModel
 
         binding.lifecycleOwner = this
 
-        val safeArgs: PlayerFragmentArgs by navArgs()
-        viewModel.setRecording(safeArgs.recording)
+        viewModel.setRecording()
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             binding.controlPlayback.setImageResource(
@@ -42,9 +51,10 @@ class PlayerFragment : Fragment() {
             )
         })
 
+
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
-            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment(viewModel.recording.value!!)
+            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
             findNavController().navigate(action)
         }
 

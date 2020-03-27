@@ -6,13 +6,20 @@ import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.*
-import berlin.eloquent.eloquentandroid.models.Recording
+import berlin.eloquent.eloquentandroid.database.Recording
+import berlin.eloquent.eloquentandroid.database.RecordingDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class RecorderViewModel(application: Application) : AndroidViewModel(application) {
+class RecorderViewModel @Inject constructor(
+    val database: RecordingDao, val application: Application
+): ViewModel() {
 
     // Attributes
     private var mediaRecorder: MediaRecorder? = null
@@ -52,7 +59,7 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
      *  AudioEncoder.AAC
      */
     private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value = getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_$_timestamp"
+        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${_timestamp.value}"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -123,16 +130,24 @@ class RecorderViewModel(application: Application) : AndroidViewModel(application
             release()
         }
         timer.cancel()
-        _recording.value = Recording(
-            _outputFile.value!!,
-            getCurrentTimestamp("yyyy-MM-dd HH-mm-ss"),
-            _currentTimeCode.value!!,
-            listOf(),
-            _outputFile.value!!
-        )
         mediaRecorder = null
+        viewModelScope.launch {
+            _recording.value = Recording()
+            _recording.value!!.apply {
+                title = _outputFile.value!!
+                date = getCurrentTimestamp("yyyy-MM-dd HH-mm-ss")
+                length = _currentTimeCode.value!!
+                fileUrl = _outputFile.value!!
+            }
+            insert(_recording.value!!)
+        }
         _recordingState.value = RecordingState.STOPPED
+    }
 
+    private suspend fun insert(recording: Recording) {
+        withContext(Dispatchers.IO) {
+            database.insert(recording)
+        }
     }
 
     fun controlPauseResumeRecording() {

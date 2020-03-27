@@ -3,14 +3,16 @@ package berlin.eloquent.eloquentandroid.player
 import android.media.MediaPlayer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import berlin.eloquent.eloquentandroid.models.Recording
+import androidx.lifecycle.*
+import berlin.eloquent.eloquentandroid.database.Recording
+import berlin.eloquent.eloquentandroid.database.RecordingDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
+import javax.inject.Inject
 
-class PlayerViewModel : ViewModel() {
+class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewModel() {
 
     // Attributes
     private lateinit var mediaPlayer: MediaPlayer
@@ -32,15 +34,31 @@ class PlayerViewModel : ViewModel() {
         _playingState.value = PlayingState.STOPPED
     }
 
-    fun setRecording(recording: Recording) {
-        _recording.value = recording
-        _timeCode.value = recording.length
+    fun setRecording() {
+        viewModelScope.launch {
+            _recording.value = getNewestRecording()
+            _timeCode.value = _recording.value!!.length
+        }
+    }
+
+    private suspend fun getNewestRecording(): Recording? {
+        return withContext(Dispatchers.IO) {
+            database.getNewestRecording()
+        }
     }
 
     fun analyzeRecording(newTitle: String, newTags: String) {
-        Log.i("PlayerViewModel", "Analyzing...")
-        _recording.value!!.title = newTitle
-        _recording.value!!.tags = newTags.split(" ")
+        viewModelScope.launch {
+            _recording.value!!.title = newTitle
+            _recording.value!!.tags = newTags
+            update(_recording.value!!)
+        }
+    }
+
+    private suspend fun update(recording: Recording) {
+        withContext(Dispatchers.IO) {
+            database.update(recording)
+        }
     }
 
     private fun setupMediaRecorder(fileUrl: String) {
