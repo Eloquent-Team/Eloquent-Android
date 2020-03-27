@@ -10,12 +10,17 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import berlin.eloquent.eloquentandroid.di.main.MainComponent
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var mainComponent: MainComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        mainComponent = (application as BaseApplication).appComponent.mainComponent().create()
+        mainComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

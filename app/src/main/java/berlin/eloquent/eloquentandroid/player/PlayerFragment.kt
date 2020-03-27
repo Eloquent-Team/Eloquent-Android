@@ -1,23 +1,29 @@
 package berlin.eloquent.eloquentandroid.player
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
-import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
-import berlin.eloquent.eloquentandroid.recorder.RecorderViewModel
-import berlin.eloquent.eloquentandroid.recorder.RecorderViewModelFactory
+import javax.inject.Inject
 
 class PlayerFragment : Fragment() {
 
-    private lateinit var viewModel: PlayerViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModel: PlayerViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_player_menu, menu)
@@ -30,12 +36,6 @@ class PlayerFragment : Fragment() {
         setHasOptionsMenu(true)
 
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
-
-        val application = requireNotNull(this.activity).application
-
-        val dataSource = EloquentDatabase.getInstance(application).recordingDao
-
-        val viewModelFactory = PlayerViewModelFactory(dataSource, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlayerViewModel::class.java)
 
@@ -50,6 +50,7 @@ class PlayerFragment : Fragment() {
                 if (it == PlayingState.PLAYING) R.drawable.ic_pause else R.drawable.ic_play_arrow
             )
         })
+
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())

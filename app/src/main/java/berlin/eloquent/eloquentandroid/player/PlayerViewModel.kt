@@ -1,6 +1,5 @@
 package berlin.eloquent.eloquentandroid.player
 
-import android.app.Application
 import android.media.MediaPlayer
 import android.text.format.DateUtils
 import android.util.Log
@@ -11,8 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import javax.inject.Inject
 
-class PlayerViewModel(val database: RecordingDao, application: Application) : AndroidViewModel(application) {
+class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewModel() {
 
     // Attributes
     private lateinit var mediaPlayer: MediaPlayer

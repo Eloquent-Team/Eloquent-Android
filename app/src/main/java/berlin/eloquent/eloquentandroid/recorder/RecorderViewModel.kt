@@ -15,8 +15,11 @@ import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class RecorderViewModel(val database: RecordingDao, application: Application) : AndroidViewModel(application) {
+class RecorderViewModel @Inject constructor(
+    val database: RecordingDao, val application: Application
+): ViewModel() {
 
     // Attributes
     private var mediaRecorder: MediaRecorder? = null
@@ -56,7 +59,7 @@ class RecorderViewModel(val database: RecordingDao, application: Application) : 
      *  AudioEncoder.AAC
      */
     private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value = getApplication<Application>().getExternalFilesDir(null)?.absolutePath + "/recording_${_timestamp.value}"
+        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${_timestamp.value}"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
