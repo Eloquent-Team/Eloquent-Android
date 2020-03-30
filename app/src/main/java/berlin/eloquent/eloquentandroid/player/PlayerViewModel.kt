@@ -38,6 +38,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
         viewModelScope.launch {
             _recording.value = getNewestRecording()
             _timeCode.value = _recording.value!!.length
+            setupMediaRecorder(_recording.value!!.fileUrl)
         }
     }
 
@@ -67,7 +68,6 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
     }
 
     fun controlPlayback() {
-        setupMediaRecorder(_recording.value!!.fileUrl)
         when (_playingState.value) {
             PlayingState.STOPPED -> startPlayback(mediaPlayer)
             PlayingState.PLAYING -> pausePlayback(mediaPlayer)
@@ -85,19 +85,19 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
                 }
                 start()
             }
-            _playingState.value = PlayingState.PLAYING
             stopPlayback(mediaPlayer)
+            _playingState.value = PlayingState.PLAYING
         }
     }
 
     private fun pausePlayback(mediaPlayer: MediaPlayer) {
-            mediaPlayer.pause()
-            _playingState.value = PlayingState.PAUSED
+        mediaPlayer.pause()
+        _playingState.value = PlayingState.PAUSED
     }
 
     private fun resumePlayback(mediaPlayer: MediaPlayer) {
-            mediaPlayer.start()
-            _playingState.value = PlayingState.PLAYING
+        mediaPlayer.start()
+        _playingState.value = PlayingState.PLAYING
     }
 
     private fun stopPlayback(mediaPlayer: MediaPlayer) {
