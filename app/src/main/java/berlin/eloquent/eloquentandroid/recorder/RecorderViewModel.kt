@@ -17,9 +17,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class RecorderViewModel @Inject constructor(
-    val database: RecordingDao, val application: Application
-): ViewModel() {
+class RecorderViewModel @Inject constructor(val database: RecordingDao, val application: Application) : ViewModel() {
 
     // Attributes
     private var mediaRecorder: MediaRecorder? = null
@@ -100,7 +98,7 @@ class RecorderViewModel @Inject constructor(
             }
 
             override fun onFinish() {}
-        }
+        }.start()
     }
 
     fun controlStartStopRecording() {
@@ -119,7 +117,7 @@ class RecorderViewModel @Inject constructor(
                 Log.e("RecorderFragment", "prepare() failed")
             }
             start()
-            timer = getCountUpTimer(Long.MAX_VALUE).start()
+            timer = getCountUpTimer(Long.MAX_VALUE)
             _recordingState.value = RecordingState.RECORDING
         }
     }
@@ -129,12 +127,12 @@ class RecorderViewModel @Inject constructor(
             stop()
             release()
         }
-        timer.cancel()
         mediaRecorder = null
+        timer.cancel()
         viewModelScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {
-                title = _outputFile.value!!
+                title = "Rec_${_timestamp.value}"
                 date = getCurrentTimestamp("yyyy-MM-dd HH-mm-ss")
                 length = _currentTimeCode.value!!
                 fileUrl = _outputFile.value!!
@@ -165,7 +163,7 @@ class RecorderViewModel @Inject constructor(
 
     private fun resumeRecording() {
         mediaRecorder?.resume()
-        timer = getCountUpTimer(timePassed).start()
+        timer = getCountUpTimer(timePassed)
         _recordingState.value = RecordingState.RECORDING
     }
 

@@ -37,7 +37,6 @@
         android:id="@+id/feedback_dest"
         android:name="berlin.eloquent.eloquentandroid.feedback.FeedbackFragment"
         android:label="FeedbackFragment"
-        tools:layout="@layout/feedback_fragment">
-    </fragment>
+        tools:layout="@layout/feedback_fragment"></fragment>
 
 </navigation>

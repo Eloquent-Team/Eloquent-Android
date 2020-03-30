@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "recording_table")
 data class Recording(
+
     @PrimaryKey(autoGenerate = true)
     var recordingId: Long = 0L,
 

@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.MainActivity
-import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.databinding.FeedbackFragmentBinding
-import berlin.eloquent.eloquentandroid.player.PlayerViewModel
 import javax.inject.Inject
 
 class FeedbackFragment : Fragment() {
@@ -30,11 +28,11 @@ class FeedbackFragment : Fragment() {
 
         val binding = FeedbackFragmentBinding.inflate(layoutInflater)
 
+        binding.lifecycleOwner = this
+
         viewModel = ViewModelProvider(this, viewModelFactory).get(FeedbackViewModel::class.java)
 
         binding.feedbackViewModel = viewModel
-
-        binding.lifecycleOwner = this
 
         viewModel.setRecording()
 

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.databinding.AccountFragmentBinding
-import berlin.eloquent.eloquentandroid.feedback.FeedbackViewModel
 import javax.inject.Inject
 
 class AccountFragment : Fragment() {
@@ -31,11 +30,11 @@ class AccountFragment : Fragment() {
 
         val binding = AccountFragmentBinding.inflate(layoutInflater)
 
+        binding.lifecycleOwner = this
+
         viewModel = ViewModelProvider(this, viewModelFactory).get(AccountViewModel::class.java)
 
         binding.accountViewModel = viewModel
-
-        binding.lifecycleOwner = this
 
         return binding.root
     }
