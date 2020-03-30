@@ -8,7 +8,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
 @Module
 object AppModule{
 
@@ -28,6 +27,5 @@ object AppModule{
     fun provideAuthTokenDao(db: EloquentDatabase): RecordingDao {
         return db.recordingDao()
     }
-
 
 }

@@ -19,10 +19,15 @@ interface MainComponent {
     }
 
     fun inject(mainActivity: MainActivity)
+
     fun inject(recorderFragment: RecorderFragment)
+
     fun inject(homeFragment: HomeFragment)
+
     fun inject(playerFragment: PlayerFragment)
+
     fun inject(feedbackFragment: FeedbackFragment)
+
     fun inject(accountFragment: AccountFragment)
 
 }
