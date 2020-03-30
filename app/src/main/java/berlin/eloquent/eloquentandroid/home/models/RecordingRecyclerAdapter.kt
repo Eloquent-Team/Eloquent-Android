@@ -32,4 +32,5 @@ class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
             }
         }
     }
+
 }

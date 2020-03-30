@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
@@ -41,16 +40,16 @@ class HomeFragment : Fragment() {
 
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
+        binding.lifecycleOwner = this
+
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         binding.homeViewModel = viewModel
 
-        binding.lifecycleOwner = this
-
         ArrayAdapter.createFromResource(this.context!!, R.array.sort_by_options_array , android.R.layout.simple_spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.sortBySpinner.adapter = adapter
+            .also {
+                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.sortBySpinner.adapter = it
         }
 
         val recordingRecyclerAdapter = RecordingRecyclerAdapter()

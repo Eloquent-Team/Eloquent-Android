@@ -2,7 +2,6 @@ package berlin.eloquent.eloquentandroid.recorder
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
-import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.databinding.RecorderFragmentBinding
 import javax.inject.Inject
 
@@ -33,12 +31,11 @@ class RecorderFragment : Fragment() {
 
         val binding = RecorderFragmentBinding.inflate(layoutInflater)
 
+        binding.lifecycleOwner = this
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(RecorderViewModel::class.java)
 
         binding.recorderViewModel = viewModel
-
-        binding.lifecycleOwner = this
 
         viewModel.recordingState.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -53,9 +50,13 @@ class RecorderFragment : Fragment() {
                     val action = RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment()
                     findNavController().navigate(action)
                 }
+                else -> {
+
+                }
             }
         })
 
         return binding.root
     }
+
 }

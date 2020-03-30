@@ -37,11 +37,11 @@ class PlayerFragment : Fragment() {
 
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
 
+        binding.lifecycleOwner = this
+
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlayerViewModel::class.java)
 
         binding.playerViewModel = viewModel
-
-        binding.lifecycleOwner = this
 
         viewModel.setRecording()
 
@@ -50,7 +50,6 @@ class PlayerFragment : Fragment() {
                 if (it == PlayingState.PLAYING) R.drawable.ic_pause else R.drawable.ic_play_arrow
             )
         })
-
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
