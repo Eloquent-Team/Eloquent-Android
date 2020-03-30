@@ -1,6 +1,5 @@
 package berlin.eloquent.eloquentandroid.di.main
 
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.account.AccountViewModel
@@ -15,7 +14,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 abstract class MainViewModelModule{
-
 
     @MainScope
     @Binds
@@ -50,4 +48,5 @@ abstract class MainViewModelModule{
     @IntoMap
     @MainViewModelKey(HomeViewModel::class)
     abstract fun bindHomeFragmentViewModel(homeViewModel: HomeViewModel) : ViewModel
+
 }
