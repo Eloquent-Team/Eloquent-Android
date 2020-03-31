@@ -28,8 +28,6 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     private val _recordingState = MutableLiveData<RecordingState>()
     val recordingState: LiveData<RecordingState> get() = _recordingState
 
-    private val _timestamp = MutableLiveData<String>()
-
     private val _outputFile = MutableLiveData<String>()
     val outputFile: LiveData<String> get() = _outputFile
 
@@ -57,7 +55,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
      *  AudioEncoder.AAC
      */
     private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${_timestamp.value}"
+        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")}"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -88,12 +86,9 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
             override fun onTick(millisUntilFinished: Long) {
                 if (_recordingState.value == RecordingState.PAUSED) {
                     cancel()
-                    Log.i("RecorderViewModel", "timer canceled")
                 } else {
                     _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
-                    Log.i("RecorderViewModel", "${_currentTimeCode.value!!}")
                     timePassed = millisUntilFinished
-                    Log.i("RecorderViewModel", "Timepassed $timePassed")
                 }
             }
 
@@ -109,7 +104,6 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     }
 
     private fun startRecording() {
-        _timestamp.value = getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
         mediaRecorder = getConfiguredMediaRecorder().apply {
             try {
                 prepare()
@@ -132,8 +126,8 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
         viewModelScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {
-                title = "Rec_${_timestamp.value}"
-                date = getCurrentTimestamp("yyyy-MM-dd HH-mm-ss")
+                title = "Rec_${getCurrentTimestamp("yyyy-MM-dd_HH:mm")}"
+                date = getCurrentTimestamp("yyyy-MM-dd HH:mm:ss")
                 length = _currentTimeCode.value!!
                 fileUrl = _outputFile.value!!
             }

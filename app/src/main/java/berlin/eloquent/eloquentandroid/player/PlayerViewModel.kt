@@ -50,7 +50,9 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     fun analyzeRecording(newTitle: String, newTags: String) {
         viewModelScope.launch {
-            _recording.value!!.title = newTitle
+            if (newTitle != "") {
+                _recording.value!!.title = newTitle
+            }
             _recording.value!!.tags = newTags
             update(_recording.value!!)
         }
