@@ -23,6 +23,7 @@ class PlayerFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
+        (activity as AppCompatActivity).supportActionBar?.title = "Player"
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -32,7 +33,6 @@ class PlayerFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Player"
         setHasOptionsMenu(true)
 
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
@@ -53,8 +53,8 @@ class PlayerFragment : Fragment() {
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
-            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
-            findNavController().navigate(action)
+            //val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
+            findNavController().navigate(R.id.action_playerFragment_to_feedbackFragment)
         }
 
         return binding.root
