@@ -5,4 +5,6 @@
     <color name="colorPrimaryDark">#009688</color>
     <color name="colorAccent">#03A9F4</color>
     <color name="colorText">#B5B5B7</color>
+    <color name="link_blue">#2307f7</color>
+    <color name="white">#fff</color>
 </resources>

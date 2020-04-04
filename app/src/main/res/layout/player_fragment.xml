@@ -7,7 +7,7 @@
 
         <variable
             name="playerViewModel"
-            type="berlin.eloquent.eloquentandroid.player.PlayerViewModel" />
+            type="berlin.eloquent.eloquentandroid.main.player.PlayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

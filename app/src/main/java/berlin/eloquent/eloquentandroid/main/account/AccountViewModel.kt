@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.account
+package berlin.eloquent.eloquentandroid.main.account
 
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject

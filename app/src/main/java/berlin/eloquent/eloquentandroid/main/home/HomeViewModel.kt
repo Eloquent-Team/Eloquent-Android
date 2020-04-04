@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.home
+package berlin.eloquent.eloquentandroid.main.home
 
 import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.RecordingDao

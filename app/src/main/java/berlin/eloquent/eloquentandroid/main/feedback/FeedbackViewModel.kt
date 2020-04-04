@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.feedback
+package berlin.eloquent.eloquentandroid.main.feedback
 
 import android.util.Log
 import androidx.lifecycle.LiveData

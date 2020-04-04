@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.recorder
+package berlin.eloquent.eloquentandroid.main.recorder
 
 import android.app.Application
 import android.media.MediaRecorder
@@ -41,7 +41,8 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     }
 
     init {
-        _recordingState.value = RecordingState.NOT_STARTED
+        _recordingState.value =
+            RecordingState.NOT_STARTED
         _currentTimeCode.value = 0L
         _outputFile.value = ""
     }
@@ -112,7 +113,8 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
             }
             start()
             timer = getCountUpTimer(Long.MAX_VALUE)
-            _recordingState.value = RecordingState.RECORDING
+            _recordingState.value =
+                RecordingState.RECORDING
         }
     }
 
@@ -133,7 +135,8 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
             }
             insert(_recording.value!!)
         }
-        _recordingState.value = RecordingState.STOPPED
+        _recordingState.value =
+            RecordingState.STOPPED
     }
 
     private suspend fun insert(recording: Recording) {
@@ -152,13 +155,15 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
 
     private fun pauseRecording() {
         mediaRecorder?.pause()
-        _recordingState.value = RecordingState.PAUSED
+        _recordingState.value =
+            RecordingState.PAUSED
     }
 
     private fun resumeRecording() {
         mediaRecorder?.resume()
         timer = getCountUpTimer(timePassed)
-        _recordingState.value = RecordingState.RECORDING
+        _recordingState.value =
+            RecordingState.RECORDING
     }
 
     override fun onCleared() {

@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import berlin.eloquent.eloquentandroid.getOrAwaitValue
+import berlin.eloquent.eloquentandroid.main.recorder.RecorderViewModel
+import berlin.eloquent.eloquentandroid.main.recorder.RecordingState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
@@ -22,7 +24,10 @@ class RecorderViewModelTest {
 
     @Before
     fun setupViewModel() {
-        recorderViewModel = RecorderViewModel(ApplicationProvider.getApplicationContext())
+        recorderViewModel =
+            RecorderViewModel(
+                ApplicationProvider.getApplicationContext()
+            )
     }
 
     @Test

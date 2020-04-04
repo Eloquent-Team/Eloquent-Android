@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.home
+package berlin.eloquent.eloquentandroid.main.home
 
 import android.content.Context
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
-import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter
-import berlin.eloquent.eloquentandroid.home.models.SpacingDecoration
+import berlin.eloquent.eloquentandroid.main.home.models.RecordingRecyclerAdapter
+import berlin.eloquent.eloquentandroid.main.home.models.SpacingDecoration
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
@@ -52,10 +52,17 @@ class HomeFragment : Fragment() {
                 binding.sortBySpinner.adapter = it
         }
 
-        val recordingRecyclerAdapter = RecordingRecyclerAdapter()
+        val recordingRecyclerAdapter =
+            RecordingRecyclerAdapter()
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
-            val topSpacingDecorator = SpacingDecoration(25, 40, 25, 40)
+            val topSpacingDecorator =
+                SpacingDecoration(
+                    25,
+                    40,
+                    25,
+                    40
+                )
             addItemDecoration(topSpacingDecorator)
             adapter = recordingRecyclerAdapter
         }

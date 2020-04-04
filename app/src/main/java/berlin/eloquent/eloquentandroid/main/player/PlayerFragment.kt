@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.player
+package berlin.eloquent.eloquentandroid.main.player
 
 import android.content.Context
 import android.os.Bundle
@@ -53,7 +53,8 @@ class PlayerFragment : Fragment() {
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
-            val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
+            val action =
+                PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
             findNavController().navigate(action)
         }
 

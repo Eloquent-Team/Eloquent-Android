@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.home.models
+package berlin.eloquent.eloquentandroid.main.home.models
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,7 +17,11 @@ class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RecordingViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.home_list_item_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.home_list_item_layout,
+                parent,
+                false
+            )
         )
     }
 

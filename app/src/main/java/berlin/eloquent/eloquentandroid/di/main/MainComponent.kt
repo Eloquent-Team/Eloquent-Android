@@ -1,12 +1,12 @@
 package berlin.eloquent.eloquentandroid.di.main
 
 import berlin.eloquent.eloquentandroid.MainActivity
-import berlin.eloquent.eloquentandroid.account.AccountFragment
+import berlin.eloquent.eloquentandroid.main.account.AccountFragment
 import berlin.eloquent.eloquentandroid.di.scopes.MainScope
-import berlin.eloquent.eloquentandroid.feedback.FeedbackFragment
-import berlin.eloquent.eloquentandroid.home.HomeFragment
-import berlin.eloquent.eloquentandroid.player.PlayerFragment
-import berlin.eloquent.eloquentandroid.recorder.RecorderFragment
+import berlin.eloquent.eloquentandroid.main.feedback.FeedbackFragment
+import berlin.eloquent.eloquentandroid.main.home.HomeFragment
+import berlin.eloquent.eloquentandroid.main.player.PlayerFragment
+import berlin.eloquent.eloquentandroid.main.recorder.RecorderFragment
 import dagger.Subcomponent
 
 @MainScope

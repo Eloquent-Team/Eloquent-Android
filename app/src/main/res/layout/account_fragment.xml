@@ -7,7 +7,7 @@
 
         <variable
             name="accountViewModel"
-            type="berlin.eloquent.eloquentandroid.account.AccountViewModel" />
+            type="berlin.eloquent.eloquentandroid.main.account.AccountViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.recorder
+package berlin.eloquent.eloquentandroid.main.recorder
 
 import android.content.Context
 import android.os.Bundle
@@ -47,7 +47,8 @@ class RecorderFragment : Fragment() {
                     binding.pauseResumeRecording.setImageResource(R.drawable.ic_refresh)
                 }
                 RecordingState.STOPPED -> {
-                    val action = RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment()
+                    val action =
+                        RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment()
                     findNavController().navigate(action)
                 }
                 else -> {

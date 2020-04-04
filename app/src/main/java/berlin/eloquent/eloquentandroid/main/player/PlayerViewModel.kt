@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.player
+package berlin.eloquent.eloquentandroid.main.player
 
 import android.media.MediaPlayer
 import android.text.format.DateUtils
@@ -31,7 +31,8 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
     }
 
     init {
-        _playingState.value = PlayingState.STOPPED
+        _playingState.value =
+            PlayingState.STOPPED
     }
 
     fun setRecording() {
@@ -88,24 +89,28 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
                 start()
             }
             stopPlayback(mediaPlayer)
-            _playingState.value = PlayingState.PLAYING
+            _playingState.value =
+                PlayingState.PLAYING
         }
     }
 
     private fun pausePlayback(mediaPlayer: MediaPlayer) {
         mediaPlayer.pause()
-        _playingState.value = PlayingState.PAUSED
+        _playingState.value =
+            PlayingState.PAUSED
     }
 
     private fun resumePlayback(mediaPlayer: MediaPlayer) {
         mediaPlayer.start()
-        _playingState.value = PlayingState.PLAYING
+        _playingState.value =
+            PlayingState.PLAYING
     }
 
     private fun stopPlayback(mediaPlayer: MediaPlayer) {
         mediaPlayer.setOnCompletionListener {
             it.stop()
-            _playingState.value = PlayingState.STOPPED
+            _playingState.value =
+                PlayingState.STOPPED
         }
     }
 
