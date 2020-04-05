@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryLight"
-    android:name="berlin.eloquent.eloquentandroid.auth.login.LoginFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.AuthActivity"
-    android:id="@+id/fragment_container">
+    android:id="@+id/fragment_container"
+    app:navGraph="@navigation/auth_navigation"
+    android:name="androidx.navigation.fragment.NavHostFragment">
 
 </androidx.fragment.app.FragmentContainerView>
