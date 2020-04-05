@@ -73,10 +73,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
             android:padding="8dp"
-            android:src="@drawable/ic_sound_bars"
+            android:src="@drawable/ic_arrow_forward"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/pauseResumeRecording"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

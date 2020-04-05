@@ -2,6 +2,7 @@ package berlin.eloquent.eloquentandroid.player
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ class PlayerFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        Log.i("Screen Player", "view created")
         setHasOptionsMenu(true)
 
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
@@ -53,8 +55,8 @@ class PlayerFragment : Fragment() {
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
-            //val action = PlayerFragmentDirections.actionPlayerFragmentToFeedbackFragment()
             findNavController().navigate(R.id.action_playerFragment_to_feedbackFragment)
+            onDestroy()
         }
 
         return binding.root

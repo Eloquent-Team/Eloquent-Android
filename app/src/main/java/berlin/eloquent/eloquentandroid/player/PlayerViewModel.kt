@@ -37,6 +37,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
     fun setRecording() {
         viewModelScope.launch {
             _recording.value = getNewestRecording()
+            Log.i("Screen Player", "${_recording.value!!.recordingId}")
             _timeCode.value = _recording.value!!.length
             setupMediaRecorder(_recording.value!!.fileUrl)
         }
@@ -83,7 +84,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
                 try {
                     prepare()
                 } catch (e: IOException) {
-                    Log.e("PlayerFragment", "prepare() failed")
+                    Log.e("Screen Player", "prepare() failed")
                 }
                 start()
             }
@@ -107,6 +108,11 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
             it.stop()
             _playingState.value = PlayingState.STOPPED
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.i("Screen Player", "cleared")
     }
 
 }

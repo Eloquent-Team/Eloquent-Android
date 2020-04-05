@@ -46,6 +46,12 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
         _outputFile.value = ""
     }
 
+    fun resetViewModel() {
+        _recordingState.value = RecordingState.NOT_STARTED
+        _currentTimeCode.value = 0L
+        _outputFile.value = ""
+    }
+
     /**
      * Configures a MediaRecorder object with predefined attributes.
      *
@@ -108,7 +114,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
             try {
                 prepare()
             } catch (e: IOException) {
-                Log.e("RecorderFragment", "prepare() failed")
+                Log.e("ViewModel Recorder", "prepare() failed")
             }
             start()
             timer = getCountUpTimer(Long.MAX_VALUE)
@@ -146,7 +152,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
         when (_recordingState.value) {
             RecordingState.RECORDING -> pauseRecording()
             RecordingState.PAUSED -> resumeRecording()
-            else -> Log.i("RecorderViewModel", "not right action")
+            else -> Log.i("ViewModel Recorder", "not right action")
         }
     }
 
