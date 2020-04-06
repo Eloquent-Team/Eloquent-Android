@@ -41,7 +41,6 @@ class HomeFragment : Fragment(), OnRecordingListener {
         super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
 
-
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
