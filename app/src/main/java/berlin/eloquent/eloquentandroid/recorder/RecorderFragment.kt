@@ -59,9 +59,7 @@ class RecorderFragment : Fragment() {
                     binding.pauseResumeRecording.visibility = View.GONE
                     binding.navigate.visibility = View.VISIBLE
                 }
-                else -> {
-
-                }
+                else -> {}
             }
         })
 

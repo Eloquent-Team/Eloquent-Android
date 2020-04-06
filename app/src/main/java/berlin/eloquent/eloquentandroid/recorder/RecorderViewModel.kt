@@ -43,6 +43,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     private val _createdRecordingId = MutableLiveData<Long>()
     val createdRecordingId: LiveData<Long> get() = _createdRecordingId
 
+
     init {
         _recordingState.value = RecordingState.NOT_STARTED
         _currentTimeCode.value = 0L

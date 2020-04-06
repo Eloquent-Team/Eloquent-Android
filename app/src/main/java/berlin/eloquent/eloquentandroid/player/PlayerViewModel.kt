@@ -44,7 +44,6 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
     fun setRecording(recordingId: Long) {
         coroutineScope.launch {
             _recording.value = getRecording(recordingId)
-            Log.i("Screen Player", "${_recording.value!!.recordingId}")
             _timeCode.value = _recording.value!!.length
             setupMediaRecorder(_recording.value!!.fileUrl)
         }
