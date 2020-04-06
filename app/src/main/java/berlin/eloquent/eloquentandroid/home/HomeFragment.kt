@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
@@ -36,9 +37,10 @@ class HomeFragment : Fragment(), OnRecordingListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Home"
+        super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
+
 
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
@@ -66,15 +68,11 @@ class HomeFragment : Fragment(), OnRecordingListener {
             recordingRecyclerAdapter.submitList(ArrayList(it))
         })
 
-
-
         return binding.root
     }
 
     override fun onClick(position: Int) {
-        val recId = viewModel.allRecordings.value!![position].recordingId
-        Log.i("Screen Home", recId.toString())
-
+        findNavController().navigate(HomeFragmentDirections.actionHomeDestToPlayerDest(viewModel.allRecordings.value!![position].recordingId))
     }
 
 }

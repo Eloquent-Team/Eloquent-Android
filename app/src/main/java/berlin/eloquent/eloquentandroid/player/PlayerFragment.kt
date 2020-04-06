@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
+import berlin.eloquent.eloquentandroid.feedback.FeedbackFragmentArgs
 import javax.inject.Inject
 
 class PlayerFragment : Fragment() {
@@ -21,10 +23,12 @@ class PlayerFragment : Fragment() {
     @Inject
     lateinit var viewModel: PlayerViewModel
 
+    // Attributes
+    private val args: PlayerFragmentArgs by navArgs()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
-        (activity as AppCompatActivity).supportActionBar?.title = "Player"
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -33,8 +37,8 @@ class PlayerFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        (activity as AppCompatActivity).supportActionBar?.title = "Player"
         super.onCreateView(inflater, container, savedInstanceState)
-        Log.i("Screen Player", "view created")
         setHasOptionsMenu(true)
 
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
@@ -45,7 +49,10 @@ class PlayerFragment : Fragment() {
 
         binding.playerViewModel = viewModel
 
-        viewModel.setRecording()
+        viewModel.setRecording(args.recordingId)
+
+        binding.recordingTitle.setText(viewModel.recording.value!!.title)
+        binding.recordingTags.setText(viewModel.recording.value!!.tags)
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             binding.controlPlayback.setImageResource(
@@ -55,7 +62,7 @@ class PlayerFragment : Fragment() {
 
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
-            findNavController().navigate(R.id.action_playerFragment_to_feedbackFragment)
+            findNavController().navigate(PlayerFragmentDirections.actionPlayerDestToFeedbackDest(args.recordingId))
             onDestroy()
         }
 

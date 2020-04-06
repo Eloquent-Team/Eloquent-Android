@@ -8,9 +8,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
@@ -20,6 +18,8 @@ import javax.inject.Inject
 class RecorderViewModel @Inject constructor(val database: RecordingDao, val application: Application) : ViewModel() {
 
     // Attributes
+    // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
@@ -39,6 +39,9 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     val timeCodeText: LiveData<String> = Transformations.map(_currentTimeCode) { time ->
         DateUtils.formatElapsedTime(time)
     }
+
+    private val _createdRecordingId = MutableLiveData<Long>()
+    val createdRecordingId: LiveData<Long> get() = _createdRecordingId
 
     init {
         _recordingState.value = RecordingState.NOT_STARTED
@@ -129,7 +132,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
         }
         mediaRecorder = null
         timer.cancel()
-        viewModelScope.launch {
+        coroutineScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {
                 title = "Rec_${getCurrentTimestamp("yyyy-MM-dd_HH:mm")}"
@@ -138,6 +141,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
                 fileUrl = _outputFile.value!!
             }
             insert(_recording.value!!)
+            _createdRecordingId.value = getNewestRecording()!!.recordingId
         }
         _recordingState.value = RecordingState.STOPPED
     }
@@ -145,6 +149,12 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     private suspend fun insert(recording: Recording) {
         withContext(Dispatchers.IO) {
             database.insert(recording)
+        }
+    }
+
+    private suspend fun getNewestRecording(): Recording? {
+        return withContext(Dispatchers.IO) {
+            database.getNewestRecording()
         }
     }
 

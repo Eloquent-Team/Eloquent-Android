@@ -26,12 +26,12 @@ class RecorderFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
-        (activity as AppCompatActivity).supportActionBar?.title = "Recorder"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        (activity as AppCompatActivity).supportActionBar?.title = "Recorder"
         super.onCreateView(inflater, container, savedInstanceState)
-        Log.i("Screen Recorder", "view created")
+
         val binding = RecorderFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
@@ -66,7 +66,7 @@ class RecorderFragment : Fragment() {
         })
 
         binding.navigate.setOnClickListener {
-            findNavController().navigate(RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment())
+            findNavController().navigate(RecorderFragmentDirections.actionRecorderDestToPlayerDest(viewModel.createdRecordingId.value!!))
         }
 
         return binding.root
@@ -75,7 +75,6 @@ class RecorderFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.resetViewModel()
-        Log.i("Screen Recorder", "view destroyed")
     }
 
 }

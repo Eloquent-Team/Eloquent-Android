@@ -30,24 +30,8 @@ class MainActivity : AppCompatActivity() {
             setupBottomNavigationBar()
         }
 
-        /*val navView: BottomNavigationView = binding.bottomNavView
-        val host: NavHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment? ?: return
-        val navController = host.navController
-        navView.setupWithNavController(navController)
-
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.home_dest, R.id.recorder_dest, R.id.account_dest))
-        setupActionBarWithNavController(navController, appBarConfiguration)*/
-
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
-            && ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             val permissions = arrayOf(
                 Manifest.permission.RECORD_AUDIO,

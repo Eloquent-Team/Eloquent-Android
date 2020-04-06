@@ -11,7 +11,7 @@
         android:label="RecorderFragment"
         tools:layout="@layout/recorder_fragment">
         <action
-            android:id="@+id/action_recorderFragment_to_playerFragment"
+            android:id="@+id/action_recorder_dest_to_player_dest"
             app:destination="@id/player_dest" />
     </fragment>
 
@@ -21,14 +21,24 @@
         android:label="PlayerFragment"
         tools:layout="@layout/player_fragment">
         <action
-            android:id="@+id/action_playerFragment_to_feedbackFragment"
+            android:id="@+id/action_player_dest_to_feedback_dest"
             app:destination="@id/feedback_dest"
-            app:popUpTo="@id/recorder_dest" />
+            app:popUpTo="@id/recorder_dest"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="recordingId"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 
     <fragment
         android:id="@+id/feedback_dest"
         android:name="berlin.eloquent.eloquentandroid.feedback.FeedbackFragment"
         android:label="FeedbackFragment"
-        tools:layout="@layout/feedback_fragment" />
+        tools:layout="@layout/feedback_fragment">
+        <argument
+            android:name="recordingId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
 </navigation>
