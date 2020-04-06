@@ -23,8 +23,6 @@ class PlayerFragment : Fragment() {
     @Inject
     lateinit var viewModel: PlayerViewModel
 
-    // Attributes
-    private val args: PlayerFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,10 +47,12 @@ class PlayerFragment : Fragment() {
 
         binding.playerViewModel = viewModel
 
+        val args: PlayerFragmentArgs by navArgs()
         viewModel.setRecording(args.recordingId)
 
-        binding.recordingTitle.setText(viewModel.recording.value!!.title)
-        binding.recordingTags.setText(viewModel.recording.value!!.tags)
+        val recording = viewModel.recording.value!!
+        binding.recordingTitle.setText(recording.title)
+        binding.recordingTags.setText(recording.tags)
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             binding.controlPlayback.setImageResource(
@@ -63,7 +63,6 @@ class PlayerFragment : Fragment() {
         binding.analyzeRecording.setOnClickListener {
             viewModel.analyzeRecording(binding.recordingTitle.text.toString(), binding.recordingTags.text.toString())
             findNavController().navigate(PlayerFragmentDirections.actionPlayerDestToFeedbackDest(args.recordingId))
-            onDestroy()
         }
 
         return binding.root

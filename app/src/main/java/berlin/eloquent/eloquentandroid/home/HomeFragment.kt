@@ -2,7 +2,6 @@ package berlin.eloquent.eloquentandroid.home
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -15,16 +14,17 @@ import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
 import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter
-import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter.OnRecordingListener
+import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter.OnRecordingClickListener
 import berlin.eloquent.eloquentandroid.home.models.SpacingDecoration
 import javax.inject.Inject
 
-class HomeFragment : Fragment(), OnRecordingListener {
+class HomeFragment : Fragment(), OnRecordingClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var viewModel: HomeViewModel
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

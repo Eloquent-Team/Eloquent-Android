@@ -19,6 +19,7 @@ class AccountFragment : Fragment() {
     @Inject
     lateinit var viewModel: AccountViewModel
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)

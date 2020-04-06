@@ -31,17 +31,17 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     private val _outputFile = MutableLiveData<String>()
     val outputFile: LiveData<String> get() = _outputFile
 
-    private val _currentTimeCode = MutableLiveData<Long>()
-
     private val _recording = MutableLiveData<Recording>()
     val recording: LiveData<Recording> get() = _recording
+
+    private val _createdRecordingId = MutableLiveData<Long>()
+    val createdRecordingId: LiveData<Long> get() = _createdRecordingId
+
+    private val _currentTimeCode = MutableLiveData<Long>()
 
     val timeCodeText: LiveData<String> = Transformations.map(_currentTimeCode) { time ->
         DateUtils.formatElapsedTime(time)
     }
-
-    private val _createdRecordingId = MutableLiveData<Long>()
-    val createdRecordingId: LiveData<Long> get() = _createdRecordingId
 
 
     init {
@@ -149,7 +149,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
 
     private suspend fun insert(recording: Recording) {
         withContext(Dispatchers.IO) {
-            database.insert(recording)
+            database.insertRecording(recording)
         }
     }
 

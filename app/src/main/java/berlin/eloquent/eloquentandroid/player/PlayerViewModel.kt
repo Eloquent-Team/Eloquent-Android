@@ -3,8 +3,6 @@ package berlin.eloquent.eloquentandroid.player
 import android.media.MediaPlayer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -31,8 +29,8 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     private val _timeCode = MutableLiveData<Long>()
 
-    val timeCodeText: LiveData<String> = Transformations.map(_timeCode) { time ->
-        DateUtils.formatElapsedTime(time)
+    val timeCodeText: LiveData<String> = Transformations.map(_timeCode) {
+        DateUtils.formatElapsedTime(it)
     }
 
 
@@ -51,7 +49,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     private suspend fun getRecording(recordingId: Long): Recording {
         return withContext(Dispatchers.IO) {
-            database.get(recordingId)
+            database.getRecording(recordingId)
         }
     }
 
@@ -67,7 +65,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     private suspend fun update(recording: Recording) {
         withContext(Dispatchers.IO) {
-            database.update(recording)
+            database.updateRecording(recording)
         }
     }
 
@@ -87,11 +85,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
     private fun startPlayback(mediaPlayer: MediaPlayer) {
         if (_recording.value!!.fileUrl.isNotBlank()) {
             mediaPlayer.apply {
-                try {
-                    prepare()
-                } catch (e: IOException) {
-                    Log.e("Screen Player", "prepare() failed")
-                }
+                prepare()
                 start()
             }
             stopPlayback(mediaPlayer)

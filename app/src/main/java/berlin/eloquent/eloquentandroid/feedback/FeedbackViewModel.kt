@@ -1,6 +1,5 @@
 package berlin.eloquent.eloquentandroid.feedback
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +27,7 @@ class FeedbackViewModel @Inject constructor(val database: RecordingDao) : ViewMo
 
     private suspend fun getRecording(recordingId: Long): Recording? {
         return withContext(Dispatchers.IO) {
-            database.get(recordingId)
+            database.getRecording(recordingId)
         }
     }
 

@@ -7,16 +7,16 @@ import androidx.room.*
 interface RecordingDao {
 
     @Insert
-    fun insert(recording: Recording)
+    fun insertRecording(recording: Recording)
 
     @Update
-    fun update(recording: Recording)
+    fun updateRecording(recording: Recording)
 
     @Delete
-    fun delete(recording: Recording)
+    fun deleteRecording(recording: Recording)
 
     @Query(value = "SELECT * FROM recording_table WHERE recordingId = :id")
-    fun get(id: Long): Recording
+    fun getRecording(id: Long): Recording
 
     @Query(value = "SELECT * FROM recording_table ORDER BY recordingId DESC")
     fun getAllRecordings(): LiveData<List<Recording>>

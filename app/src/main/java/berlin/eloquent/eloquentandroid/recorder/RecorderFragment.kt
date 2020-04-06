@@ -2,7 +2,6 @@ package berlin.eloquent.eloquentandroid.recorder
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ class RecorderFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var viewModel: RecorderViewModel
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

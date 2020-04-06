@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.database.Recording
 
-class RecordingRecyclerAdapter(private val onRecordingListener: OnRecordingListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecordingRecyclerAdapter(private val onRecordingClickListener: OnRecordingClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var recordingList: List<Recording> = ArrayList()
 
@@ -18,7 +18,7 @@ class RecordingRecyclerAdapter(private val onRecordingListener: OnRecordingListe
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RecordingViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.home_list_item_layout, parent, false),
-            onRecordingListener
+            onRecordingClickListener
         )
     }
 
@@ -34,7 +34,7 @@ class RecordingRecyclerAdapter(private val onRecordingListener: OnRecordingListe
         }
     }
 
-    interface OnRecordingListener {
+    interface OnRecordingClickListener {
         fun onClick(position: Int)
     }
 

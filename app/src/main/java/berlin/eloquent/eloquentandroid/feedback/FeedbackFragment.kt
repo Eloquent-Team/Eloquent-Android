@@ -20,8 +20,6 @@ class FeedbackFragment : Fragment() {
     @Inject
     lateinit var viewModel: FeedbackViewModel
 
-    // Attributes
-    private val args: FeedbackFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,6 +38,7 @@ class FeedbackFragment : Fragment() {
 
         binding.feedbackViewModel = viewModel
 
+        val args: FeedbackFragmentArgs by navArgs()
         viewModel.setRecording(args.recordingId)
 
         return binding.root
