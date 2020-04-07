@@ -19,14 +19,15 @@ class AccountFragment : Fragment() {
     @Inject
     lateinit var viewModel: AccountViewModel
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Account"
+        super.onCreateView(inflater, container, savedInstanceState)
 
         val binding = AccountFragmentBinding.inflate(layoutInflater)
 

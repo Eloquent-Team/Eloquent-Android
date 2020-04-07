@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryLight">
-
+        android:background="@color/colorPrimaryLight"
+        tools:context="berlin.eloquent.eloquentandroid.player.PlayerFragment">
 
         <ImageButton
             android:id="@+id/controlPlayback"
@@ -63,13 +63,16 @@
 
         <EditText
             android:id="@+id/recordingTags"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/textedit_background"
             android:ems="10"
             android:hint="Tags"
             android:inputType="textPersonName"
+            android:text="@={playerViewModel.recording.tags}"
             android:textAlignment="center"
             android:textColor="@color/colorText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,13 +81,16 @@
 
         <EditText
             android:id="@+id/recordingTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/textedit_background"
             android:ems="10"
             android:hint="Title"
             android:inputType="textPersonName"
+            android:text="@={playerViewModel.recording.title}"
             android:textAlignment="center"
             android:textColor="@color/colorText"
             android:textSize="20sp"
@@ -97,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="Save recording"
+            android:text="Play recording"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/timeCodeSize"
             app:layout_constraintEnd_toEndOf="parent"

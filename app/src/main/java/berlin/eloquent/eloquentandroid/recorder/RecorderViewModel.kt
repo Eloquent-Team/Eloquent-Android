@@ -8,9 +8,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
@@ -20,6 +18,8 @@ import javax.inject.Inject
 class RecorderViewModel @Inject constructor(val database: RecordingDao, val application: Application) : ViewModel() {
 
     // Attributes
+    // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
@@ -31,16 +31,26 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
     private val _outputFile = MutableLiveData<String>()
     val outputFile: LiveData<String> get() = _outputFile
 
-    private val _currentTimeCode = MutableLiveData<Long>()
-
     private val _recording = MutableLiveData<Recording>()
     val recording: LiveData<Recording> get() = _recording
+
+    private val _createdRecordingId = MutableLiveData<Long>()
+    val createdRecordingId: LiveData<Long> get() = _createdRecordingId
+
+    private val _currentTimeCode = MutableLiveData<Long>()
 
     val timeCodeText: LiveData<String> = Transformations.map(_currentTimeCode) { time ->
         DateUtils.formatElapsedTime(time)
     }
 
+
     init {
+        _recordingState.value = RecordingState.NOT_STARTED
+        _currentTimeCode.value = 0L
+        _outputFile.value = ""
+    }
+
+    fun resetViewModel() {
         _recordingState.value = RecordingState.NOT_STARTED
         _currentTimeCode.value = 0L
         _outputFile.value = ""
@@ -108,7 +118,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
             try {
                 prepare()
             } catch (e: IOException) {
-                Log.e("RecorderFragment", "prepare() failed")
+                Log.e("ViewModel Recorder", "prepare() failed")
             }
             start()
             timer = getCountUpTimer(Long.MAX_VALUE)
@@ -123,7 +133,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
         }
         mediaRecorder = null
         timer.cancel()
-        viewModelScope.launch {
+        coroutineScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {
                 title = "Rec_${getCurrentTimestamp("yyyy-MM-dd_HH:mm")}"
@@ -132,13 +142,20 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
                 fileUrl = _outputFile.value!!
             }
             insert(_recording.value!!)
+            _createdRecordingId.value = getNewestRecording()!!.recordingId
         }
         _recordingState.value = RecordingState.STOPPED
     }
 
     private suspend fun insert(recording: Recording) {
         withContext(Dispatchers.IO) {
-            database.insert(recording)
+            database.insertRecording(recording)
+        }
+    }
+
+    private suspend fun getNewestRecording(): Recording? {
+        return withContext(Dispatchers.IO) {
+            database.getNewestRecording()
         }
     }
 
@@ -146,7 +163,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
         when (_recordingState.value) {
             RecordingState.RECORDING -> pauseRecording()
             RecordingState.PAUSED -> resumeRecording()
-            else -> Log.i("RecorderViewModel", "not right action")
+            else -> Log.i("ViewModel Recorder", "not right action")
         }
     }
 

@@ -24,10 +24,11 @@ data class Recording(
 
     @ColumnInfo(name = "file_url")
     var fileUrl: String = ""
+
 ) {
 
     override fun toString(): String {
-        return "Recording(recordingId=$recordingId, title='$title', date='$date', length=$length, tags='$tags', fileUrl='$fileUrl')"
+        return "ID:$recordingId | TITLE:$title | DATE:$date | length:$length | tags:$tags | fileUrl:$fileUrl"
     }
 
 }

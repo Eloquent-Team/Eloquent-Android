@@ -8,20 +8,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
 import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter
+import berlin.eloquent.eloquentandroid.home.models.RecordingRecyclerAdapter.OnRecordingClickListener
 import berlin.eloquent.eloquentandroid.home.models.SpacingDecoration
 import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnRecordingClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var viewModel: HomeViewModel
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,8 +37,8 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Home"
+        super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
 
         val binding = HomeFragmentBinding.inflate(layoutInflater)
@@ -52,7 +55,7 @@ class HomeFragment : Fragment() {
                 binding.sortBySpinner.adapter = it
         }
 
-        val recordingRecyclerAdapter = RecordingRecyclerAdapter()
+        val recordingRecyclerAdapter = RecordingRecyclerAdapter(this)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             val topSpacingDecorator = SpacingDecoration(25, 40, 25, 40)
@@ -65,6 +68,10 @@ class HomeFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onClick(position: Int) {
+        findNavController().navigate(HomeFragmentDirections.actionHomeDestToPlayerDest(viewModel.allRecordings.value!![position].recordingId))
     }
 
 }

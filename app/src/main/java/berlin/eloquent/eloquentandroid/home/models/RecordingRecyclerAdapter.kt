@@ -6,31 +6,36 @@ import androidx.recyclerview.widget.RecyclerView
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.database.Recording
 
-class RecordingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecordingRecyclerAdapter(private val onRecordingClickListener: OnRecordingClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var items: List<Recording> = ArrayList()
+    private var recordingList: List<Recording> = ArrayList()
 
     fun submitList(recordingList: List<Recording>) {
-        items = recordingList
+        this.recordingList = recordingList
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RecordingViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.home_list_item_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.home_list_item_layout, parent, false),
+            onRecordingClickListener
         )
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return recordingList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is RecordingViewHolder -> {
-                holder.bind(items[position])
+                holder.bind(recordingList[position])
             }
         }
+    }
+
+    interface OnRecordingClickListener {
+        fun onClick(position: Int)
     }
 
 }

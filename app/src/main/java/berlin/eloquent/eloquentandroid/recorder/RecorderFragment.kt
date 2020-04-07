@@ -2,7 +2,9 @@ package berlin.eloquent.eloquentandroid.recorder
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,14 +22,15 @@ class RecorderFragment : Fragment() {
     @Inject
     lateinit var viewModel: RecorderViewModel
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Recorder"
+        super.onCreateView(inflater, container, savedInstanceState)
 
         val binding = RecorderFragmentBinding.inflate(layoutInflater)
 
@@ -39,24 +42,37 @@ class RecorderFragment : Fragment() {
 
         viewModel.recordingState.observe(viewLifecycleOwner, Observer {
             when (it) {
+                RecordingState.NOT_STARTED -> {
+                    binding.startStopRecording.visibility = View.VISIBLE
+                    binding.pauseResumeRecording.visibility = View.VISIBLE
+                    binding.navigate.visibility = View.GONE
+                }
                 RecordingState.RECORDING -> {
-                    binding.pauseResumeRecording.setImageResource(R.drawable.ic_pause)
                     binding.startStopRecording.setImageResource(R.drawable.ic_stop)
+                    binding.pauseResumeRecording.setImageResource(R.drawable.ic_pause)
                 }
                 RecordingState.PAUSED -> {
                     binding.pauseResumeRecording.setImageResource(R.drawable.ic_refresh)
                 }
                 RecordingState.STOPPED -> {
-                    val action = RecorderFragmentDirections.actionRecorderFragmentToPlayerFragment()
-                    findNavController().navigate(action)
+                    binding.startStopRecording.visibility = View.GONE
+                    binding.pauseResumeRecording.visibility = View.GONE
+                    binding.navigate.visibility = View.VISIBLE
                 }
-                else -> {
-
-                }
+                else -> {}
             }
         })
 
+        binding.navigate.setOnClickListener {
+            findNavController().navigate(RecorderFragmentDirections.actionRecorderDestToPlayerDest(viewModel.createdRecordingId.value!!))
+        }
+
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.resetViewModel()
     }
 
 }

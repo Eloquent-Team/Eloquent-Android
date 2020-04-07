@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    app:startDestination="@+id/home_dest">
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="berlin.eloquent.eloquentandroid.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/action_home_dest_to_player_dest"
+            app:destination="@id/player_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/player_dest"
+        android:name="berlin.eloquent.eloquentandroid.player.PlayerFragment"
+        android:label="PlayerFragment"
+        tools:layout="@layout/player_fragment">
+        <argument
+            android:name="recordingId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+</navigation>

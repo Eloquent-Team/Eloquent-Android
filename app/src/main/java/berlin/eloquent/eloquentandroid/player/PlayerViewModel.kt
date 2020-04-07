@@ -3,18 +3,21 @@ package berlin.eloquent.eloquentandroid.player
 import android.media.MediaPlayer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.IOException
 import javax.inject.Inject
 
 class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewModel() {
 
     // Attributes
+    // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private lateinit var mediaPlayer: MediaPlayer
 
     // Live Data
@@ -26,30 +29,32 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     private val _timeCode = MutableLiveData<Long>()
 
-    val timeCodeText: LiveData<String> = Transformations.map(_timeCode) { time ->
-        DateUtils.formatElapsedTime(time)
+    val timeCodeText: LiveData<String> = Transformations.map(_timeCode) {
+        DateUtils.formatElapsedTime(it)
     }
+
 
     init {
         _playingState.value = PlayingState.STOPPED
+        _recording.value = Recording()
     }
 
-    fun setRecording() {
-        viewModelScope.launch {
-            _recording.value = getNewestRecording()
+    fun setRecording(recordingId: Long) {
+        coroutineScope.launch {
+            _recording.value = getRecording(recordingId)
             _timeCode.value = _recording.value!!.length
             setupMediaRecorder(_recording.value!!.fileUrl)
         }
     }
 
-    private suspend fun getNewestRecording(): Recording? {
+    private suspend fun getRecording(recordingId: Long): Recording {
         return withContext(Dispatchers.IO) {
-            database.getNewestRecording()
+            database.getRecording(recordingId)
         }
     }
 
     fun analyzeRecording(newTitle: String, newTags: String) {
-        viewModelScope.launch {
+        coroutineScope.launch {
             if (newTitle != "") {
                 _recording.value!!.title = newTitle
             }
@@ -60,7 +65,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     private suspend fun update(recording: Recording) {
         withContext(Dispatchers.IO) {
-            database.update(recording)
+            database.updateRecording(recording)
         }
     }
 
@@ -80,11 +85,7 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
     private fun startPlayback(mediaPlayer: MediaPlayer) {
         if (_recording.value!!.fileUrl.isNotBlank()) {
             mediaPlayer.apply {
-                try {
-                    prepare()
-                } catch (e: IOException) {
-                    Log.e("PlayerFragment", "prepare() failed")
-                }
+                prepare()
                 start()
             }
             stopPlayback(mediaPlayer)
@@ -107,6 +108,12 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
             it.stop()
             _playingState.value = PlayingState.STOPPED
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mediaPlayer.release()
+        _playingState.value = PlayingState.STOPPED
     }
 
 }
