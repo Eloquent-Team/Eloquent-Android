@@ -2,7 +2,6 @@ package berlin.eloquent.eloquentandroid.player
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
-import berlin.eloquent.eloquentandroid.feedback.FeedbackFragmentArgs
 import javax.inject.Inject
 
 class PlayerFragment : Fragment() {
@@ -49,10 +47,6 @@ class PlayerFragment : Fragment() {
 
         val args: PlayerFragmentArgs by navArgs()
         viewModel.setRecording(args.recordingId)
-
-        val recording = viewModel.recording.value!!
-        binding.recordingTitle.setText(recording.title)
-        binding.recordingTags.setText(recording.tags)
 
         viewModel.playingState.observe(viewLifecycleOwner, Observer {
             binding.controlPlayback.setImageResource(
