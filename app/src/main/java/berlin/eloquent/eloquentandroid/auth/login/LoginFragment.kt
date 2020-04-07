@@ -1,30 +1,23 @@
 package berlin.eloquent.eloquentandroid.auth.login
+
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
-import berlin.eloquent.eloquentandroid.databinding.FragmentLoginBinding
+import berlin.eloquent.eloquentandroid.databinding.LoginFragmentBinding
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private lateinit var binding: LoginFragmentBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this
-        binding = FragmentLoginBinding.inflate(layoutInflater)
-
+        binding = LoginFragmentBinding.inflate(layoutInflater)
 
         binding.registerNow.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -37,6 +30,5 @@ class LoginFragment : Fragment() {
 
         return binding.root
     }
-
 
 }
