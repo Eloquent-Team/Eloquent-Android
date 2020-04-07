@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.player
+package berlin.eloquent.eloquentandroid.main.player
 
 import android.content.Context
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.home.models
+package berlin.eloquent.eloquentandroid.main.home.models
 
 import android.text.format.DateUtils
 import android.view.View

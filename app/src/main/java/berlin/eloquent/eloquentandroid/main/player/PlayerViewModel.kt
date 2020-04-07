@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.player
+package berlin.eloquent.eloquentandroid.main.player
 
 import android.media.MediaPlayer
 import android.text.format.DateUtils

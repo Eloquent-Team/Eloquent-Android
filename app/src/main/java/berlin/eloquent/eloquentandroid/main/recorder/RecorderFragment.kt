@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.recorder
+package berlin.eloquent.eloquentandroid.main.recorder
 
 import android.content.Context
 import android.os.Bundle

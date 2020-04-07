@@ -8,7 +8,7 @@
 
         <variable
             name="recorderViewModel"
-            type="berlin.eloquent.eloquentandroid.recorder.RecorderViewModel" />
+            type="berlin.eloquent.eloquentandroid.main.recorder.RecorderViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.account
+package berlin.eloquent.eloquentandroid.main.feedback
 
 import android.content.Context
 import android.os.Bundle
@@ -8,16 +8,17 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.MainActivity
-import berlin.eloquent.eloquentandroid.databinding.AccountFragmentBinding
+import berlin.eloquent.eloquentandroid.databinding.FeedbackFragmentBinding
 import javax.inject.Inject
 
-class AccountFragment : Fragment() {
+class FeedbackFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
-    lateinit var viewModel: AccountViewModel
+    lateinit var viewModel: FeedbackViewModel
 
 
     override fun onAttach(context: Context) {
@@ -26,16 +27,19 @@ class AccountFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        (activity as AppCompatActivity).supportActionBar?.title = "Account"
+        (activity as AppCompatActivity).supportActionBar?.title = "Feedback"
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = AccountFragmentBinding.inflate(layoutInflater)
+        val binding = FeedbackFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(AccountViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FeedbackViewModel::class.java)
 
-        binding.accountViewModel = viewModel
+        binding.feedbackViewModel = viewModel
+
+        val args: FeedbackFragmentArgs by navArgs()
+        viewModel.setRecording(args.recordingId)
 
         return binding.root
     }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/recorder_dest"
-        android:name="berlin.eloquent.eloquentandroid.recorder.RecorderFragment"
+        android:name="berlin.eloquent.eloquentandroid.main.recorder.RecorderFragment"
         android:label="RecorderFragment"
         tools:layout="@layout/recorder_fragment">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/player_dest"
-        android:name="berlin.eloquent.eloquentandroid.player.PlayerFragment"
+        android:name="berlin.eloquent.eloquentandroid.main.player.PlayerFragment"
         android:label="PlayerFragment"
         tools:layout="@layout/player_fragment">
         <action
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/feedback_dest"
-        android:name="berlin.eloquent.eloquentandroid.feedback.FeedbackFragment"
+        android:name="berlin.eloquent.eloquentandroid.main.feedback.FeedbackFragment"
         android:label="FeedbackFragment"
         tools:layout="@layout/feedback_fragment">
         <argument

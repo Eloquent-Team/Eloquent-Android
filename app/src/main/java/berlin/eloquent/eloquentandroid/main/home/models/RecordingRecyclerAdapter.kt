@@ -1,4 +1,4 @@
-package berlin.eloquent.eloquentandroid.home.models
+package berlin.eloquent.eloquentandroid.main.home.models
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
