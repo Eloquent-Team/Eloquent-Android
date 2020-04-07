@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import berlin.eloquent.eloquentandroid.database.Recording
+import berlin.eloquent.eloquentandroid.fakes.FakeRecorderRepository
 import berlin.eloquent.eloquentandroid.main.player.PlayerViewModel
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.text.MatchesPattern
@@ -23,8 +24,7 @@ class PlayerViewModelTest {
 
     @Before
     fun setupViewModel() {
-        playerViewModel =
-            PlayerViewModel()
+        playerViewModel = PlayerViewModel(FakeRecorderRepository())
     }
 
     @Test
@@ -34,7 +34,7 @@ class PlayerViewModelTest {
         recording.length = 376L
 
         // When
-        playerViewModel.setRecording(recording)
+        playerViewModel.setRecording(1L)
 
         // Then
         val timCodeText = playerViewModel.timeCodeText.getOrAwaitValue()

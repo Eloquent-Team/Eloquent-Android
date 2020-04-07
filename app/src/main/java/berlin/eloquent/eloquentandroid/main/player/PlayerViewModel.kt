@@ -8,10 +8,12 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
+import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
+import berlin.eloquent.eloquentandroid.main.repository.RecorderRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewModel() {
+class PlayerViewModel @Inject constructor(val repo: IRecorderRepository) : ViewModel() {
 
     // Attributes
     // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
@@ -39,17 +41,12 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
 
     fun setRecording(recordingId: Long) {
         coroutineScope.launch {
-            _recording.value = getRecording(recordingId)
+            _recording.value = repo.getRecording(recordingId)
             _timeCode.value = _recording.value!!.length
             setupMediaRecorder(_recording.value!!.fileUrl)
         }
     }
 
-    private suspend fun getRecording(recordingId: Long): Recording {
-        return withContext(Dispatchers.IO) {
-            database.getRecording(recordingId)
-        }
-    }
 
     fun analyzeRecording(newTitle: String, newTags: String) {
         coroutineScope.launch {
@@ -57,15 +54,10 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
                 _recording.value!!.title = newTitle
             }
             _recording.value!!.tags = newTags
-            updateRecording(_recording.value!!)
+            repo.updateRecording(_recording.value!!)
         }
     }
 
-    private suspend fun updateRecording(recording: Recording) {
-        withContext(Dispatchers.IO) {
-            database.updateRecording(recording)
-        }
-    }
 
     private fun setupMediaRecorder(fileUrl: String) {
         mediaPlayer = MediaPlayer()

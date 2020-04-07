@@ -6,7 +6,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".auth.login.LoginFragment">
+        tools:context=".auth.login.LoginFragment"
+        android:id="@+id/login_container">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
