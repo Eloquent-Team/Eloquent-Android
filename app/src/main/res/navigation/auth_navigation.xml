@@ -18,7 +18,7 @@
         android:id="@+id/registerFragment"
         android:name="berlin.eloquent.eloquentandroid.auth.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/register_fragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment"

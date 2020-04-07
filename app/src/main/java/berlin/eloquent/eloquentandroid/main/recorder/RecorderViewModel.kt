@@ -5,7 +5,10 @@ import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
 import kotlinx.coroutines.*
@@ -143,14 +146,14 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
                 length = _currentTimeCode.value!!
                 fileUrl = _outputFile.value!!
             }
-            insert(_recording.value!!)
+            insertRecording(_recording.value!!)
             _createdRecordingId.value = getNewestRecording()!!.recordingId
         }
         _recordingState.value =
             RecordingState.STOPPED
     }
 
-    private suspend fun insert(recording: Recording) {
+    private suspend fun insertRecording(recording: Recording) {
         withContext(Dispatchers.IO) {
             database.insertRecording(recording)
         }

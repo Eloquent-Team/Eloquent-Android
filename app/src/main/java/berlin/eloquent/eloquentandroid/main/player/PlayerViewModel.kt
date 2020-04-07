@@ -2,7 +2,6 @@ package berlin.eloquent.eloquentandroid.main.player
 
 import android.media.MediaPlayer
 import android.text.format.DateUtils
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -10,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
 import kotlinx.coroutines.*
-import java.io.IOException
 import javax.inject.Inject
 
 class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewModel() {
@@ -59,11 +57,11 @@ class PlayerViewModel @Inject constructor(val database: RecordingDao) : ViewMode
                 _recording.value!!.title = newTitle
             }
             _recording.value!!.tags = newTags
-            update(_recording.value!!)
+            updateRecording(_recording.value!!)
         }
     }
 
-    private suspend fun update(recording: Recording) {
+    private suspend fun updateRecording(recording: Recording) {
         withContext(Dispatchers.IO) {
             database.updateRecording(recording)
         }
