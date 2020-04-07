@@ -14,8 +14,8 @@ import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
 import berlin.eloquent.eloquentandroid.main.home.models.RecordingRecyclerAdapter
-import berlin.eloquent.eloquentandroid.main.home.models.SpacingDecoration
 import berlin.eloquent.eloquentandroid.main.home.models.RecordingRecyclerAdapter.OnRecordingClickListener
+import berlin.eloquent.eloquentandroid.main.home.models.SpacingDecoration
 import javax.inject.Inject
 
 class HomeFragment : Fragment(), OnRecordingClickListener {
@@ -55,7 +55,7 @@ class HomeFragment : Fragment(), OnRecordingClickListener {
                 binding.sortBySpinner.adapter = it
         }
 
-        val recordingRecyclerAdapter = RecordingRecyclerAdapter()
+        val recordingRecyclerAdapter = RecordingRecyclerAdapter(this)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             val topSpacingDecorator = SpacingDecoration(25, 40, 25, 40)

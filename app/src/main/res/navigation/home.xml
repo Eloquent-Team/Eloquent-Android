@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home_dest"
-        android:name="berlin.eloquent.eloquentandroid.home.HomeFragment"
+        android:name="berlin.eloquent.eloquentandroid.main.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/home_fragment">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/player_dest"
-        android:name="berlin.eloquent.eloquentandroid.player.PlayerFragment"
+        android:name="berlin.eloquent.eloquentandroid.main.player.PlayerFragment"
         android:label="PlayerFragment"
         tools:layout="@layout/player_fragment">
         <argument

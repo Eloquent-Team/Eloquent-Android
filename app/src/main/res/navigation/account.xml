@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/account_dest"
-        android:name="berlin.eloquent.eloquentandroid.account.AccountFragment"
+        android:name="berlin.eloquent.eloquentandroid.main.account.AccountFragment"
         android:label="AccountFragment"
         tools:layout="@layout/account_fragment" />
 </navigation>

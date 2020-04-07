@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryLight"
         android:orientation="vertical"
-        tools:context="berlin.eloquent.eloquentandroid.home.HomeFragment">
+        tools:context="berlin.eloquent.eloquentandroid.main.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
