@@ -22,14 +22,11 @@ abstract class TestDatabase {
 
     lateinit var eloquentDatabase: EloquentDatabase
 
-    // Executes each task synchronously using Architecture Components.
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun initDb() {
-        // Using an in-memory database so that the information stored here disappears when the
-        // process is killed.
         eloquentDatabase = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             EloquentDatabase::class.java
