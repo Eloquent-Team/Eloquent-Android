@@ -6,7 +6,6 @@ import berlin.eloquent.eloquentandroid.di.scopes.MainScope
 import javax.inject.Inject
 import javax.inject.Provider
 
-@MainScope
 class MainViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>,
             @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
 

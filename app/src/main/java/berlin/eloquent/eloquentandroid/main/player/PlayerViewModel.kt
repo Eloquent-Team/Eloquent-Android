@@ -2,10 +2,8 @@ package berlin.eloquent.eloquentandroid.main.player
 
 import android.media.MediaPlayer
 import android.text.format.DateUtils
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
 import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
@@ -13,11 +11,9 @@ import berlin.eloquent.eloquentandroid.main.repository.RecorderRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class PlayerViewModel @Inject constructor(val repo: IRecorderRepository) : ViewModel() {
+class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository) : ViewModel() {
 
     // Attributes
-    // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private lateinit var mediaPlayer: MediaPlayer
 
     // Live Data
@@ -40,16 +36,15 @@ class PlayerViewModel @Inject constructor(val repo: IRecorderRepository) : ViewM
     }
 
     fun setRecording(recordingId: Long) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             _recording.value = repo.getRecording(recordingId)
             _timeCode.value = _recording.value!!.length
             setupMediaRecorder(_recording.value!!.fileUrl)
         }
     }
 
-
     fun analyzeRecording(newTitle: String, newTags: String) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             if (newTitle != "") {
                 _recording.value!!.title = newTitle
             }
@@ -58,10 +53,13 @@ class PlayerViewModel @Inject constructor(val repo: IRecorderRepository) : ViewM
         }
     }
 
-
     private fun setupMediaRecorder(fileUrl: String) {
         mediaPlayer = MediaPlayer()
-        mediaPlayer.setDataSource(fileUrl)
+        try {
+            mediaPlayer.setDataSource(fileUrl)
+        } catch (iae: IllegalArgumentException) {
+            Log.e("PlayerViewModel", "URL was not appropriate")
+        }
     }
 
     fun controlPlayback() {
