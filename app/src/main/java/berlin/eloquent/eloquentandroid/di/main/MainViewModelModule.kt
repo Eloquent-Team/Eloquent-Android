@@ -15,35 +15,29 @@ import dagger.multibindings.IntoMap
 @Module
 abstract class MainViewModelModule{
 
-    @MainScope
     @Binds
     abstract fun bindViewModelFactory(factory: MainViewModelFactory): ViewModelProvider.Factory
 
-    @MainScope
     @Binds
     @IntoMap
     @MainViewModelKey(RecorderViewModel::class)
     abstract fun bindRecorderFragmentViewModel(recorderViewModel: RecorderViewModel) : ViewModel
 
-    @MainScope
     @Binds
     @IntoMap
     @MainViewModelKey(PlayerViewModel::class)
     abstract fun bindPlayerFragmentViewModel(playerViewModel: PlayerViewModel) : ViewModel
 
-    @MainScope
     @Binds
     @IntoMap
     @MainViewModelKey(AccountViewModel::class)
     abstract fun bindAccountFragmentViewModel(accountViewModel: AccountViewModel) : ViewModel
 
-    @MainScope
     @Binds
     @IntoMap
     @MainViewModelKey(FeedbackViewModel::class)
     abstract fun bindFeedbackFragmentViewModel(feedbackViewModel: FeedbackViewModel) : ViewModel
 
-    @MainScope
     @Binds
     @IntoMap
     @MainViewModelKey(HomeViewModel::class)

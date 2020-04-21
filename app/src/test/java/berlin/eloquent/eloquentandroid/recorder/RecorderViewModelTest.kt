@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import berlin.eloquent.eloquentandroid.database.RecordingDao
+import berlin.eloquent.eloquentandroid.fakes.FakeRecorderRepository
 import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import berlin.eloquent.eloquentandroid.main.recorder.RecorderViewModel
 import berlin.eloquent.eloquentandroid.main.recorder.RecordingState
@@ -29,12 +30,8 @@ class RecorderViewModelTest {
 
     @Before
     fun setupViewModel() {
-        recorderViewModel =
-            RecorderViewModel(
-                dao,
-                ApplicationProvider.getApplicationContext()
-
-            )
+        // Given
+        recorderViewModel = RecorderViewModel(FakeRecorderRepository(), ApplicationProvider.getApplicationContext())
     }
 
     @Test

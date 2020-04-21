@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
+import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class FeedbackViewModel @Inject constructor(val database: RecordingDao) : ViewModel() {
+class FeedbackViewModel @Inject constructor(private val repo: IRecorderRepository) : ViewModel() {
 
     // Attributes
     // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
@@ -21,13 +22,7 @@ class FeedbackViewModel @Inject constructor(val database: RecordingDao) : ViewMo
 
     fun setRecording(recordingId: Long) {
         coroutineScope.launch(Dispatchers.Main) {
-            _recording.value = getRecording(recordingId)
-        }
-    }
-
-    private suspend fun getRecording(recordingId: Long): Recording? {
-        return withContext(Dispatchers.IO) {
-            database.getRecording(recordingId)
+            _recording.value = repo.getRecording(recordingId)
         }
     }
 

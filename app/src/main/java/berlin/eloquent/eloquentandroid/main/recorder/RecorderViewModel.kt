@@ -11,6 +11,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
+import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.time.Instant
@@ -18,7 +19,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class RecorderViewModel @Inject constructor(val database: RecordingDao, val application: Application) : ViewModel() {
+class RecorderViewModel @Inject constructor(private val repo: IRecorderRepository, val application: Application) : ViewModel() {
 
     // Attributes
     // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
@@ -126,8 +127,7 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
             }
             start()
             timer = getCountUpTimer(Long.MAX_VALUE)
-            _recordingState.value =
-                RecordingState.RECORDING
+            _recordingState.value = RecordingState.RECORDING
         }
     }
 
@@ -146,23 +146,11 @@ class RecorderViewModel @Inject constructor(val database: RecordingDao, val appl
                 length = _currentTimeCode.value!!
                 fileUrl = _outputFile.value!!
             }
-            insertRecording(_recording.value!!)
-            _createdRecordingId.value = getNewestRecording()!!.recordingId
+            repo.insertRecording(_recording.value!!)
+            _createdRecordingId.value = repo.getNewestRecording()!!.recordingId
         }
         _recordingState.value =
             RecordingState.STOPPED
-    }
-
-    private suspend fun insertRecording(recording: Recording) {
-        withContext(Dispatchers.IO) {
-            database.insertRecording(recording)
-        }
-    }
-
-    private suspend fun getNewestRecording(): Recording? {
-        return withContext(Dispatchers.IO) {
-            database.getNewestRecording()
-        }
     }
 
     fun controlPauseResumeRecording() {
