@@ -10,12 +10,14 @@ import berlin.eloquent.eloquentandroid.database.RecordingDao
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+
 class RecorderRepositoryTest {
 
     private lateinit var repository: RecorderRepository
@@ -48,11 +50,11 @@ class RecorderRepositoryTest {
     @Before
     fun setUp() {
         dao = mockk()
-        repository = RecorderRepository(dao)
+        repository = RecorderRepository(dao, TestCoroutineDispatcher())
     }
 
     @Test
-    fun `insert Recording into db`() = runBlocking {
+    fun `insert Recording into db`() = runBlockingTest {
         every { dao.insertRecording(any()) } just runs
 
         repository.insertRecording(newRecording)
@@ -63,7 +65,7 @@ class RecorderRepositoryTest {
     }
 
     @Test
-    fun `update Recording in db`() = runBlocking {
+    fun `update Recording in db`() = runBlockingTest {
         every { dao.updateRecording(any()) } just runs
 
         repository.updateRecording(newRecording)
@@ -74,7 +76,7 @@ class RecorderRepositoryTest {
     }
 
     @Test
-    fun `delete Recording`() = runBlocking {
+    fun `delete Recording`() = runBlockingTest {
         every { dao.deleteRecording(any()) } just runs
 
         repository.deleteRecording(newRecording)
@@ -85,7 +87,7 @@ class RecorderRepositoryTest {
     }
 
     @Test
-    fun `get Recording by id from db`() = runBlocking {
+    fun `get Recording by id from db`() = runBlockingTest {
         every { dao.getRecording(any()) } returns Recording()
 
         repository.getRecording(existingRecording.recordingId)
@@ -96,7 +98,7 @@ class RecorderRepositoryTest {
     }
 
     @Test
-    fun `get all Recordings from db`() = runBlocking {
+    fun `get all Recordings from db`() = runBlockingTest {
         every { dao.getAllRecordings() } returns MutableLiveData<List<Recording>>() as LiveData<List<Recording>>
 
         repository.getAllRecordings()
@@ -107,7 +109,7 @@ class RecorderRepositoryTest {
     }
 
     @Test
-    fun `get newest Recording from db`() = runBlocking {
+    fun `get newest Recording from db`() = runBlockingTest {
         every { dao.getNewestRecording() } returns Recording()
 
         repository.getNewestRecording()
