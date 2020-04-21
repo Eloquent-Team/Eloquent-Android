@@ -3,6 +3,7 @@ package berlin.eloquent.eloquentandroid.main.player
 import android.media.MediaPlayer
 import android.text.format.DateUtils
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
@@ -24,6 +25,7 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
     val recording: LiveData<Recording> get() = _recording
 
     private val _timeCode = MutableLiveData<Long>()
+    val timecode: LiveData<Long> get() = _timeCode
 
     val timeCodeText: LiveData<String> = Transformations.map(_timeCode) {
         DateUtils.formatElapsedTime(it)
@@ -47,8 +49,11 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
         viewModelScope.launch {
             if (newTitle != "") {
                 _recording.value!!.title = newTitle
+
             }
-            _recording.value!!.tags = newTags
+            if(newTags != "") {
+                _recording.value!!.tags = newTags
+            }
             repo.updateRecording(_recording.value!!)
         }
     }
@@ -64,34 +69,35 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
 
     fun controlPlayback() {
         when (_playingState.value) {
-            PlayingState.STOPPED -> startPlayback(mediaPlayer)
-            PlayingState.PLAYING -> pausePlayback(mediaPlayer)
-            PlayingState.PAUSED -> resumePlayback(mediaPlayer)
+            PlayingState.STOPPED -> startPlayback()
+            PlayingState.PLAYING -> pausePlayback()
+            PlayingState.PAUSED -> resumePlayback()
+
         }
     }
 
-    private fun startPlayback(mediaPlayer: MediaPlayer) {
+    private fun startPlayback() {
         if (_recording.value!!.fileUrl.isNotBlank()) {
             mediaPlayer.apply {
                 prepare()
                 start()
             }
-            stopPlayback(mediaPlayer)
+            stopPlayback()
             _playingState.value = PlayingState.PLAYING
         }
     }
 
-    private fun pausePlayback(mediaPlayer: MediaPlayer) {
+    private fun pausePlayback() {
         mediaPlayer.pause()
         _playingState.value = PlayingState.PAUSED
     }
 
-    private fun resumePlayback(mediaPlayer: MediaPlayer) {
+    private fun resumePlayback() {
         mediaPlayer.start()
         _playingState.value = PlayingState.PLAYING
     }
 
-    private fun stopPlayback(mediaPlayer: MediaPlayer) {
+    private fun stopPlayback() {
         mediaPlayer.setOnCompletionListener {
             it.stop()
             _playingState.value = PlayingState.STOPPED
@@ -102,6 +108,10 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
         super.onCleared()
         mediaPlayer.release()
         _playingState.value = PlayingState.STOPPED
+    }
+
+    fun setPlayingState(state: PlayingState) {
+        _playingState.value = state
     }
 
 }

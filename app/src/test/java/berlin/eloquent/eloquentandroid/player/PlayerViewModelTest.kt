@@ -1,5 +1,6 @@
 package berlin.eloquent.eloquentandroid.player
 
+import android.media.MediaPlayer
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import berlin.eloquent.eloquentandroid.MainCoroutineRule
@@ -7,6 +8,11 @@ import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.fakes.FakeRecorderRepository
 import berlin.eloquent.eloquentandroid.main.player.PlayerViewModel
+import berlin.eloquent.eloquentandroid.main.player.PlayingState
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -41,17 +47,13 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when setRecording() is called, timeCodeText should be in correct pattern`() {
-        assertEquals(2+2, 4)
-    }
-
-    @Test
     fun `when setRecording() is called, the recording with the given recordingId should be returned`() = runBlockingTest {
         // When
         playerViewModel.setRecording(1L)
 
         // Then
-        assertThat(playerViewModel.recording.value!!.recordingId, `is`(1L))
+        val recording = playerViewModel.recording.getOrAwaitValue()
+        assertThat(recording.recordingId, `is`(1L))
     }
 
     @Test
@@ -60,7 +62,68 @@ class PlayerViewModelTest {
         playerViewModel.setRecording(1L)
 
         // Then
-        assertThat(playerViewModel.timeCodeText.value!!, `is`("01:40"))
+        assertThat(playerViewModel.timecode.getOrAwaitValue(), `is`(100L))
     }
+
+    @Test
+    fun `when analyzeRecording called newTitle and newTags are set`() = runBlockingTest {
+        // Given
+        playerViewModel.setRecording(1L)
+        // When
+        playerViewModel.analyzeRecording("newTitle", "newTags, moreNewTags")
+        // Then
+        val recording = playerViewModel.recording.getOrAwaitValue()
+
+        assertThat(recording.title, `is`("newTitle"))
+        assertThat(recording.tags, `is`("newTags, moreNewTags"))
+    }
+
+    @Test
+    fun `when analyzeRecording called with empty arguments props stay same`() = runBlockingTest {
+        // Given
+        playerViewModel.setRecording(1L)
+        // When
+        playerViewModel.analyzeRecording("", "")
+        // Then
+        val recording = playerViewModel.recording.getOrAwaitValue()
+
+        assertThat(recording.title, `is`(recording.title))
+        assertThat(recording.tags, `is`(recording.tags))
+
+        println(recording.title)
+        println(recording.tags)
+    }
+
+    @Test
+    fun `when startPlayback is called, state becomes playing`() {
+        // given
+        playerViewModel.setRecording(1L)
+        //when
+        val startPlayback = playerViewModel.javaClass.getDeclaredMethod("startPlayback")
+        startPlayback.isAccessible = true
+        startPlayback.invoke(playerViewModel)
+        val playingState = playerViewModel.playingState.getOrAwaitValue()
+        // Then
+        assertThat(playingState, `is`(PlayingState.PLAYING))
+    }
+
+    @Test
+    fun `when pausePlayback is called, state becomes PAUSE`() {
+        // given
+        playerViewModel.setRecording(1L)
+        playerViewModel.setPlayingState(PlayingState.PLAYING)
+        //when
+//        val startPlayback = playerViewModel.javaClass.getDeclaredMethod("pausePlayback")
+//        startPlayback.isAccessible = true
+//        startPlayback.invoke(playerViewModel)
+        playerViewModel.controlPlayback()
+        val playingState = playerViewModel.playingState.getOrAwaitValue()
+        // Then
+        assertThat(playingState, `is`(PlayingState.PAUSED))
+    }
+
+
+
+
 
 }

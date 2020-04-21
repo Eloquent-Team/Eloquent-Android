@@ -12,7 +12,7 @@ class FakeRecorderRepository : IRecorderRepository {
         tags = "test more tests",
         date = "2020-03-24 12:24:34",
         length = 100L,
-        fileUrl = ""
+        fileUrl = "fileUrl"
     )
 
     override suspend fun getRecording(recordingId: Long): Recording {
