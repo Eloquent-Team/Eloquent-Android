@@ -14,5 +14,4 @@ class MockTestRunner : AndroidJUnitRunner() {
         return super.newApplication(cl, TestBaseApplication::class.java.name, context)
     }
 
-
 }

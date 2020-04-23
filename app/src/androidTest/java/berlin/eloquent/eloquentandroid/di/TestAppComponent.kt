@@ -19,6 +19,4 @@ interface TestAppComponent : AppComponent  {
 
     fun inject(mainActivityTest: MainActivityTest)
 
-
-
 }

@@ -29,15 +29,11 @@ class MainActivityTest {
             .getInstrumentation()
             .targetContext
             .applicationContext as TestBaseApplication
-
         injectTest(app)
     }
 
     @Test
     fun test_bottomNavigationView_navigation() {
-
-
-
         launchActivity<MainActivity>()
 
         onView(withId(R.id.home_container)).check(matches(isDisplayed()))
@@ -57,15 +53,13 @@ class MainActivityTest {
         // press back to get to home
         pressBack()
         onView(withId(R.id.home_container)).check(matches(isDisplayed()))
-
     }
 
     @Test
     fun test_recording_procedure() {
-
         launchActivity<MainActivity>()
 
-        // navigate to home
+        // navigate to recorder
         onView(withId(R.id.recorder)).perform(click())
         onView(withId(R.id.recorder_container)).check(matches(isDisplayed()))
 
@@ -73,26 +67,32 @@ class MainActivityTest {
         val pauseBtn = onView(withId(R.id.pauseResumeRecording))
         val navigateBtn = onView(withId(R.id.navigate))
 
+        // perform recording
         navigateBtn.check(matches(withEffectiveVisibility(Visibility.GONE)))
+        recorderButton.perform(click())
+        runBlocking { delay(1000) }
+        pauseBtn.perform(click())
+        runBlocking { delay(1000) }
+        pauseBtn.perform(click())
+        runBlocking { delay(1000) }
+        recorderButton.perform(click())
 
-        recorderButton.perform(click())
-        runBlocking { delay(1000) }
-        pauseBtn.perform(click())
-        runBlocking { delay(1000) }
-        pauseBtn.perform(click())
-        runBlocking { delay(1000) }
-        recorderButton.perform(click())
+        // navigate to player
         navigateBtn.perform(click())
 
-        onView(withText("00:02")).check(matches(isDisplayed()))
-
         val titleTextView = onView(withId(R.id.recordingTitle))
+        val tagsTextView = onView(withId(R.id.recordingTags))
+
+        // check screen
+        onView(withText("00:02")).check(matches(isDisplayed()))
         onView(withSubstring("Rec_")).check(matches(isDisplayed()))
         titleTextView.perform(clearText(), typeText("testTitle"))
-        val tagsTextView = onView(withId(R.id.recordingTags))
         tagsTextView.perform(typeText("test tags"))
+
+        // close keyboard
         pressBack()
 
+        // navigate to feedback
         onView(withId(R.id.analyzeRecording)).perform(click())
         onView(withId(R.id.feedback_container)).check(matches(isDisplayed()))
 
@@ -100,18 +100,14 @@ class MainActivityTest {
         pressBack()
         onView(withId(R.id.recorder_container)).check(matches(isDisplayed()))
 
+        // navigate to home
         pressBack()
         onView(withId(R.id.home_container)).check(matches(isDisplayed()))
 
-
+        // check recycler view
         onView(withText("testTitle")).check(matches(isDisplayed()))
         onView(withText("00:02")).check(matches(isDisplayed()))
-
-
     }
-
-
-
 
     fun injectTest(application: TestBaseApplication) {
         (application.appComponent as TestAppComponent)
