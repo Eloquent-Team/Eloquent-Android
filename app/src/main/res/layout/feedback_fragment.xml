@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/feedback_container"
         android:background="@color/colorPrimaryLight"
         tools:context="berlin.eloquent.eloquentandroid.feedback.FeedbackFragment">
 

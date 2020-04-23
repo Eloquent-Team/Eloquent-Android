@@ -12,7 +12,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "berlin.eloquent.eloquentandroid.MockTestRunner"
     }
     buildTypes {
         release {
@@ -86,16 +86,37 @@ dependencies {
     def dagger_version = "2.25.4"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 }
 // android tests
 dependencies {
-    def androidXTestCoreVersion = "1.0.0"
-    androidTestImplementation "androidx.test:core:$androidXTestCoreVersion"
 
     def androidXTestExtKotlinRunnerVersion = "1.1.0"
     androidTestImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // Espresso
+    def androidx_espresso_core = "3.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_core"
+
+
+    // androidx.test
+    def androidx_test_runner = "1.2.0"
+    androidTestImplementation "androidx.test:runner:$androidx_test_runner"
+    androidTestImplementation "androidx.test:rules:$androidx_test_runner"
+
+    def androidx_test_core = "1.2.0"
+    androidTestImplementation "androidx.test:core-ktx:$androidx_test_core"
+
+
+    def androidx_test_ext = "1.1.1"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidx_test_ext"
+
+    // androidx.fragment
+    def fragment_version = "1.2.0"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
 }
+
 

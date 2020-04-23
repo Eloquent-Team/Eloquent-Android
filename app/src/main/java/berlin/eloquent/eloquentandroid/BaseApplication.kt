@@ -4,7 +4,7 @@ import android.app.Application
 import berlin.eloquent.eloquentandroid.di.AppComponent
 import berlin.eloquent.eloquentandroid.di.DaggerAppComponent
 
-class BaseApplication : Application() {
+open class BaseApplication : Application() {
 
     lateinit var appComponent: AppComponent
 
@@ -13,7 +13,7 @@ class BaseApplication : Application() {
         initAppComponent()
     }
 
-    private fun initAppComponent(){
+    open fun initAppComponent(){
         appComponent = DaggerAppComponent.builder()
             .application(this)
             .build()
