@@ -20,24 +20,23 @@ class FakeRecorderRepository : IRecorderRepository {
     }
 
     override suspend fun getAllRecordings(): LiveData<List<Recording>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override suspend fun getNewestRecording(): Recording? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override suspend fun insertRecording(recording: Recording) {
-
+        TODO("not implemented")
     }
 
     override suspend fun updateRecording(recording: Recording) {
-
+        TODO("not implemented")
     }
 
     override suspend fun deleteRecording(recording: Recording) {
-
+        TODO("not implemented")
     }
-
 
 }
