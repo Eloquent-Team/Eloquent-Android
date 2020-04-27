@@ -87,6 +87,8 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
+
 }
 // android tests
 dependencies {
@@ -99,7 +101,6 @@ dependencies {
     def androidx_espresso_core = "3.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_core"
-
 
     // androidx.test
     def androidx_test_runner = "1.2.0"

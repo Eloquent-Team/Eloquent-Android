@@ -3,13 +3,10 @@ package berlin.eloquent.eloquentandroid.main.player
 import android.media.MediaPlayer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
-import berlin.eloquent.eloquentandroid.database.RecordingDao
 import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
-import berlin.eloquent.eloquentandroid.main.repository.RecorderRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository) : ViewModel() {
@@ -49,7 +46,6 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
         viewModelScope.launch {
             if (newTitle != "") {
                 _recording.value!!.title = newTitle
-
             }
             if(newTags != "") {
                 _recording.value!!.tags = newTags
@@ -79,8 +75,12 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
     private fun startPlayback() {
         if (_recording.value!!.fileUrl.isNotBlank()) {
             mediaPlayer.apply {
-                prepare()
-                start()
+                try {
+                    prepare()
+                    start()
+                } catch (e: Exception) {
+                    Log.e("PlayerViewModel", "Error with preparing or starting MediaPlayer")
+                }
             }
             stopPlayback()
             _playingState.value = PlayingState.PLAYING
