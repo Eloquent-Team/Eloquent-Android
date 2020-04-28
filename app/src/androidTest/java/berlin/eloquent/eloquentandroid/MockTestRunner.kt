@@ -6,9 +6,6 @@ import androidx.test.runner.AndroidJUnitRunner
 
 class MockTestRunner : AndroidJUnitRunner() {
 
-
-
-
     override fun newApplication(
         cl: ClassLoader?,
         className: String?,
