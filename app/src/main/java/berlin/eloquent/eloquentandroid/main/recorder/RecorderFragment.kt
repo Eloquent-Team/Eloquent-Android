@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,8 +20,7 @@ class RecorderFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
-    lateinit var viewModel: RecorderViewModel
+    private val viewModel: RecorderViewModel by viewModels { viewModelFactory }
 
 
     override fun onAttach(context: Context) {
@@ -35,8 +35,6 @@ class RecorderFragment : Fragment() {
         val binding = RecorderFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RecorderViewModel::class.java)
 
         binding.recorderViewModel = viewModel
 

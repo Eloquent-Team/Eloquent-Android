@@ -16,7 +16,7 @@ object AppModule{
     @Provides
     fun provideAppDb(app: Application): EloquentDatabase {
         return Room
-            .databaseBuilder(app, EloquentDatabase::class.java, "eloquent_dp")
+            .databaseBuilder(app, EloquentDatabase::class.java, "eloquent_db")
             .fallbackToDestructiveMigration() // get correct db version if schema changed
             .build()
     }

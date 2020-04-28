@@ -3,7 +3,6 @@ package berlin.eloquent.eloquentandroid.di.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.main.account.AccountViewModel
-import berlin.eloquent.eloquentandroid.di.scopes.MainScope
 import berlin.eloquent.eloquentandroid.main.feedback.FeedbackViewModel
 import berlin.eloquent.eloquentandroid.main.home.HomeViewModel
 import berlin.eloquent.eloquentandroid.main.player.PlayerViewModel

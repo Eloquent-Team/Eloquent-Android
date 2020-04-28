@@ -16,7 +16,6 @@ class LoginFragment : Fragment() {
     private lateinit var binding: LoginFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this
         binding = LoginFragmentBinding.inflate(layoutInflater)
 
         binding.registerNow.setOnClickListener {

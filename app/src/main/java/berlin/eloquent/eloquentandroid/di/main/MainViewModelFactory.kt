@@ -2,7 +2,6 @@ package berlin.eloquent.eloquentandroid.di.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import berlin.eloquent.eloquentandroid.di.scopes.MainScope
 import javax.inject.Inject
 import javax.inject.Provider
 

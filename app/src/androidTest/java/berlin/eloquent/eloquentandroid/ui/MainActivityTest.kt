@@ -109,7 +109,7 @@ class MainActivityTest {
         onView(withText("00:02")).check(matches(isDisplayed()))
     }
 
-    fun injectTest(application: TestBaseApplication) {
+    private fun injectTest(application: TestBaseApplication) {
         (application.appComponent as TestAppComponent)
             .inject(this)
     }
