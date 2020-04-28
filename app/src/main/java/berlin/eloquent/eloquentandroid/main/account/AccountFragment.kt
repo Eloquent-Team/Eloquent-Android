@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.databinding.AccountFragmentBinding
@@ -16,8 +17,7 @@ class AccountFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
-    lateinit var viewModel: AccountViewModel
+    private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
 
     override fun onAttach(context: Context) {
@@ -32,8 +32,6 @@ class AccountFragment : Fragment() {
         val binding = AccountFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(AccountViewModel::class.java)
 
         binding.accountViewModel = viewModel
 

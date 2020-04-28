@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.MainActivity
@@ -17,8 +18,7 @@ class FeedbackFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
-    lateinit var viewModel: FeedbackViewModel
+    private  val viewModel: FeedbackViewModel by viewModels { viewModelFactory }
 
 
     override fun onAttach(context: Context) {
@@ -33,8 +33,6 @@ class FeedbackFragment : Fragment() {
         val binding = FeedbackFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(FeedbackViewModel::class.java)
 
         binding.feedbackViewModel = viewModel
 

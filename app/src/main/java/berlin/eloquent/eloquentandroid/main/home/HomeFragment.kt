@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,8 +23,7 @@ class HomeFragment : Fragment(), OnRecordingClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
-    lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
 
     override fun onAttach(context: Context) {
@@ -44,8 +44,6 @@ class HomeFragment : Fragment(), OnRecordingClickListener {
         val binding = HomeFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         binding.homeViewModel = viewModel
 

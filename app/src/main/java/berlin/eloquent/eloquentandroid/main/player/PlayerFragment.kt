@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,8 +19,7 @@ class PlayerFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
-    lateinit var viewModel: PlayerViewModel
+    private val viewModel: PlayerViewModel by viewModels { viewModelFactory }
 
 
     override fun onAttach(context: Context) {
@@ -40,8 +40,6 @@ class PlayerFragment : Fragment() {
         val binding = PlayerFragmentBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(PlayerViewModel::class.java)
 
         binding.playerViewModel = viewModel
 

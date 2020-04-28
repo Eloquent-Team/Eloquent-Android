@@ -5,14 +5,10 @@ import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
-import berlin.eloquent.eloquentandroid.database.RecordingDao
 import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
@@ -22,8 +18,6 @@ import javax.inject.Inject
 class RecorderViewModel @Inject constructor(private val repo: IRecorderRepository, val application: Application) : ViewModel() {
 
     // Attributes
-    // create own job and scope, because viewModelScope has a bug with DI, it won't get called again
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
@@ -138,7 +132,7 @@ class RecorderViewModel @Inject constructor(private val repo: IRecorderRepositor
         }
         mediaRecorder = null
         timer.cancel()
-        coroutineScope.launch {
+        viewModelScope.launch {
             _recording.value = Recording()
             _recording.value!!.apply {
                 title = "Rec_${getCurrentTimestamp("yyyy-MM-dd_HH:mm")}"

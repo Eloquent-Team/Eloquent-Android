@@ -4,14 +4,13 @@ import androidx.lifecycle.LiveData
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RecorderRepository @Inject constructor(
     val database: RecordingDao,
-    val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IRecorderRepository{
 
     override suspend fun insertRecording(recording: Recording) {
