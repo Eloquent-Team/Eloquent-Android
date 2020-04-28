@@ -24,19 +24,19 @@ class FakeRecorderRepository : IRecorderRepository {
     }
 
     override suspend fun getNewestRecording(): Recording? {
-        TODO("not implemented")
+        return recording
     }
 
     override suspend fun insertRecording(recording: Recording) {
-        TODO("not implemented")
+
     }
 
     override suspend fun updateRecording(recording: Recording) {
-        TODO("not implemented")
+
     }
 
     override suspend fun deleteRecording(recording: Recording) {
-        TODO("not implemented")
+
     }
 
 }
