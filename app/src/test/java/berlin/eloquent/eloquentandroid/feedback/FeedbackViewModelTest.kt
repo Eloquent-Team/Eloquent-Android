@@ -7,7 +7,7 @@ import berlin.eloquent.eloquentandroid.fakes.FakeRecorderRepository
 import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import berlin.eloquent.eloquentandroid.main.feedback.FeedbackViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.junit.MatcherAssert.assertThat
 import org.junit.Before
@@ -34,7 +34,7 @@ class FeedbackViewModelTest {
     }
 
     @Test
-    fun `when setRecording() is called, the recording object should be set`() = runBlocking {
+    fun `when setRecording() is called, the recording object should be set`() = runBlockingTest {
         // When
         feedbackViewModel.setRecording(1L)
 
@@ -49,7 +49,7 @@ class FeedbackViewModelTest {
     }
 
     @Test
-    fun `when setRecording() is called, the timeCodeText value should be formatted`() = runBlocking {
+    fun `when setRecording() is called, the timeCodeText value should be formatted`() = runBlockingTest {
         // When
         feedbackViewModel.setRecording(1L)
 

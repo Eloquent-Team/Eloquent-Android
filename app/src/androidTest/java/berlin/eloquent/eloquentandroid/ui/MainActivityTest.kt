@@ -106,7 +106,7 @@ class MainActivityTest {
         onView(withText("testTitle"))
         onView(withText("test tags"))
         onView(withText("00:02"))
-        onView(withId(R.id.dateView)).check(matches(withPattern("\\w{4}-\\w{2}-\\w{2} \\w{2}:\\w{2}:\\w{2}")))
+        onView(withId(R.id.dateView)).check(matches(withPattern("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")))
         onView(withSubstring("/storage/emulated/0/Android/data/berlin.eloquent.eloquentandroid/files"))
 
         // pressBack to get to recorder screen to test playerScreen has been removed from backStack
