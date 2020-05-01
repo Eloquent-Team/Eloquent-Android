@@ -1,5 +1,6 @@
 package berlin.eloquent.eloquentandroid.ui
 
+import android.view.View
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -10,10 +11,12 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry
 import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
+import berlin.eloquent.eloquentandroid.RegexMatcher
 import berlin.eloquent.eloquentandroid.TestBaseApplication
 import berlin.eloquent.eloquentandroid.di.TestAppComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.Matcher
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,6 +25,8 @@ import org.junit.runner.RunWith
 class MainActivityTest {
 
     private lateinit var app: TestBaseApplication
+
+    private fun withPattern(regex: String): Matcher<in View>? = RegexMatcher(regex)
 
     @Before
     fun setUpApp() {
@@ -83,7 +88,7 @@ class MainActivityTest {
         val titleTextView = onView(withId(R.id.recordingTitle))
         val tagsTextView = onView(withId(R.id.recordingTags))
 
-        // check screen
+        // check player screen
         onView(withText("00:02")).check(matches(isDisplayed()))
         onView(withSubstring("Rec_")).check(matches(isDisplayed()))
         titleTextView.perform(clearText(), typeText("testTitle"))
@@ -95,6 +100,14 @@ class MainActivityTest {
         // navigate to feedback
         onView(withId(R.id.analyzeRecording)).perform(click())
         onView(withId(R.id.feedback_container)).check(matches(isDisplayed()))
+
+        // check feedback screen
+        onView(withText("Your recording"))
+        onView(withText("testTitle"))
+        onView(withText("test tags"))
+        onView(withText("00:02"))
+        onView(withId(R.id.dateView)).check(matches(withPattern("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")))
+        onView(withSubstring("/storage/emulated/0/Android/data/berlin.eloquent.eloquentandroid/files"))
 
         // pressBack to get to recorder screen to test playerScreen has been removed from backStack
         pressBack()

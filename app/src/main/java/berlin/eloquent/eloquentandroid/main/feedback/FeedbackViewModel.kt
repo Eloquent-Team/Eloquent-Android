@@ -1,9 +1,7 @@
 package berlin.eloquent.eloquentandroid.main.feedback
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.text.format.DateUtils
+import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
 import kotlinx.coroutines.Dispatchers
@@ -16,10 +14,17 @@ class FeedbackViewModel @Inject constructor(private val repo: IRecorderRepositor
     private val _recording = MutableLiveData<Recording>()
     val recording: LiveData<Recording> get() = _recording
 
+    private val _length = MutableLiveData<Long>()
+
+    val timeCodeText: LiveData<String> = Transformations.map(_length) {
+        DateUtils.formatElapsedTime(it)
+    }
+
 
     fun setRecording(recordingId: Long) {
         viewModelScope.launch(Dispatchers.Main) {
             _recording.value = repo.getRecording(recordingId)
+            _length.value = _recording.value!!.length
         }
     }
 

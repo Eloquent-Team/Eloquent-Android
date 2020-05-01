@@ -8,7 +8,7 @@ import berlin.eloquent.eloquentandroid.getOrAwaitValue
 import berlin.eloquent.eloquentandroid.main.player.PlayerViewModel
 import berlin.eloquent.eloquentandroid.main.player.PlayingState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertThat
 import org.junit.Before
@@ -35,7 +35,7 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when setRecording() is called, the recording with the given recordingId should be returned`() = runBlockingTest {
+    fun `when setRecording() is called, the recording with the given recordingId should be returned`() = runBlocking {
         // When
         playerViewModel.setRecording(1L)
 
@@ -45,16 +45,16 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when setRecording() is called, the timecode value should equals to the recording timecode`() = runBlockingTest {
+    fun `when setRecording() is called, the timecode value should equals to the recording timecode`() = runBlocking {
         // When
         playerViewModel.setRecording(1L)
 
         // Then
-        assertThat(playerViewModel.timecode.getOrAwaitValue(), `is`(100L))
+        assertThat(playerViewModel.timeCode.getOrAwaitValue(), `is`(100L))
     }
 
     @Test
-    fun `when analyzeRecording called newTitle and newTags are set`() = runBlockingTest {
+    fun `when analyzeRecording called newTitle and newTags are set`() = runBlocking {
         // Given
         playerViewModel.setRecording(1L)
 
@@ -68,7 +68,7 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when analyzeRecording called with empty arguments props stay same`() = runBlockingTest {
+    fun `when analyzeRecording called with empty arguments props stay same`() = runBlocking {
         // Given
         playerViewModel.setRecording(1L)
 
@@ -82,7 +82,7 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when startPlayback is called, state becomes playing`() {
+    fun `when startPlayback is called, state becomes playing`() = runBlocking {
         // Given
         playerViewModel.setRecording(1L)
 
@@ -97,7 +97,7 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when pausePlayback is called, state becomes PAUSE`() {
+    fun `when pausePlayback is called, state becomes PAUSE`() = runBlocking {
         // Given
         playerViewModel.setRecording(1L)
         playerViewModel.setPlayingState(PlayingState.PLAYING)

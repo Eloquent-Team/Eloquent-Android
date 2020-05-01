@@ -27,7 +27,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_sound_bars" />
+            tools:src="@drawable/ic_sound_bars"
+            android:contentDescription="@string/listItem_soundWave" />
 
         <LinearLayout
             android:id="@+id/vbox"
@@ -90,7 +91,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_arrow_right" />
+            tools:src="@drawable/ic_arrow_right"
+            android:contentDescription="@string/recorder_arrowRight" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

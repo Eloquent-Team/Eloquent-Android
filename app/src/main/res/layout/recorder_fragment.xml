@@ -12,9 +12,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recorder_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recorder_container"
         android:background="@color/colorPrimaryLight"
         tools:context="berlin.eloquent.eloquentandroid.recorder.RecorderFragment">
 
@@ -40,7 +40,7 @@
             android:id="@+id/startStopRecording"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
@@ -49,14 +49,15 @@
             android:src="@drawable/ic_mic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/recorder_startStop" />
 
         <ImageButton
             android:id="@+id/pauseResumeRecording"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="24dp"
             android:background="@drawable/custom_border"
@@ -65,14 +66,15 @@
             android:src="@drawable/ic_pause"
             app:layout_constraintBottom_toTopOf="@+id/startStopRecording"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/recorder_pauseResume" />
 
         <ImageButton
             android:id="@+id/navigate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
@@ -81,14 +83,15 @@
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/pauseResumeRecording"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/recorder_arrowRight" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="Start recording"
+            android:text="@string/recorder_title"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/timeCodeSize"
             app:layout_constraintEnd_toEndOf="parent"

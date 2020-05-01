@@ -28,4 +28,21 @@
     <string name="google_logo">Google Logo</string>
     <string name="facebook_logo">Facebook Logo</string>
     <string name="sort_by">Sort by:</string>
+    <string name="feedback_title">Your recording</string>
+    <string name="player_tagsHint">Tags</string>
+    <string name="player_titleHint">Title</string>
+    <string name="player_title">Play recording</string>
+    <string name="recorder_title">Start recording</string>
+    <string name="recorder_arrowRight">Arrow right</string>
+    <string name="recorder_pauseResume">Pause Resume</string>
+    <string name="recorder_startStop">Start Stop</string>
+    <string name="player_playPause">Play Pause</string>
+    <string name="player_analyze">Analyze</string>
+    <string name="listItem_soundWave">Sound wave</string>
+    <string name="home_filter">filter</string>
+    <string name="feedback_titleLabel">Title</string>
+    <string name="feedback_tagsLabel">Tags</string>
+    <string name="feedback_lengthLabel">Length</string>
+    <string name="feedback_dateLabel">Date</string>
+    <string name="feedback_urlLabel">Url</string>
 </resources>
