@@ -15,7 +15,7 @@ You may have to make some additional setup on your phone if this is your first t
 
 ![Architecture](https://firebasestorage.googleapis.com/v0/b/startin-1efcf.appspot.com/o/eloquentGithubStorage%2FEloquentArchitecture.png?alt=media&token=7f82afb8-3974-4f1d-aa44-360188c3ccef)
 
-The App makes use of the MVVM architecture
+The App makes use of the [MVVM](https://developer.android.com/jetpack/docs/guide) architecture pattern by delegating the business logic of the UI to a Viewmodel which requests data from a reposity. The repository gets the raw data from one or multiple Datasources, in this application from a [Room](https://developer.android.com/topic/libraries/architecture/room?gclid=EAIaIQobChMI5KquzdiS6QIVkkTTCh1sDwroEAAYASAAEgIwyfD_BwE&gclsrc=aw.ds) Database.
 
 
 ## Team
