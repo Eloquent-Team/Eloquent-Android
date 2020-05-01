@@ -1,7 +1,7 @@
 # Eloquent-Android
 Repository for our Android App - Written in Kotlin
 
-GIF
+<img src="images/app-flow.gif" />
 
 ## Setup Instructions
 To run the Eloquent Android app on your Android smartphone, clone this repository and open it with [Android Studio](https://developer.android.com/studio).
