@@ -2,7 +2,7 @@
 Repository for our Android App - Written in Kotlin
 
 [video link](https://drive.google.com/a/code.berlin/file/d/1cIToh1DyDI2RN_kglI08DEryHKPfa9Xc/view?usp=sharing)<br>
-<img src="gs://startin-1efcf.appspot.com/eloquentGithubStorage/app-flow.gif" />
+<img src="https://startin-1efcf.appspot.com/eloquentGithubStorage/app-flow.gif" />
 <br>
 
 
