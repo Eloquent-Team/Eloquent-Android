@@ -11,9 +11,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/account_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/account_container"
         android:background="@color/colorPrimaryLight"
         tools:context="berlin.eloquent.eloquentandroid.main.account.AccountFragment">
 
@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginBottom="450dp"
+            android:contentDescription="Profile picture"
             android:cropToPadding="false"
             android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +32,7 @@
             app:srcCompat="@drawable/adrien" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/nameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -43,7 +44,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
 
         <TextView
-            android:id="@+id/name2"
+            android:id="@+id/locationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -52,40 +53,40 @@
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/mailImageView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name2"
+            app:layout_constraintTop_toBottomOf="@+id/locationView"
             app:srcCompat="@drawable/ic_email" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/phoneImageView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/mailImageView"
             app:srcCompat="@drawable/ic_phone" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/passwordImageView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6"
+            app:layout_constraintTop_toBottomOf="@+id/phoneImageView"
             app:srcCompat="@drawable/ic_password" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/mailView"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="16dp"
@@ -93,31 +94,31 @@
             android:gravity="center_vertical"
             android:text="adrien.sosson@code.com"
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/name2" />
+            app:layout_constraintStart_toEndOf="@+id/mailImageView"
+            app:layout_constraintTop_toBottomOf="@+id/locationView" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/phoneView"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:gravity="center_vertical"
-            android:text=" +42 713 74927452"
+            android:text="+42 713 74927452"
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintStart_toEndOf="@+id/phoneImageView"
+            app:layout_constraintTop_toBottomOf="@+id/mailView" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/passwordView"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:gravity="center_vertical"
             android:text="*************"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintStart_toEndOf="@+id/passwordImageView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneView" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"

@@ -50,7 +50,7 @@ class PlayerViewModelTest {
         playerViewModel.setRecording(1L)
 
         // Then
-        assertThat(playerViewModel.timecode.getOrAwaitValue(), `is`(100L))
+        assertThat(playerViewModel.timeCode.getOrAwaitValue(), `is`(100L))
     }
 
     @Test

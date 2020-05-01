@@ -22,7 +22,7 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
     val recording: LiveData<Recording> get() = _recording
 
     private val _timeCode = MutableLiveData<Long>()
-    val timecode: LiveData<Long> get() = _timeCode
+    val timeCode: LiveData<Long> get() = _timeCode
 
     val timeCodeText: LiveData<String> = Transformations.map(_timeCode) {
         DateUtils.formatElapsedTime(it)
