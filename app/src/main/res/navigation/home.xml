@@ -19,6 +19,22 @@
         android:name="berlin.eloquent.eloquentandroid.main.player.PlayerFragment"
         android:label="PlayerFragment"
         tools:layout="@layout/player_fragment">
+        <action
+            android:id="@+id/action_player_dest_to_feedback_dest"
+            app:destination="@id/feedback_dest"
+            app:popUpTo="@id/recorder_dest"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="recordingId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/feedback_dest"
+        android:name="berlin.eloquent.eloquentandroid.main.feedback.FeedbackFragment"
+        android:label="FeedbackFragment"
+        tools:layout="@layout/feedback_fragment">
         <argument
             android:name="recordingId"
             android:defaultValue="0L"
