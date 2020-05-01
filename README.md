@@ -1,9 +1,10 @@
 # Eloquent-Android
 Repository for our Android App - Written in Kotlin
 
+[video link](https://drive.google.com/a/code.berlin/file/d/1cIToh1DyDI2RN_kglI08DEryHKPfa9Xc/view?usp=sharing)
 <img src="images/app-flow.gif" />
 <br>
-[video link](https://drive.google.com/a/code.berlin/file/d/1cIToh1DyDI2RN_kglI08DEryHKPfa9Xc/view?usp=sharing)
+
 
 ## Setup Instructions
 To run the Eloquent Android app on your Android smartphone, clone this repository and open it with [Android Studio](https://developer.android.com/studio).
