@@ -23,7 +23,7 @@ We incorporated [Dagger2](https://dagger.dev/) to reuse boilerplate code and mak
 
 To record the voice of our user, we ask for permissions(Microphone and Storage) first. The library is called _MediaRecorder_ and built in to Android. We save these recording on the internal storage of the phone and save the reference in our Room database.
 
-The application is thoroughly tested leveraging [Dagger2](https://dagger.dev/), [Espresso](https://developer.android.com/training/testing/espresso) and [Robolectric](http://robolectric.org/).
+The application is thoroughly tested leveraging [Dagger2](https://dagger.dev/), [Espresso](https://developer.android.com/training/testing/espresso), [Mockk](https://mockk.io/) and [Robolectric](http://robolectric.org/).
 
 ## Team
 
