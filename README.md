@@ -2,6 +2,7 @@
 Repository for our Android App - Written in Kotlin
 
 <img src="images/app-flow.gif" />
+<br>
 [video link](https://drive.google.com/a/code.berlin/file/d/1cIToh1DyDI2RN_kglI08DEryHKPfa9Xc/view?usp=sharing)
 
 ## Setup Instructions
