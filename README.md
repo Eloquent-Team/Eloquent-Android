@@ -1,10 +1,7 @@
 # Eloquent-Android
 Repository for our Android App - Written in Kotlin
 
-[video link](https://drive.google.com/a/code.berlin/file/d/1cIToh1DyDI2RN_kglI08DEryHKPfa9Xc/view?usp=sharing)<br>
-<img src="gs://startin-1efcf.appspot.com/eloquentGithubStorage/app-flow.gif" />
-![app-flow](gs://startin-1efcf.appspot.com/eloquentGithubStorage/app-flow.gif)
-
+![Video](https://firebasestorage.googleapis.com/v0/b/startin-1efcf.appspot.com/o/eloquentGithubStorage%2Fapp-flow.gif?alt=media&token=bf1605ca-6db7-474c-8fd1-e5f5df8724f7)
 
 
 ## Setup Instructions
@@ -15,6 +12,9 @@ You may have to make some additional setup on your phone if this is your first t
 
 
 ## Documentation
+
+![Architecture](https://firebasestorage.googleapis.com/v0/b/startin-1efcf.appspot.com/o/eloquentGithubStorage%2FEloquentArchitecture.png?alt=media&token=7f82afb8-3974-4f1d-aa44-360188c3ccef)
+
 The App makes use of the MVVM architecture
 
 
