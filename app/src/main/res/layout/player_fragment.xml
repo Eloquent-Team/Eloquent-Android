@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="playerViewModel"
+            type="berlin.eloquent.eloquentandroid.main.player.PlayerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight"
+        tools:context="berlin.eloquent.eloquentandroid.player.PlayerFragment">
+
+        <ImageButton
+            android:id="@+id/controlPlayback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/custom_border"
+            android:contentDescription="@string/player_playPause"
+            android:onClick="@{() -> playerViewModel.controlPlayback()}"
+            android:padding="8dp"
+            android:src="@drawable/ic_play_arrow"
+            app:layout_constraintBottom_toTopOf="@+id/analyzeRecording"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/analyzeRecording"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/custom_border"
+            android:contentDescription="@string/player_analyze"
+            android:padding="8dp"
+            android:src="@drawable/ic_av_timer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/timecode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="@{playerViewModel.timeCodeText}"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/timeCodeSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="00:00" />
+
+        <EditText
+            android:id="@+id/recordingTags"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/textedit_background"
+            android:ems="10"
+            android:hint="@string/player_tagsHint"
+            android:inputType="textPersonName"
+            android:text="@={playerViewModel.recording.tags}"
+            android:textAlignment="center"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recordingTitle" />
+
+        <EditText
+            android:id="@+id/recordingTitle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/textedit_background"
+            android:ems="10"
+            android:hint="@string/player_titleHint"
+            android:inputType="textPersonName"
+            android:text="@={playerViewModel.recording.title}"
+            android:textAlignment="center"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timecode" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="@string/player_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/timeCodeSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

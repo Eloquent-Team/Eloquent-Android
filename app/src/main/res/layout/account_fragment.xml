@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="accountViewModel"
+            type="berlin.eloquent.eloquentandroid.main.account.AccountViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/account_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight"
+        tools:context="berlin.eloquent.eloquentandroid.main.account.AccountFragment">
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="450dp"
+            android:contentDescription="Profile picture"
+            android:cropToPadding="false"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/adrien" />
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Adrien Sosson"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+        <TextView
+            android:id="@+id/locationView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="Berlin, Germany"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameView" />
+
+        <ImageView
+            android:id="@+id/mailImageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/locationView"
+            app:srcCompat="@drawable/ic_email" />
+
+        <ImageView
+            android:id="@+id/phoneImageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mailImageView"
+            app:srcCompat="@drawable/ic_phone" />
+
+        <ImageView
+            android:id="@+id/passwordImageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneImageView"
+            app:srcCompat="@drawable/ic_password" />
+
+        <TextView
+            android:id="@+id/mailView"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            android:text="adrien.sosson@code.com"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/mailImageView"
+            app:layout_constraintTop_toBottomOf="@+id/locationView" />
+
+        <TextView
+            android:id="@+id/phoneView"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:text="+42 713 74927452"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/phoneImageView"
+            app:layout_constraintTop_toBottomOf="@+id/mailView" />
+
+        <TextView
+            android:id="@+id/passwordView"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:text="*************"
+            app:layout_constraintStart_toEndOf="@+id/passwordImageView"
+            app:layout_constraintTop_toBottomOf="@+id/phoneView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_edit" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
