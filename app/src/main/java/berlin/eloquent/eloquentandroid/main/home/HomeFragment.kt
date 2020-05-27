@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.HomeFragmentBinding
+import berlin.eloquent.eloquentandroid.main.MainActivity
 import berlin.eloquent.eloquentandroid.main.home.models.RecordingRecyclerAdapter
 import berlin.eloquent.eloquentandroid.main.home.models.RecordingRecyclerAdapter.OnRecordingClickListener
 import berlin.eloquent.eloquentandroid.main.home.models.SpacingDecoration

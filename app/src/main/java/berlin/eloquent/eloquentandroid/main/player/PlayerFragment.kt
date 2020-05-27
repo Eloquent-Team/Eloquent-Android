@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.PlayerFragmentBinding
+import berlin.eloquent.eloquentandroid.main.MainActivity
 import javax.inject.Inject
 
 class PlayerFragment : Fragment() {

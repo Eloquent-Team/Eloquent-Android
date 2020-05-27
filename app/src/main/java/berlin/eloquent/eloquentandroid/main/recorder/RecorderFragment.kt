@@ -15,9 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.R
 import berlin.eloquent.eloquentandroid.databinding.RecorderFragmentBinding
+import berlin.eloquent.eloquentandroid.main.MainActivity
 import javax.inject.Inject
 
 class RecorderFragment : Fragment() {

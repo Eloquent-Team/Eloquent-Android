@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import berlin.eloquent.eloquentandroid.MainActivity
 import berlin.eloquent.eloquentandroid.databinding.FeedbackFragmentBinding
+import berlin.eloquent.eloquentandroid.main.MainActivity
 import javax.inject.Inject
 
 class FeedbackFragment : Fragment() {
