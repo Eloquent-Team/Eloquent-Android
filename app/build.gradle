@@ -100,6 +100,12 @@ dependencies {
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
 
+    // Networking Libs
+    def ktor_version = "1.0.1"
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-android:$ktor_version"
+    implementation "io.ktor:ktor-client-json:$ktor_version"
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
 }
 // android tests
 dependencies {

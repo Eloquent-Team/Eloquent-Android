@@ -8,14 +8,21 @@ import android.util.Log
 import androidx.lifecycle.*
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.main.repository.IRecorderRepository
+import berlin.eloquent.eloquentandroid.utils.AudioExtractor
+import berlin.eloquent.eloquentandroid.utils.Utils
 import kotlinx.coroutines.launch
+import java.io.File
 import java.io.IOException
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class RecorderViewModel @Inject constructor(private val repo: IRecorderRepository, val application: Application) : ViewModel() {
+
+class RecorderViewModel @Inject constructor(
+    private val repo: IRecorderRepository,
+    val application: Application
+) : ViewModel() {
 
     // Attributes
     private var mediaRecorder: MediaRecorder? = null
@@ -64,12 +71,16 @@ class RecorderViewModel @Inject constructor(private val repo: IRecorderRepositor
      *  AudioEncoder.AAC
      */
     private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")}"
+        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${
+            getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss") + ".mp4"
+        }"
         return MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setOutputFormat(MediaRecorder.OutputFormat.)
+            setAudioEncodingBitRate(256000)
+            setAudioSamplingRate(441000)
             setOutputFile(_outputFile.value)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC)
         }
     }
 
@@ -139,6 +150,24 @@ class RecorderViewModel @Inject constructor(private val repo: IRecorderRepositor
                 date = getCurrentTimestamp("yyyy-MM-dd HH:mm:ss")
                 length = _currentTimeCode.value!!
                 fileUrl = _outputFile.value!!
+
+                val videoPath: String = outputFile.value!!
+                val audioPath: String =
+                    application.getExternalFilesDir(null)?.absolutePath + "/recording_${
+                        getCurrentTimestamp(
+                            "yyyy-MM-dd_HH-mm-ss"
+                        ) + ".flac"
+                    }"
+                AudioExtractor().genVideoUsingMuxer(
+                    videoPath,
+                    audioPath,
+                    -1,
+                    -1,
+                    true,
+                    false
+                )
+
+                encodedFile = Utils.encodeFileToBase64(File(audioPath))
             }
             repo.insertRecording(_recording.value!!)
             _createdRecordingId.value = repo.getNewestRecording()!!.recordingId
