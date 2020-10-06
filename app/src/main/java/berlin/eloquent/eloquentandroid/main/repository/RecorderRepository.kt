@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
 import berlin.eloquent.eloquentandroid.main.feedback.retrofit.AudioService
-import berlin.eloquent.eloquentandroid.main.feedback.retrofit.dataModel
+import berlin.eloquent.eloquentandroid.main.feedback.retrofit.DataModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -53,7 +53,7 @@ class RecorderRepository @Inject constructor(
         }
     }
 
-    override suspend fun getAnalysis(): Response<dataModel> {
+    override suspend fun getAnalysis(): Response<DataModel> {
         return withContext(ioDispatcher) {
             return@withContext service.getAnalysis()
         }

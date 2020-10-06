@@ -8,7 +8,7 @@ import retrofit2.http.GET
 
 interface AudioService {
     @GET("api/v1/analyze/3")
-    suspend fun getAnalysis(): Response<dataModel>
+    suspend fun getAnalysis(): Response<DataModel>
 
     companion object{
         fun create(): AudioService {
