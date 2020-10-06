@@ -3,13 +3,17 @@ package berlin.eloquent.eloquentandroid.main.repository
 import androidx.lifecycle.LiveData
 import berlin.eloquent.eloquentandroid.database.Recording
 import berlin.eloquent.eloquentandroid.database.RecordingDao
+import berlin.eloquent.eloquentandroid.main.feedback.retrofit.AudioService
+import berlin.eloquent.eloquentandroid.main.feedback.retrofit.dataModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 
 class RecorderRepository @Inject constructor(
     val database: RecordingDao,
+    val service : AudioService,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IRecorderRepository{
 
@@ -46,6 +50,12 @@ class RecorderRepository @Inject constructor(
     override suspend fun getNewestRecording(): Recording? {
         return withContext(ioDispatcher) {
             return@withContext database.getNewestRecording()
+        }
+    }
+
+    override suspend fun getAnalysis(): Response<dataModel> {
+        return withContext(ioDispatcher) {
+            return@withContext service.getAnalysis()
         }
     }
 

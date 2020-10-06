@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import berlin.eloquent.eloquentandroid.database.EloquentDatabase
 import berlin.eloquent.eloquentandroid.database.RecordingDao
+import berlin.eloquent.eloquentandroid.main.feedback.retrofit.AudioService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -26,6 +27,13 @@ object AppModule{
     @Provides
     fun provideAuthTokenDao(db: EloquentDatabase): RecordingDao {
         return db.recordingDao()
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideAudioService(): AudioService {
+        return AudioService.create()
     }
 
 }

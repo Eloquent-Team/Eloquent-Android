@@ -146,17 +146,31 @@
             app:layout_constraintTop_toBottomOf="@+id/dateView" />
 
         <TextView
-            android:id="@+id/urlView"
+            android:id="@+id/tv_analysis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="48dp"
-            android:text="@{feedbackViewModel.recording.fileUrl}"
+            android:text=""
             android:textColor="@color/colorText"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateView"
             tools:text="/storage/storage" />
+
+        <Button
+            android:id="@+id/btnGetAnalysis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="48dp"
+            android:layout_marginTop="26dp"
+            android:text="Test"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.831" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

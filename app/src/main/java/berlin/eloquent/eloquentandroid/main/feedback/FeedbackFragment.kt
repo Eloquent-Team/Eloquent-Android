@@ -2,19 +2,25 @@ package berlin.eloquent.eloquentandroid.main.feedback
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import berlin.eloquent.eloquentandroid.databinding.FeedbackFragmentBinding
 import berlin.eloquent.eloquentandroid.main.MainActivity
+import kotlinx.android.synthetic.main.feedback_fragment.*
 import javax.inject.Inject
+import kotlin.math.log
 
-class FeedbackFragment : Fragment() {
+
+class FeedbackFragment : Fragment(){
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -39,7 +45,23 @@ class FeedbackFragment : Fragment() {
         val args: FeedbackFragmentArgs by navArgs()
         viewModel.setRecording(args.recordingId)
 
+//        binding.btnGetAnalysis.setOnClickListener{
+//            print("Called 2")
+//            viewModel.getData()
+//        }
+
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btnGetAnalysis.setOnClickListener{
+            Log.d("Error","Is clicked")
+            viewModel.getData()
+            viewModel.analysis_value.observe(viewLifecycleOwner, Observer {
+                tv_analysis.text = it
+            })
+        }
     }
 
 }
