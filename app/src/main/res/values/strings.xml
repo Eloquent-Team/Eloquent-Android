@@ -44,5 +44,6 @@
     <string name="feedback_tagsLabel">Tags</string>
     <string name="feedback_lengthLabel">Length</string>
     <string name="feedback_dateLabel">Date</string>
-    <string name="feedback_urlLabel">Url</string>
+    <string name="feedback_urlLabel">Words per Minute</string>
+    <string name="analyze">Analyze</string>
 </resources>
