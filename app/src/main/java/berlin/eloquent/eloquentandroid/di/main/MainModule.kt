@@ -14,7 +14,7 @@ object MainModule {
     @MainScope
     @Provides
     @JvmStatic
-    fun provideRecorderRepository(dao: RecordingDao,audioService:AudioService): IRecorderRepository {
+    fun provideRecorderRepository(dao: RecordingDao, audioService: AudioService): IRecorderRepository {
         return RecorderRepository(dao,audioService)
     }
 
