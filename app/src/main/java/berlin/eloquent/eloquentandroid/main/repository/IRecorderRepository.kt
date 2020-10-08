@@ -2,6 +2,9 @@ package berlin.eloquent.eloquentandroid.main.repository
 
 import androidx.lifecycle.LiveData
 import berlin.eloquent.eloquentandroid.database.Recording
+import berlin.eloquent.eloquentandroid.main.feedback.retrofit.DataModel
+import retrofit2.Response
+import retrofit2.http.GET
 
 interface IRecorderRepository {
 
@@ -17,4 +20,6 @@ interface IRecorderRepository {
 
     suspend fun getNewestRecording(): Recording?
 
+    @GET("api/v1/analyze/3")
+    suspend fun getAnalysis(): Response<DataModel>
 }
