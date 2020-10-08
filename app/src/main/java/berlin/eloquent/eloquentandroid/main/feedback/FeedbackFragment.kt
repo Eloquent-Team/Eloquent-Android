@@ -45,7 +45,6 @@ class FeedbackFragment : Fragment(){
         val args: FeedbackFragmentArgs by navArgs()
         viewModel.setRecording(args.recordingId)
 
-//        }
 
         return binding.root
     }
