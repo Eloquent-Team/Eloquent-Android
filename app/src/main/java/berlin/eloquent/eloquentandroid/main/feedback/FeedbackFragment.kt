@@ -47,7 +47,6 @@ class FeedbackFragment : Fragment(){
 
 //        binding.btnGetAnalysis.setOnClickListener{
 //            print("Called 2")
-//            viewModel.getData()
 //        }
 
         return binding.root
