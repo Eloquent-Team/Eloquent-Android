@@ -7,26 +7,26 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "recording_table")
 data class Recording(
 
-        @PrimaryKey(autoGenerate = true)
-        var recordingId: Long = 0L,
+    @PrimaryKey(autoGenerate = true)
+    var recordingId: Long = 0L,
 
-        @ColumnInfo(name = "title")
-        var title: String = "",
+    @ColumnInfo(name = "title")
+    var title: String = "",
 
-        @ColumnInfo(name = "date")
-        var date: String = "",
+    @ColumnInfo(name = "date")
+    var date: String = "",
 
-        @ColumnInfo(name = "length")
-        var length: Long = 0L,
+    @ColumnInfo(name = "length")
+    var length: Long = 0L,
 
-        @ColumnInfo(name = "tags")
-        var tags: String = "",
+    @ColumnInfo(name = "tags")
+    var tags: String = "",
 
-        @ColumnInfo(name = "file_url")
-        var fileUrl: String = "",
+    @ColumnInfo(name = "file_url")
+    var fileUrl: String = "",
 
-        @ColumnInfo(name = "base64Content")
-        var base64Content: String = ""
+    @ColumnInfo(name = "base64Content")
+    var base64Content: String = ""
 
 ) {
 
