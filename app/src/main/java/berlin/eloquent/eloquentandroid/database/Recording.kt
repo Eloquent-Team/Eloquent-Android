@@ -23,12 +23,14 @@ data class Recording(
     var tags: String = "",
 
     @ColumnInfo(name = "file_url")
-    var fileUrl: String = ""
+    var fileUrl: String = "",
+
+    @ColumnInfo(name = "base64Content")
+    var base64Content: String = ""
 
 ) {
 
     override fun toString(): String {
         return "ID:$recordingId | TITLE:$title | DATE:$date | length:$length | tags:$tags | fileUrl:$fileUrl"
     }
-
 }

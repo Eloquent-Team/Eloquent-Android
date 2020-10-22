@@ -56,19 +56,13 @@ class RecorderFragment : Fragment() {
             when (it) {
                 RecordingState.NOT_STARTED -> {
                     binding.startStopRecording.visibility = View.VISIBLE
-                    binding.pauseResumeRecording.visibility = View.VISIBLE
                     binding.navigate.visibility = View.GONE
                 }
                 RecordingState.RECORDING -> {
                     binding.startStopRecording.setImageResource(R.drawable.ic_stop)
-                    binding.pauseResumeRecording.setImageResource(R.drawable.ic_pause)
-                }
-                RecordingState.PAUSED -> {
-                    binding.pauseResumeRecording.setImageResource(R.drawable.ic_refresh)
                 }
                 RecordingState.STOPPED -> {
                     binding.startStopRecording.visibility = View.GONE
-                    binding.pauseResumeRecording.visibility = View.GONE
                     binding.navigate.visibility = View.VISIBLE
                 }
                 else -> {}

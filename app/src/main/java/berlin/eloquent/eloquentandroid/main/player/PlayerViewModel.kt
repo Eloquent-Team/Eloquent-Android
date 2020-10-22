@@ -68,7 +68,6 @@ class PlayerViewModel @Inject constructor(private val repo: IRecorderRepository)
             PlayingState.STOPPED -> startPlayback()
             PlayingState.PLAYING -> pausePlayback()
             PlayingState.PAUSED -> resumePlayback()
-
         }
     }
 

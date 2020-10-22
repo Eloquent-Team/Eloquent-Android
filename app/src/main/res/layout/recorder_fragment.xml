@@ -53,38 +53,21 @@
             android:contentDescription="@string/recorder_startStop" />
 
         <ImageButton
-            android:id="@+id/pauseResumeRecording"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/custom_border"
-            android:onClick="@{() -> recorderViewModel.controlPauseResumeRecording()}"
-            android:padding="8dp"
-            android:src="@drawable/ic_pause"
-            app:layout_constraintBottom_toTopOf="@+id/startStopRecording"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/recorder_pauseResume" />
-
-        <ImageButton
             android:id="@+id/navigate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="32dp"
             android:background="@drawable/custom_border"
+            android:contentDescription="@string/recorder_arrowRight"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_forward"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/pauseResumeRecording"
+            app:layout_constraintBottom_toTopOf="@+id/startStopRecording"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/recorder_arrowRight" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView"

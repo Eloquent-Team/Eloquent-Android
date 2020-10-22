@@ -58,5 +58,4 @@ class RecorderRepository @Inject constructor(
             return@withContext service.getAnalysis()
         }
     }
-
 }
