@@ -29,6 +29,7 @@
             android:onClick="@{() -> playerViewModel.controlPlayback()}"
             android:padding="8dp"
             android:src="@drawable/ic_play_arrow"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/analyzeRecording"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
