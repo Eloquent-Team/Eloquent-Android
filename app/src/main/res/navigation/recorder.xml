@@ -12,7 +12,9 @@
         tools:layout="@layout/recorder_fragment">
         <action
             android:id="@+id/action_recorder_dest_to_player_dest"
-            app:destination="@id/player_dest" />
+            app:destination="@id/player_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -23,6 +25,8 @@
         <action
             android:id="@+id/action_player_dest_to_feedback_dest"
             app:destination="@id/feedback_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/recorder_dest"
             app:popUpToInclusive="false" />
         <argument
