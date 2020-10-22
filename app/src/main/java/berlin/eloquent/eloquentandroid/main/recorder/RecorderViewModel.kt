@@ -20,8 +20,6 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
-private const val SAMPLE_RATE = 44100
-
 class RecorderViewModel @Inject constructor(
         private val repo: IRecorderRepository,
         val application: Application
@@ -31,6 +29,7 @@ class RecorderViewModel @Inject constructor(
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
+    private val SAMPLE_RATE = 44100
 
     // Live Data
     private val _recordingState = MutableLiveData<RecordingState>()
