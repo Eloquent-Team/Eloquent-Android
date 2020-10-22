@@ -26,7 +26,6 @@ class RecorderViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Attributes
-    private var mediaRecorder: MediaRecorder? = null
     private lateinit var timer: CountDownTimer
     private var timePassed = 0L
     private val SAMPLE_RATE = 44100
@@ -70,26 +69,6 @@ class RecorderViewModel @Inject constructor(
         _recordingState.value = RecordingState.NOT_STARTED
         _currentTimeCode.value = 0L
         _outputFile.value = ""
-    }
-
-    /**
-     * Configures a MediaRecorder object with predefined attributes.
-     *
-     * @return Configured MediaRecorder with:
-     *  AudioSource.MIC /
-     *  OutputFormat.MPEG_4 /
-     *  AudioEncoder.AAC
-     */
-    private fun getConfiguredMediaRecorder(): MediaRecorder {
-        _outputFile.value = application.getExternalFilesDir(null)?.absolutePath + "/recording_${
-            getCurrentTimestamp("yyyy-MM-dd_HH-mm-ss")
-        }"
-        return MediaRecorder().apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setOutputFile(_outputFile.value)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        }
     }
 
     /**
@@ -171,14 +150,9 @@ class RecorderViewModel @Inject constructor(
     private fun getCountUpTimer(startTime: Long): CountDownTimer {
         return object : CountDownTimer(startTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                if (_recordingState.value == RecordingState.PAUSED) {
-                    cancel()
-                } else {
-                    _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
-                    timePassed = millisUntilFinished
-                }
+                _currentTimeCode.value = (Long.MAX_VALUE - millisUntilFinished) / 1000
+                timePassed = millisUntilFinished
             }
-
             override fun onFinish() {}
         }.start()
     }
@@ -218,32 +192,4 @@ class RecorderViewModel @Inject constructor(
         _recordingState.value =
             RecordingState.STOPPED
     }
-
-    fun controlPauseResumeRecording() {
-        when (_recordingState.value) {
-            RecordingState.RECORDING -> pauseRecording()
-            RecordingState.PAUSED -> resumeRecording()
-            else -> Log.i("ViewModel Recorder", "not right action")
-        }
-    }
-
-    private fun pauseRecording() {
-        mediaRecorder?.pause()
-        _recordingState.value =
-            RecordingState.PAUSED
-    }
-
-    private fun resumeRecording() {
-        mediaRecorder?.resume()
-        timer = getCountUpTimer(timePassed)
-        _recordingState.value =
-            RecordingState.RECORDING
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        mediaRecorder?.release()
-        mediaRecorder = null
-    }
-
 }
