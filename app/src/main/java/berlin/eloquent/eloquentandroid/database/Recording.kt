@@ -33,5 +33,4 @@ data class Recording(
     override fun toString(): String {
         return "ID:$recordingId | TITLE:$title | DATE:$date | length:$length | tags:$tags | fileUrl:$fileUrl"
     }
-
 }
